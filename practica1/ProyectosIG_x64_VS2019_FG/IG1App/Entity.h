@@ -24,7 +24,6 @@ public:
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setMColor(glm::dvec4 const& mCol) { mColor = mCol; };
-
 	
 protected:
 
@@ -55,6 +54,26 @@ protected:
 	GLdouble rd;
 };
 
+class Sierpinski : public Abs_Entity
+{
+public:
+	explicit Sierpinski(GLuint numP, GLdouble rd);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLuint numP;
+	GLdouble rd;
+};
+
+class TrianguloRGB : public Abs_Entity
+{
+public:
+	explicit TrianguloRGB(GLdouble rd);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble rd;
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

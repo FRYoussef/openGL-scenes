@@ -15,14 +15,26 @@ void Scene::init()
     // Textures
 
     // Graphics objects (entities) of the scene
-	gObjects.push_back(new EjesRGB(400.0));
-	Poligono circulo = new Poligono(30.0, 30.0);
-	circulo
-	Poligono triangulo = new Poligono(3.0, 30.0);
-
-	gObjects.push_back(circulo);
-	gObjects.push_back(triangulo);
 	
+	gObjects.push_back(new EjesRGB(400.0));
+	Poligono* circle = new Poligono(300, 250.0);
+
+	circle->setMColor(glm::dvec4(1,0,1,1));
+	Poligono* triangle = new Poligono(3, 250.0);
+	triangle->setMColor(glm::dvec4(1, 1, 0, 1));
+
+	Sierpinski* s = new Sierpinski(4000, 250.0);
+	s->setMColor(glm::dvec4(1, 1, 0, 1));
+
+	TrianguloRGB* trgb = new TrianguloRGB(250.0);
+
+
+	gObjects.push_back(circle);
+	gObjects.push_back(triangle);
+	gObjects.push_back(s);
+	gObjects.push_back(trgb);
+
+
 }
 //-------------------------------------------------------------------------
 void Scene::free() 

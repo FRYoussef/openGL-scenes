@@ -88,3 +88,48 @@ Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd) {
     return mesh;
 }
 
+Mesh* Mesh::generaSierpinski(GLuint numP, GLdouble rd) {
+    Mesh* triangulo = generaPoligono(3, rd);    
+    Mesh* mesh = new Mesh();
+
+    mesh->mPrimitive = GL_POINTS;
+    mesh->mNumVertices = numP;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+
+    mesh->vVertices = triangulo->vVertices;
+
+    dvec3 p0 = mesh->vVertices[rand() % 2];
+    dvec3 p1 = mesh->vVertices[2];
+   
+    mesh->vVertices.emplace_back((p0.x + p1.x) / 2, 
+                                 (p0.y + p1.y) / 2, 
+                                 (p0.z + p1.z) / 2);
+
+    for (int i = 4; i < numP; i++)
+    {
+        p0 = mesh->vVertices[rand() % 3];
+        p1 = mesh->vVertices[i-1];
+        mesh->vVertices.emplace_back((p0.x + p1.x) / 2,
+                                    (p0.y + p1.y) / 2,
+                                    (p0.z + p1.z) / 2);
+        
+    }
+    delete triangulo; triangulo = nullptr;
+    return mesh;
+}
+
+
+Mesh* Mesh::generaTrianguloRGB(GLdouble rd) {
+    Mesh* triangulo = generaPoligono(3, rd);
+    Mesh* mesh = new Mesh();
+
+    mesh->mPrimitive = GL_TRIANGLES;
+    mesh->mNumVertices = 3;
+    mesh->vVertices = triangulo->vVertices;
+
+    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+
+    return mesh;
+}
