@@ -145,18 +145,15 @@ Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
     double vertex_X = 0;
     double vertex_Y = 0;
     // circle diagonals
-    double ang[3] = {135.0, 225.0, 45.0};
+    double ang[4] = {157.5, 202.5, 22.5, 337.5};
     
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         vertex_X = rd * cos(radians(ang[i]));
         vertex_Y = rd * sin(radians(ang[i]));
         mesh->vVertices.emplace_back(vertex_X, vertex_Y, 0.0);
     }
 
-    // Last vertex
-    vertex_X = rd * cos(radians(315.0));
-    vertex_Y = rd * sin(radians(315.0));
-    mesh->vVertices.emplace_back(vertex_X, vertex_Y, 0.0);
+    
 
     return mesh;
 }
