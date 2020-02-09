@@ -15,19 +15,19 @@ void Abs_Entity::upload(dmat4 const& modelViewMat) const
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 
-EjesRGB::EjesRGB(GLdouble l): Abs_Entity()
+RGBAxis::RGBAxis(GLdouble l): Abs_Entity()
 {
   mMesh = Mesh::createRGBAxes(l);
 }
 //-------------------------------------------------------------------------
 
-EjesRGB::~EjesRGB() 
+RGBAxis::~RGBAxis() 
 { 
 	delete mMesh; mMesh = nullptr; 
 };
 //-------------------------------------------------------------------------
 
-void EjesRGB::render(dmat4 const& modelViewMat) const 
+void RGBAxis::render(dmat4 const& modelViewMat) const 
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
@@ -39,13 +39,13 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 }
 //-------------------------------------------------------------------------
 
-Poligono::Poligono(GLuint numL, GLdouble rd) {
+CPolygon::CPolygon(GLuint numL, GLdouble rd) {
 	this->numL = numL;
 	this->rd = rd;
-	mMesh = Mesh::generaPoligono(numL, rd);
+	mMesh = Mesh::generatePolygon(numL, rd);
 }
 
-void Poligono::render(dmat4 const& modelViewMat) const
+void CPolygon::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
@@ -63,7 +63,7 @@ void Poligono::render(dmat4 const& modelViewMat) const
 Sierpinski::Sierpinski(GLuint numP, GLdouble rd) {
 	this->numP = numP;
 	this->rd = rd;
-	mMesh = Mesh::generaSierpinski(numP, rd);
+	mMesh = Mesh::generateSierpinski(numP, rd);
 }
 
 void Sierpinski::render(dmat4 const& modelViewMat) const
@@ -81,12 +81,12 @@ void Sierpinski::render(dmat4 const& modelViewMat) const
 	}
 }
 
-TrianguloRGB::TrianguloRGB(GLdouble rd) {
+TriangleRGB::TriangleRGB(GLdouble rd) {
 	this->rd = rd;
-	mMesh = Mesh::generaTrianguloRGB(rd);
+	mMesh = Mesh::generateTriangleRGB(rd);
 }
 
-void TrianguloRGB::render(dmat4 const& modelViewMat) const
+void TriangleRGB::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
@@ -95,6 +95,24 @@ void TrianguloRGB::render(dmat4 const& modelViewMat) const
 		mMesh->render();
 
 		//Resetear attrs
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+RectangleRGB::RectangleRGB(GLdouble w, GLdouble h) {
+	this->w = w;
+	this->h = h;
+	mMesh = Mesh::generateRGBRectangle(w, h);
+}
+
+void RectangleRGB::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_BACK, GL_LINE);
+		mMesh->render();
+
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

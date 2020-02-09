@@ -35,18 +35,18 @@ protected:
 };
 //-------------------------------------------------------------------------
 
-class EjesRGB : public Abs_Entity 
+class RGBAxis : public Abs_Entity 
 {
 public:
-	explicit EjesRGB(GLdouble l);
-	~EjesRGB();
+	explicit RGBAxis(GLdouble l);
+	~RGBAxis();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
-class Poligono : public Abs_Entity
+class CPolygon : public Abs_Entity
 {
 public:
-	explicit Poligono(GLuint numL, GLdouble rd);
+	explicit CPolygon(GLuint numL, GLdouble rd);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
@@ -65,14 +65,25 @@ protected:
 	GLdouble rd;
 };
 
-class TrianguloRGB : public Abs_Entity
+class TriangleRGB : public Abs_Entity
 {
 public:
-	explicit TrianguloRGB(GLdouble rd);
+	explicit TriangleRGB(GLdouble rd);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
 	GLdouble rd;
+};
+
+class RectangleRGB : public Abs_Entity
+{
+public:
+	explicit RectangleRGB(GLdouble w, GLdouble h);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble w;
+	GLdouble h;
 };
 //-------------------------------------------------------------------------
 

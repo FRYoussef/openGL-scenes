@@ -65,7 +65,7 @@ Mesh * Mesh::createRGBAxes(GLdouble l)
 }
 //-------------------------------------------------------------------------
 
-Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd) {
+Mesh* Mesh::generatePolygon(GLuint numL, GLdouble rd) {
     Mesh* mesh = new Mesh();
     mesh->mPrimitive = GL_LINE_LOOP;
     mesh->mNumVertices = numL;
@@ -88,15 +88,15 @@ Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd) {
     return mesh;
 }
 
-Mesh* Mesh::generaSierpinski(GLuint numP, GLdouble rd) {
-    Mesh* triangulo = generaPoligono(3, rd);    
+Mesh* Mesh::generateSierpinski(GLuint numP, GLdouble rd) {
+    Mesh* triangle = generatePolygon(3, rd);
     Mesh* mesh = new Mesh();
 
     mesh->mPrimitive = GL_POINTS;
     mesh->mNumVertices = numP;
     mesh->vVertices.reserve(mesh->mNumVertices);
 
-    mesh->vVertices = triangulo->vVertices;
+    mesh->vVertices = triangle->vVertices;
 
     dvec3 p0 = mesh->vVertices[rand() % 2];
     dvec3 p1 = mesh->vVertices[2];
@@ -114,22 +114,66 @@ Mesh* Mesh::generaSierpinski(GLuint numP, GLdouble rd) {
                                     (p0.z + p1.z) / 2);
         
     }
-    delete triangulo; triangulo = nullptr;
+    delete triangle; triangle = nullptr;
     return mesh;
 }
 
 
-Mesh* Mesh::generaTrianguloRGB(GLdouble rd) {
-    Mesh* triangulo = generaPoligono(3, rd);
+Mesh* Mesh::generateTriangleRGB(GLdouble rd) {
+    Mesh* triangle = generatePolygon(3, rd);
     Mesh* mesh = new Mesh();
 
     mesh->mPrimitive = GL_TRIANGLES;
     mesh->mNumVertices = 3;
-    mesh->vVertices = triangulo->vVertices;
+    mesh->vVertices = triangle->vVertices;
 
     mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
     mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
     mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+
+    return mesh;
+}
+
+Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
+    double rd = glm::sqrt(w*w + h*h) / 2;
+    Mesh* mesh = new Mesh();
+
+    mesh->mPrimitive = GL_TRIANGLE_STRIP;
+    mesh->mNumVertices = 4;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+
+    double vertex_X = 0;
+    double vertex_Y = 0;
+    // circle diagonals
+    double ang[3] = {135.0, 225.0, 45.0};
+    
+    for (int i = 0; i < 3; i++) {
+        vertex_X = rd * cos(radians(ang[i]));
+        vertex_Y = rd * sin(radians(ang[i]));
+        mesh->vVertices.emplace_back(vertex_X, vertex_Y, 0.0);
+    }
+
+    // Last vertex
+    vertex_X = rd * cos(radians(315.0));
+    vertex_Y = rd * sin(radians(315.0));
+    mesh->vVertices.emplace_back(vertex_X, vertex_Y, 0.0);
+
+    return mesh;
+}
+
+Mesh* Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
+    Mesh* rectangle = generateRectangle(w, h);
+    Mesh* mesh = new Mesh();
+
+    mesh->mPrimitive = GL_TRIANGLE_STRIP;
+    mesh->mNumVertices = rectangle->mNumVertices;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+    mesh->vVertices = rectangle->vVertices;
+
+    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 
     return mesh;
 }

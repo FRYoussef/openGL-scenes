@@ -16,25 +16,25 @@ void Scene::init()
 
     // Graphics objects (entities) of the scene
 	
-	gObjects.push_back(new EjesRGB(400.0));
-	Poligono* circle = new Poligono(300, 250.0);
+	gObjects.push_back(new RGBAxis(400.0));
+	CPolygon* circle = new CPolygon(300, 250.0);
 
 	circle->setMColor(glm::dvec4(1,0,1,1));
-	Poligono* triangle = new Poligono(3, 250.0);
+	CPolygon* triangle = new CPolygon(3, 250.0);
 	triangle->setMColor(glm::dvec4(1, 1, 0, 1));
 
 	Sierpinski* s = new Sierpinski(4000, 250.0);
 	s->setMColor(glm::dvec4(1, 1, 0, 1));
 
-	TrianguloRGB* trgb = new TrianguloRGB(250.0);
+	TriangleRGB* tRGB = new TriangleRGB(250.0);
+	RectangleRGB* rRGB = new RectangleRGB(500.0, 250.0);
 
 
 	gObjects.push_back(circle);
 	gObjects.push_back(triangle);
 	gObjects.push_back(s);
-	gObjects.push_back(trgb);
-
-
+	gObjects.push_back(tRGB);
+	gObjects.push_back(rRGB);
 }
 //-------------------------------------------------------------------------
 void Scene::free() 

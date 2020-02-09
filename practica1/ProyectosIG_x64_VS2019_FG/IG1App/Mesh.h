@@ -14,9 +14,11 @@ class Mesh
 public:
 
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
-	static Mesh* generaPoligono(GLuint numL, GLdouble rd);
-	static Mesh* generaSierpinski(GLuint numP, GLdouble rd);
-	static Mesh* generaTrianguloRGB(GLdouble rd);
+	static Mesh* generatePolygon(GLuint numL, GLdouble rd);
+	static Mesh* generateSierpinski(GLuint numP, GLdouble rd);
+	static Mesh* generateTriangleRGB(GLdouble rd);
+	static Mesh* generateRectangle(GLdouble w, GLdouble h);
+	static Mesh* generateRGBRectangle(GLdouble w, GLdouble h);
 
 	Mesh() {};
 	virtual ~Mesh() {};
