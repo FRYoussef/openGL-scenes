@@ -135,7 +135,7 @@ Mesh* Mesh::generateTriangleRGB(GLdouble rd) {
 }
 
 Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
-    double rd = glm::sqrt(w*w + h*h) / 2;
+    
     Mesh* mesh = new Mesh();
 
     mesh->mPrimitive = GL_TRIANGLE_STRIP;
@@ -148,8 +148,8 @@ Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
     double ang[4] = {157.5, 202.5, 22.5, 337.5};
     
     for (int i = 0; i < 4; i++) {
-        vertex_X = rd * cos(radians(ang[i]));
-        vertex_Y = rd * sin(radians(ang[i]));
+        vertex_X = w * cos(radians(ang[i]));
+        vertex_Y = h * sin(radians(ang[i]));
         mesh->vVertices.emplace_back(vertex_X, vertex_Y, 0.0);
     }
 
