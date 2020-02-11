@@ -24,6 +24,7 @@ public:
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setMColor(glm::dvec4 const& mCol) { mColor = mCol; };
+	void update() {};
 	
 protected:
 
@@ -40,14 +41,14 @@ class RGBAxis : public Abs_Entity
 public:
 	explicit RGBAxis(GLdouble l);
 	~RGBAxis();
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	void render(glm::dmat4 const& modelViewMat) const;
 };
 
 class CPolygon : public Abs_Entity
 {
 public:
 	explicit CPolygon(GLuint numL, GLdouble rd);
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
 	GLuint numL;
@@ -58,7 +59,7 @@ class Sierpinski : public Abs_Entity
 {
 public:
 	explicit Sierpinski(GLuint numP, GLdouble rd);
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
 	GLuint numP;
@@ -69,17 +70,21 @@ class TriangleRGB : public Abs_Entity
 {
 public:
 	explicit TriangleRGB(GLdouble rd);
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	void render(glm::dmat4 const& modelViewMat) const;
+	void update();
 
 protected:
 	GLdouble rd;
+	GLuint traslationAng;
+	GLuint rotationAng;
+	dmat4 mat;
 };
 
 class RectangleRGB : public Abs_Entity
 {
 public:
 	explicit RectangleRGB(GLdouble w, GLdouble h);
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
 	GLdouble w;

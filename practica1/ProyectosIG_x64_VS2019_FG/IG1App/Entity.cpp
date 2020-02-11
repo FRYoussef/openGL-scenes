@@ -81,7 +81,7 @@ void Sierpinski::render(dmat4 const& modelViewMat) const
 	}
 }
 
-TriangleRGB::TriangleRGB(GLdouble rd) {
+TriangleRGB::TriangleRGB(GLdouble rd): mat(1), traslationAng(0), rotationAng(25) {
 	this->rd = rd;
 	mMesh = Mesh::generateTriangleRGB(rd);
 }
@@ -89,14 +89,26 @@ TriangleRGB::TriangleRGB(GLdouble rd) {
 void TriangleRGB::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		dmat4 aMat = modelViewMat * mModelMat * mat;  // glm matrix multiplication
 		upload(aMat);
-		glPolygonMode(GL_BACK, GL_LINE); //back solo líneas
+		glPolygonMode(GL_BACK, GL_LINE);
 		mMesh->render();
 
 		//Resetear attrs
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+
+void TriangleRGB::update() {
+
+	mat = dmat4(1);
+	// rotar sobre el eje 
+
+	// trasladar
+
+	//actualizar
+
+
 }
 
 RectangleRGB::RectangleRGB(GLdouble w, GLdouble h) {

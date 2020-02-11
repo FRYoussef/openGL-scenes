@@ -26,8 +26,8 @@ void Scene::init()
 	Sierpinski* s = new Sierpinski(4000, 250.0);
 	s->setMColor(glm::dvec4(1, 1, 0, 1));
 
-	TriangleRGB* tRGB = new TriangleRGB(250.0);
-	RectangleRGB* rRGB = new RectangleRGB(500.0, 250.0);
+	TriangleRGB* tRGB = new TriangleRGB(30.0);
+	RectangleRGB* rRGB = new RectangleRGB(450.0, 355.0);
 
 
 	gObjects.push_back(circle);
@@ -35,6 +35,11 @@ void Scene::init()
 	gObjects.push_back(s);
 	gObjects.push_back(tRGB);
 	gObjects.push_back(rRGB);
+
+	// transformaciones
+	rRGB->setModelMat(glm::translate(rRGB->modelMat(), dvec3(0, 0, -100)));
+	tRGB->setModelMat(glm::translate(tRGB->modelMat(), dvec3(250, 0, 0)));
+	tRGB->setModelMat(glm::rotate(tRGB->modelMat(), radians(25.0), dvec3(0, 0, 1)));
 }
 //-------------------------------------------------------------------------
 void Scene::free() 
@@ -49,7 +54,7 @@ void Scene::free()
 void Scene::setGL() 
 {
 	// OpenGL basic setting
-	glClearColor(1.0, 1.0, 1.0, 1.0);  // background color (alpha=1 -> opaque)
+	glClearColor(0.0, 0.0, 0.0, 0.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 
 }
@@ -70,6 +75,12 @@ void Scene::render(Camera const& cam) const
 	  el->render(cam.viewMat());
 	}
 }
+
+void Scene::update() {
+	for (int i = 0; i < gObjects.size(); i++)
+		gObjects.at(i)->update();
+}
+
 //-------------------------------------------------------------------------
 
 

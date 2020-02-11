@@ -24,7 +24,8 @@ public:
 	void init();
 
     void render(Camera const& cam) const;
-	
+	void update();
+
 protected:
 	void free();
 	void setGL();

@@ -145,16 +145,13 @@ Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
     double vertex_X = 0;
     double vertex_Y = 0;
     // circle diagonals
-    double ang[4] = {157.5, 202.5, 22.5, 337.5};
+    double ang[4] = {135, 225, 45, 315};
     
     for (int i = 0; i < 4; i++) {
         vertex_X = w * cos(radians(ang[i]));
         vertex_Y = h * sin(radians(ang[i]));
         mesh->vVertices.emplace_back(vertex_X, vertex_Y, 0.0);
     }
-
-    
-
     return mesh;
 }
 
@@ -167,10 +164,10 @@ Mesh* Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
     mesh->vVertices.reserve(mesh->mNumVertices);
     mesh->vVertices = rectangle->vVertices;
 
-    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
-    mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
-    mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
-    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.11764, 0.5647, 1.0, 1.0);
+    mesh->vColors.emplace_back(1.0, 0.3882, 0.2784, 1.0);
+    mesh->vColors.emplace_back(0.5960, 0.9843, 0.5961, 1.0);
+    mesh->vColors.emplace_back(0.11764, 0.5647, 1.0, 1.0);
 
     return mesh;
 }
