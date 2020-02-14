@@ -1,5 +1,4 @@
 #include "Entity.h"
-
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 
@@ -81,7 +80,7 @@ void Sierpinski::render(dmat4 const& modelViewMat) const
 	}
 }
 
-TriangleRGB::TriangleRGB(GLdouble rd): mat(1), traslationAng(0), rotationAng(25) {
+TriangleRGB::TriangleRGB(GLdouble rd): traslationAng(0.0), rotationAng(25.0) {
 	this->rd = rd;
 	mMesh = Mesh::generateTriangleRGB(rd);
 }
@@ -89,7 +88,7 @@ TriangleRGB::TriangleRGB(GLdouble rd): mat(1), traslationAng(0), rotationAng(25)
 void TriangleRGB::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat * mat;  // glm matrix multiplication
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glPolygonMode(GL_BACK, GL_LINE);
 		mMesh->render();
@@ -100,15 +99,14 @@ void TriangleRGB::render(dmat4 const& modelViewMat) const
 }
 
 void TriangleRGB::update() {
-
-	mat = dmat4(1);
 	// rotar sobre el eje 
+	rotationAng += 2.5;
+	traslationAng += 3.0;
+	GLdouble p_X = 250.0 * cos(radians(traslationAng));
+	GLdouble p_Y = 250.0 * sin(radians(traslationAng));
 
-	// trasladar
-
-	//actualizar
-
-
+	mModelMat = glm::translate(dmat4(1), dvec3(p_X, p_Y, 0));
+	mModelMat = glm::rotate(mModelMat, radians(rotationAng), dvec3(0, 0, 1));
 }
 
 RectangleRGB::RectangleRGB(GLdouble w, GLdouble h) {

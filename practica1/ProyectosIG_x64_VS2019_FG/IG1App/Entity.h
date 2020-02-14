@@ -24,7 +24,7 @@ public:
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setMColor(glm::dvec4 const& mCol) { mColor = mCol; };
-	void update() {};
+	virtual void update() {};
 	
 protected:
 
@@ -75,9 +75,8 @@ public:
 
 protected:
 	GLdouble rd;
-	GLuint traslationAng;
-	GLuint rotationAng;
-	dmat4 mat;
+	GLdouble traslationAng;
+	GLdouble rotationAng;
 };
 
 class RectangleRGB : public Abs_Entity
