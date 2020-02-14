@@ -19,6 +19,7 @@ public:
 	static Mesh* generateTriangleRGB(GLdouble rd);
 	static Mesh* generateRectangle(GLdouble w, GLdouble h);
 	static Mesh* generateRGBRectangle(GLdouble w, GLdouble h);
+	static Mesh* generate3DStar(GLdouble re, GLdouble np, GLdouble h);
 
 	Mesh() {};
 	virtual ~Mesh() {};

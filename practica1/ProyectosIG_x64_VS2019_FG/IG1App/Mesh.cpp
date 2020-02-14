@@ -70,10 +70,10 @@ Mesh* Mesh::generatePolygon(GLuint numL, GLdouble rd) {
     mesh->mPrimitive = GL_LINE_LOOP;
     mesh->mNumVertices = numL;
     mesh->vVertices.reserve(mesh->mNumVertices);
-    double vertex_X = 0;
-    double vertex_Y = 0;
-    double ang = 90.0;
-    double incr = 360.0 / numL;
+    GLdouble vertex_X = 0;
+    GLdouble vertex_Y = 0;
+    GLdouble ang = 90.0;
+    GLdouble incr = 360.0 / numL;
 
     for (int i = 0; i < numL; i++) {
         vertex_X = rd * cos(radians(ang));
@@ -142,10 +142,10 @@ Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
     mesh->mNumVertices = 4;
     mesh->vVertices.reserve(mesh->mNumVertices);
 
-    double vertex_X = 0;
-    double vertex_Y = 0;
+    GLdouble vertex_X = 0;
+    GLdouble vertex_Y = 0;
     // circle diagonals
-    double ang[4] = {135, 225, 45, 315};
+    GLdouble ang[4] = {135, 225, 45, 315};
     
     for (int i = 0; i < 4; i++) {
         vertex_X = w * cos(radians(ang[i]));
@@ -168,6 +168,41 @@ Mesh* Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
     mesh->vColors.emplace_back(1.0, 0.3882, 0.2784, 1.0);
     mesh->vColors.emplace_back(0.5960, 0.9843, 0.5961, 1.0);
     mesh->vColors.emplace_back(0.11764, 0.5647, 1.0, 1.0);
+
+    return mesh;
+}
+
+
+Mesh* Mesh::generate3DStar(GLdouble re, GLdouble np, GLdouble h) {
+    Mesh* mesh = new Mesh();
+
+    mesh->mPrimitive = GL_TRIANGLE_FAN;
+    mesh->mNumVertices = 2 * np + 2;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+
+    GLdouble ri = re / 2;
+    GLdouble vertex_X = 0;
+    GLdouble vertex_Y = 0;
+    GLdouble ang = 90.0;
+    GLdouble incr = 360.0 / np;
+
+    //Center
+    mesh->vVertices.emplace_back(0.0, 0.0, 0.0);
+
+    for (int i = 0; i < np; i++) {
+        vertex_X = re * cos(radians(ang));
+        vertex_Y = re * sin(radians(ang));
+        mesh->vVertices.emplace_back(vertex_X, vertex_Y, h);
+
+        vertex_X = ri * cos(radians((ang + ang + incr) / 2));
+        vertex_Y = ri * sin(radians((ang + ang + incr) / 2));
+        mesh->vVertices.emplace_back(vertex_X, vertex_Y, h);
+
+        ang += incr;
+    }
+
+    // First vertex
+    mesh->vVertices.emplace_back(mesh->vVertices[1].x, mesh->vVertices[1].y, h);
 
     return mesh;
 }

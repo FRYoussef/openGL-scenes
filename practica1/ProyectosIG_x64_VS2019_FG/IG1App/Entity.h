@@ -89,6 +89,22 @@ protected:
 	GLdouble w;
 	GLdouble h;
 };
+
+class _3DStar : public Abs_Entity
+{
+public:
+	explicit _3DStar(GLdouble re, GLdouble np, GLdouble h);
+	void render(glm::dmat4 const& modelViewMat) const;
+	void update();
+
+protected:
+	GLdouble re;
+	GLdouble np;
+	GLdouble h;
+	GLdouble angleY;
+	GLdouble angleZ;
+};
+
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

@@ -16,7 +16,9 @@ void Scene::init()
 
     // Graphics objects (entities) of the scene
 	
+	
 	gObjects.push_back(new RGBAxis(400.0));
+	/* ------------ PR 0.0 -------------------
 	CPolygon* circle = new CPolygon(300, 250.0);
 
 	circle->setMColor(glm::dvec4(1,0,1,1));
@@ -35,11 +37,15 @@ void Scene::init()
 	gObjects.push_back(s);
 	gObjects.push_back(tRGB);
 	gObjects.push_back(rRGB);
-
+	
 	// transformaciones
 	rRGB->setModelMat(glm::translate(rRGB->modelMat(), dvec3(0, 0, -100)));
 	tRGB->setModelMat(glm::translate(tRGB->modelMat(), dvec3(250, 0, 0)));
 	tRGB->setModelMat(glm::rotate(tRGB->modelMat(), radians(25.0), dvec3(0, 0, 1)));
+	*/
+	_3DStar* star = new _3DStar(250.0, 6.0, 150.0);
+	gObjects.push_back(star);
+
 }
 //-------------------------------------------------------------------------
 void Scene::free() 

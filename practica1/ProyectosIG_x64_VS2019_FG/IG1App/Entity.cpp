@@ -122,7 +122,41 @@ void RectangleRGB::render(dmat4 const& modelViewMat) const
 		upload(aMat);
 		glPolygonMode(GL_BACK, GL_LINE);
 		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+_3DStar::_3DStar(GLdouble re, GLdouble np, GLdouble h) {
+	this->h = h;
+	this->np = np;
+	this->re = re;
+	this->angleY = 0;
+	this->angleZ = 0;
+	mMesh = Mesh::generate3DStar(re, np, h);
+}
+
+void _3DStar::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		mMesh->render();
+		
+		aMat=rotate(aMat, radians(180.0), dvec3(1, 0, 0));
+		upload(aMat);
+		mMesh->render();
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+
+void _3DStar::update() {
+	// rotar sobre el eje 
+	angleY += 3.0;
+	angleZ += 3.0;
+
+	mModelMat = glm::rotate(dmat4(1), radians(angleY), dvec3(0, 1, 0));
+	mModelMat = glm::rotate(mModelMat, radians(angleZ), dvec3(0, 0, 1));
+
 }
