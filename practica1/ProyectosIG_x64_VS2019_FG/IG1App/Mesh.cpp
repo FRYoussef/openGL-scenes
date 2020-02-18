@@ -22,11 +22,15 @@ void Mesh::render() const
       glEnableClientState(GL_COLOR_ARRAY);
       glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
     }
-
+    if (vTexCoords.size() > 0) { // transfer colors
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glColorPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=4), type of each component, stride, pointer  
+    }
 	draw();
 
     glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   }
 }
 //-------------------------------------------------------------------------

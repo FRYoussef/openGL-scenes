@@ -131,6 +131,12 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'u':
 		mScene->update();
 		break;
+	case '0':
+		mScene->setState(Scene::SCENE_2D);
+		break;
+	case '1':
+		mScene->setState(Scene::SCENE_3D);
+		break;
 	default:
 		need_redisplay = false;
 		break;

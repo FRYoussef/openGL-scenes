@@ -32,7 +32,9 @@ void RGBAxis::render(dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glLineWidth(2);
+		
 		mMesh->render();
+		
 		glLineWidth(1);
 	}
 }
@@ -51,9 +53,15 @@ void CPolygon::render(dmat4 const& modelViewMat) const
 		upload(aMat);
 		glLineWidth(2);
 		glColor3d(mColor.r, mColor.g, mColor.b);
+
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);
 		mMesh->render();
+		
 
 		//Resetear attrs
+		if (mTexture != nullptr)
+			mTexture->unbind();
 		glLineWidth(1);
 		glColor3d(1, 1, 1);
 	}
@@ -145,8 +153,13 @@ void _3DStar::render(dmat4 const& modelViewMat) const
 		
 		aMat=rotate(aMat, radians(180.0), dvec3(1, 0, 0));
 		upload(aMat);
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);
 		mMesh->render();
 
+
+		if (mTexture != nullptr)
+			mTexture->unbind();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

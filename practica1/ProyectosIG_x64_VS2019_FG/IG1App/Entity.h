@@ -4,7 +4,7 @@
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
-
+#include "Texture.h"
 #include "Mesh.h"
 
 //-------------------------------------------------------------------------
@@ -24,6 +24,7 @@ public:
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setMColor(glm::dvec4 const& mCol) { mColor = mCol; };
+	void setTexture(Texture* tex) { mTexture = tex; }
 	virtual void update() {};
 	
 protected:
@@ -31,6 +32,7 @@ protected:
 	Mesh* mMesh = nullptr;   // the mesh
 	glm::dmat4 mModelMat;    // modeling matrix
 	glm::dvec4 mColor;
+	Texture* mTexture = nullptr;
 	// transfers modelViewMat to the GPU
 	virtual void upload(glm::dmat4 const& mModelViewMat) const; 
 };
