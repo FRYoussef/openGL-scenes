@@ -107,6 +107,29 @@ protected:
 	GLdouble angleZ;
 };
 
+class Floor : public Abs_Entity
+{
+public:
+	explicit Floor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble w;
+	GLdouble h;
+	GLuint rw;
+	GLuint rh;
+};
+
+class Box : public Abs_Entity
+{
+public:
+	explicit Box(GLdouble ld);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble ld;
+};
+
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

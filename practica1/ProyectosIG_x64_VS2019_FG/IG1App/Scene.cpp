@@ -50,11 +50,27 @@ void Scene::scene2D() {
 
 void Scene::scene3D() {
 	Texture* tx = new Texture();
-	tx->load("..\\Bmps\\baldosaC.bmp");
-	gTextures.push_back(tx);
+	tx->load("..\\Bmps\\baldosaP.bmp");
 
-	_3DStar* star = new _3DStar(250.0, 6.0, 150.0);
+	Texture* txFloor = new Texture();
+	txFloor->load("..\\Bmps\\baldosaC.bmp");
+
+	gTextures.push_back(tx);
+	gTextures.push_back(txFloor);
+
+	_3DStar* star = new _3DStar(50.0, 4.0, 50.0);
+	star->setTexture(tx);
+	star->setModelMat(glm::translate(star->modelMat(), dvec3(0, 200, 0)));
+
+	Floor* floor = new Floor(500.0, 500.0, 5, 5);
+	floor->setTexture(txFloor);
+	floor->setMColor(glm::dvec4(0.5, 0.5, 0.5, 1));
+
+	Box* box = new Box(100.0);
+
+	gObjects.push_back(box);
 	gObjects.push_back(star);
+	gObjects.push_back(floor);
 }
 
 //-------------------------------------------------------------------------

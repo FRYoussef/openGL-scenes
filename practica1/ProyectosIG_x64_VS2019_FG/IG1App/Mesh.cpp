@@ -24,7 +24,7 @@ void Mesh::render() const
     }
     if (vTexCoords.size() > 0) { // transfer colors
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glColorPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=4), type of each component, stride, pointer  
+        glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=4), type of each component, stride, pointer  
     }
 	draw();
 
@@ -139,7 +139,6 @@ Mesh* Mesh::generateTriangleRGB(GLdouble rd) {
 }
 
 Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
-    
     Mesh* mesh = new Mesh();
 
     mesh->mPrimitive = GL_TRIANGLE_STRIP;
@@ -207,6 +206,97 @@ Mesh* Mesh::generate3DStar(GLdouble re, GLdouble np, GLdouble h) {
 
     // First vertex
     mesh->vVertices.emplace_back(mesh->vVertices[1].x, mesh->vVertices[1].y, h);
+
+    return mesh;
+}
+
+Mesh* Mesh::generateStarTexCoord(GLdouble re, GLuint np, GLdouble h) {
+    Mesh* mesh = generate3DStar(re, np, h);
+
+    mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+    GLdouble ri = 0.25;
+    GLdouble c = 0.5;
+    GLdouble vertex_X = 0;
+    GLdouble vertex_Y = 0;
+    GLdouble ang = 90.0;
+    GLdouble incr = 360.0 / np;
+    re = 0.5;
+
+    mesh->vTexCoords.emplace_back(c, c);
+
+    for (int i = 0; i < np; i++) {
+        vertex_X = c + re * cos(radians(ang));
+        vertex_Y = c + re * sin(radians(ang));
+        mesh->vTexCoords.emplace_back(vertex_X, vertex_Y);
+
+        vertex_X = c + ri * cos(radians((ang + ang + incr) / 2));
+        vertex_Y = c + ri * sin(radians((ang + ang + incr) / 2));
+        mesh->vTexCoords.emplace_back(vertex_X, vertex_Y);
+
+        ang += incr;
+    }
+
+    // First vertex
+    mesh->vTexCoords.emplace_back(mesh->vTexCoords[1].x, mesh->vTexCoords[1].y);
+
+    return mesh;
+}
+
+Mesh* Mesh::generateRectangleTexCoord(GLdouble w, GLdouble h, GLuint rw, GLuint rh) {
+    Mesh* mesh = generateRectangle(w, h);
+
+    mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+    mesh->vTexCoords.emplace_back(0.0, rh);
+    mesh->vTexCoords.emplace_back(0.0, 0.0);
+    mesh->vTexCoords.emplace_back(rw, rh);
+    mesh->vTexCoords.emplace_back(rw, 0.0);
+
+    return mesh;
+}
+
+Mesh* Mesh::generateContCube(GLdouble ld) {
+    Mesh* mesh = new Mesh();
+
+    mesh->mPrimitive = GL_TRIANGLE_STRIP;
+    mesh->mNumVertices = 10;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+
+    GLdouble vertex_X = 0;
+    GLdouble vertex_Y = 0;
+    // circle diagonals
+    GLdouble ang = 90;
+    GLdouble incr = 90;
+
+
+    for (int i = 0; i < 4; i++) {
+        vertex_X = ld + ld * cos(radians(ang));
+        vertex_Y = ld + ld * sin(radians(ang));
+        mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
+        ang += incr;
+    }
+
+    ang = 90;
+
+    for (int i = 0; i < 2; i++) {
+        vertex_X = ld * cos(radians(ang));
+        vertex_Y = ld + ld * sin(radians(ang));
+        mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
+        ang += incr;
+    }
+
+    ang = 90;
+
+    for (int i = 0; i < 2; i++) {
+        vertex_X = ld + ld * cos(radians(ang));
+        vertex_Y = ld * sin(radians(ang));
+        mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
+        ang += incr;
+    }
+    
+    mesh->vVertices.emplace_back(mesh->vVertices[0]);
+    mesh->vVertices.emplace_back(mesh->vVertices[1]);
 
     return mesh;
 }

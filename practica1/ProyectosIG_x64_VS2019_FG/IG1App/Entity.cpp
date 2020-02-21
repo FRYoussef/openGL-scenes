@@ -140,7 +140,7 @@ _3DStar::_3DStar(GLdouble re, GLdouble np, GLdouble h) {
 	this->re = re;
 	this->angleY = 0;
 	this->angleZ = 0;
-	mMesh = Mesh::generate3DStar(re, np, h);
+	mMesh = Mesh::generateStarTexCoord(re, np, h);
 }
 
 void _3DStar::render(dmat4 const& modelViewMat) const
@@ -148,15 +148,15 @@ void _3DStar::render(dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);
+
 		mMesh->render();
 		
 		aMat=rotate(aMat, radians(180.0), dvec3(1, 0, 0));
 		upload(aMat);
-		if (mTexture != nullptr)
-			mTexture->bind(GL_REPLACE);
 		mMesh->render();
-
 
 		if (mTexture != nullptr)
 			mTexture->unbind();
@@ -169,7 +169,61 @@ void _3DStar::update() {
 	angleY += 3.0;
 	angleZ += 3.0;
 
-	mModelMat = glm::rotate(dmat4(1), radians(angleY), dvec3(0, 1, 0));
+	mModelMat = glm::translate(dmat4(1), dvec3(0, 200, 0));
+	mModelMat = glm::rotate(mModelMat, radians(angleY), dvec3(0, 1, 0));
 	mModelMat = glm::rotate(mModelMat, radians(angleZ), dvec3(0, 0, 1));
+}
 
+Floor::Floor(GLdouble w, GLdouble h, GLuint rw, GLuint rh) {
+	this->h = h;
+	this->w = w;
+	this->rw = rw;
+	this->rh = rh;
+	mMesh = Mesh::generateRectangleTexCoord(w, h, rw, rh);
+}
+
+void Floor::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		if (mTexture != nullptr)
+			mTexture->bind(GL_MODULATE);
+
+		glColor4dv(value_ptr(mColor));
+		aMat = rotate(aMat, radians(90.0), dvec3(1, 0, 0));
+		upload(aMat);
+		mMesh->render();
+
+		if (mTexture != nullptr)
+			mTexture->unbind();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+Box::Box(GLdouble ld) {
+	this->ld = ld;
+	mMesh = Mesh::generateContCube(ld);
+}
+
+void Box::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		if (mTexture != nullptr)
+			mTexture->bind(GL_MODULATE);
+
+		glColor4dv(value_ptr(mColor));
+		
+		upload(aMat);
+		mMesh->render();
+
+		if (mTexture != nullptr)
+			mTexture->unbind();
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }

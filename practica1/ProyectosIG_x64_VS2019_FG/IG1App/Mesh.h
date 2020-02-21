@@ -20,6 +20,9 @@ public:
 	static Mesh* generateRectangle(GLdouble w, GLdouble h);
 	static Mesh* generateRGBRectangle(GLdouble w, GLdouble h);
 	static Mesh* generate3DStar(GLdouble re, GLdouble np, GLdouble h);
+	static Mesh* generateStarTexCoord(GLdouble re, GLuint np, GLdouble h);
+	static Mesh* generateRectangleTexCoord(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
+	static Mesh* generateContCube(GLdouble ld);
 
 	Mesh() {};
 	virtual ~Mesh() {};
