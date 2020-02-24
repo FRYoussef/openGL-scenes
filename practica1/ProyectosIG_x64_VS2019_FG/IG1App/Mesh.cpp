@@ -263,38 +263,49 @@ Mesh* Mesh::generateContCube(GLdouble ld) {
     mesh->mNumVertices = 10;
     mesh->vVertices.reserve(mesh->mNumVertices);
 
-    GLdouble vertex_X = 0;
-    GLdouble vertex_Y = 0;
-    // circle diagonals
-    GLdouble ang = 90;
-    GLdouble incr = 90;
+    GLdouble vertex_X, vertex_Y, vertex_Z;
 
-
-    for (int i = 0; i < 4; i++) {
-        vertex_X = ld + ld * cos(radians(ang));
-        vertex_Y = ld + ld * sin(radians(ang));
-        mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
-        ang += incr;
-    }
-
-    ang = 90;
-
-    for (int i = 0; i < 2; i++) {
-        vertex_X = ld * cos(radians(ang));
-        vertex_Y = ld + ld * sin(radians(ang));
-        mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
-        ang += incr;
-    }
-
-    ang = 90;
-
-    for (int i = 0; i < 2; i++) {
-        vertex_X = ld + ld * cos(radians(ang));
-        vertex_Y = ld * sin(radians(ang));
-        mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
-        ang += incr;
-    }
+    //V0
+    vertex_X = ld / 2;
+    vertex_Y = ld;
+    mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
     
+
+    //V1
+    vertex_X = ld / 2;
+    vertex_Y = 0;
+    mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
+
+    //V2
+    vertex_X = ld / 2;
+    vertex_Y = ld;
+    mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
+
+    //V3
+    vertex_X = ld / 2;
+    vertex_Y = 0;
+    mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
+
+    //V4
+    vertex_X = -(ld / 2);
+    vertex_Y = ld;
+    mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
+
+    //V5
+    vertex_X = -(ld / 2);
+    vertex_Y = 0;
+    mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
+    
+    //V6
+    vertex_X = -(ld / 2);
+    vertex_Y = ld;
+    mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
+
+    //V7
+    vertex_X = -(ld / 2);
+    vertex_Y = 0;
+    mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
+   
     mesh->vVertices.emplace_back(mesh->vVertices[0]);
     mesh->vVertices.emplace_back(mesh->vVertices[1]);
 

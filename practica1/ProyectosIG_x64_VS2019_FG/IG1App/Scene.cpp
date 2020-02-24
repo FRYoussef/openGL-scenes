@@ -66,7 +66,7 @@ void Scene::scene3D() {
 	floor->setTexture(txFloor);
 	floor->setMColor(glm::dvec4(0.5, 0.5, 0.5, 1));
 
-	Box* box = new Box(100.0);
+	Box* box = new Box(50.0);
 
 	gObjects.push_back(box);
 	gObjects.push_back(star);
