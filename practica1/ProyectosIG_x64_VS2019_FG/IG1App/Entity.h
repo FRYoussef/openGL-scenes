@@ -25,6 +25,7 @@ public:
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setMColor(glm::dvec4 const& mCol) { mColor = mCol; };
 	void setTexture(Texture* tex) { mTexture = tex; }
+	void setiTexture(Texture* tex) { iTexture = tex; }
 	virtual void update() {};
 	
 protected:
@@ -33,6 +34,7 @@ protected:
 	glm::dmat4 mModelMat;    // modeling matrix
 	glm::dvec4 mColor;
 	Texture* mTexture = nullptr;
+	Texture* iTexture = nullptr;
 	// transfers modelViewMat to the GPU
 	virtual void upload(glm::dmat4 const& mModelViewMat) const; 
 };
@@ -128,6 +130,17 @@ public:
 
 protected:
 	GLdouble ld;
+};
+
+class Picture : public Abs_Entity
+{
+public:
+	explicit Picture(GLdouble ld1, GLdouble ld2);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble ld1;
+	GLdouble ld2;
 };
 
 //-------------------------------------------------------------------------

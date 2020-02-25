@@ -55,19 +55,35 @@ void Scene::scene3D() {
 	Texture* txFloor = new Texture();
 	txFloor->load("..\\Bmps\\baldosaC.bmp");
 
+	Texture* txBox = new Texture();
+	txBox->load("..\\Bmps\\container.bmp");
+
+	Texture* txiBox = new Texture();
+	txiBox->load("..\\Bmps\\papelE.bmp");
+
 	gTextures.push_back(tx);
 	gTextures.push_back(txFloor);
+	gTextures.push_back(txBox);
 
 	_3DStar* star = new _3DStar(50.0, 4.0, 50.0);
 	star->setTexture(tx);
-	star->setModelMat(glm::translate(star->modelMat(), dvec3(0, 200, 0)));
+	star->setModelMat(glm::translate(star->modelMat(), dvec3(-200.0, 200.0, -200.0)));
 
 	Floor* floor = new Floor(500.0, 500.0, 5, 5);
 	floor->setTexture(txFloor);
 	floor->setMColor(glm::dvec4(0.5, 0.5, 0.5, 1));
 
-	Box* box = new Box(50.0);
+	Box* box = new Box(100.0);
+	box->setTexture(txBox);
+	box->setiTexture(txiBox);
+	box->setModelMat(glm::translate(box->modelMat(), dvec3(-200.0, 50.0, -200.0)));
 
+	Picture* picture = new Picture(80.0, 50.0);
+	picture->setModelMat(glm::translate(picture->modelMat(),  dvec3(0, 1, 0)));
+	picture->setModelMat(glm::rotate(picture->modelMat(), radians(90.0), dvec3(1, 0, 0)));
+
+
+	gObjects.push_back(picture);
 	gObjects.push_back(box);
 	gObjects.push_back(star);
 	gObjects.push_back(floor);

@@ -264,50 +264,70 @@ Mesh* Mesh::generateContCube(GLdouble ld) {
     mesh->vVertices.reserve(mesh->mNumVertices);
 
     GLdouble vertex_X, vertex_Y, vertex_Z;
+    int size = ld / 2;
 
     //V0
-    vertex_X = ld / 2;
-    vertex_Y = ld;
-    mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
-    
+    mesh->vVertices.emplace_back(-size, size, size);
 
     //V1
-    vertex_X = ld / 2;
-    vertex_Y = 0;
-    mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
+    mesh->vVertices.emplace_back(-size, -size, size);
+
 
     //V2
-    vertex_X = ld / 2;
-    vertex_Y = ld;
-    mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
+    mesh->vVertices.emplace_back(size, size, size);
+
 
     //V3
-    vertex_X = ld / 2;
-    vertex_Y = 0;
-    mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
+    mesh->vVertices.emplace_back(size, -size, size);
+
 
     //V4
-    vertex_X = -(ld / 2);
-    vertex_Y = ld;
-    mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
+    mesh->vVertices.emplace_back(size, size, -size);
+
 
     //V5
-    vertex_X = -(ld / 2);
-    vertex_Y = 0;
-    mesh->vVertices.emplace_back(vertex_X, vertex_Y, ld / 2);
+    mesh->vVertices.emplace_back(size, -size, -size);
+
     
     //V6
-    vertex_X = -(ld / 2);
-    vertex_Y = ld;
-    mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
+    mesh->vVertices.emplace_back(-size, size, -size);
+
 
     //V7
-    vertex_X = -(ld / 2);
-    vertex_Y = 0;
-    mesh->vVertices.emplace_back(vertex_X, vertex_Y, -(ld / 2));
+    mesh->vVertices.emplace_back(-size, -size, -size);
+
    
     mesh->vVertices.emplace_back(mesh->vVertices[0]);
     mesh->vVertices.emplace_back(mesh->vVertices[1]);
+
+    return mesh;
+}
+
+Mesh* Mesh::generateBoxTextCoord(GLdouble nl) {
+   
+    Mesh* mesh = generateContCube(nl);
+
+    mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+    mesh->vTexCoords.emplace_back(0.0, 1);
+    mesh->vTexCoords.emplace_back(0.0, 0.0);
+    mesh->vTexCoords.emplace_back(1, 1);
+    mesh->vTexCoords.emplace_back(1, 0.0);
+
+    mesh->vTexCoords.emplace_back(0.0, 1);
+    mesh->vTexCoords.emplace_back(0.0, 0.0);
+    mesh->vTexCoords.emplace_back(1, 1);
+    mesh->vTexCoords.emplace_back(1, 0.0);
+
+    mesh->vTexCoords.emplace_back(0.0, 1);
+    mesh->vTexCoords.emplace_back(0.0, 0.0);
+    mesh->vTexCoords.emplace_back(1, 1);
+    mesh->vTexCoords.emplace_back(1, 0.0);
+
+    mesh->vTexCoords.emplace_back(0.0, 1);
+    mesh->vTexCoords.emplace_back(0.0, 0.0);
+    mesh->vTexCoords.emplace_back(1, 1);
+    mesh->vTexCoords.emplace_back(1, 0.0);
 
     return mesh;
 }

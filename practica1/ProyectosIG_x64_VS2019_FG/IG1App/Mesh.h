@@ -23,6 +23,7 @@ public:
 	static Mesh* generateStarTexCoord(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* generateRectangleTexCoord(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	static Mesh* generateContCube(GLdouble ld);
+	static Mesh* generateBoxTextCoord(GLdouble nl);
 
 	Mesh() {};
 	virtual ~Mesh() {};

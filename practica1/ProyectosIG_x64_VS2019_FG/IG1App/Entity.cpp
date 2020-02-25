@@ -169,7 +169,8 @@ void _3DStar::update() {
 	angleY += 3.0;
 	angleZ += 3.0;
 
-	mModelMat = glm::translate(dmat4(1), dvec3(0, 200, 0));
+	
+	mModelMat = glm::translate(dmat4(1), dvec3(-200.0, 200.0, -200.0));
 	mModelMat = glm::rotate(mModelMat, radians(angleY), dvec3(0, 1, 0));
 	mModelMat = glm::rotate(mModelMat, radians(angleZ), dvec3(0, 0, 1));
 }
@@ -204,22 +205,65 @@ void Floor::render(dmat4 const& modelViewMat) const
 
 Box::Box(GLdouble ld) {
 	this->ld = ld;
-	mMesh = Mesh::generateContCube(ld);
+	mMesh = Mesh::generateBoxTextCoord(ld);
 }
 
 void Box::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		if (mTexture != nullptr)
-			mTexture->bind(GL_MODULATE);
-
-		glColor4dv(value_ptr(mColor));
 		
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);
+
 		upload(aMat);
 		mMesh->render();
+
+		
+		glCullFace(GL_FRONT);
+
+		if (iTexture != nullptr)
+			iTexture->bind(GL_REPLACE);
+
+		upload(aMat);
+		mMesh->render();
+
+		if (mTexture != nullptr)
+			mTexture->unbind();
+
+		if (iTexture != nullptr)
+			iTexture->unbind();
+
+		glDisable(GL_CULL_FACE);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+Picture::Picture(GLdouble ld1, GLdouble ld2) {
+	this->ld1 = ld1;
+	this->ld2 = ld2;
+	mMesh = Mesh::generateRectangleTexCoord(ld1, ld2, 1, 1);
+	mTexture = new Texture();
+}
+
+void Picture::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		mTexture->loadColorBuffer(800,600);
+
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);
+
+		upload(aMat);
+		mMesh->render();
+		
 
 		if (mTexture != nullptr)
 			mTexture->unbind();
