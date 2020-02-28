@@ -22,6 +22,7 @@ public:
   void loadColorBuffer(GLdouble w, GLdouble h);
   void bind(GLuint mixMode);   // GL_REPLACE, GL_MODULATE, GL_ADD, ...
   void unbind() const { glBindTexture(GL_TEXTURE_2D, 0); };
+  void save(const  std::string& BMP_Name);
 
   GLuint width() const { return mWidth; };
   GLuint height() const { return mHeight; };

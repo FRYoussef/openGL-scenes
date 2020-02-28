@@ -26,6 +26,7 @@ public:
     void render(Camera const& cam) const;
 	void update();
 	void setState(int id);
+	std::vector<Abs_Entity*> getgObjects();
 	static const int SCENE_2D = 0;
 	static const int SCENE_3D = 1;
 
@@ -35,6 +36,7 @@ protected:
 	void resetGL();
 	std::vector<Texture*> gTextures;
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
+	std::vector<Abs_Entity*> gTransObjects;
 	void scene2D();
 	void scene3D();
 	int mId = 0;

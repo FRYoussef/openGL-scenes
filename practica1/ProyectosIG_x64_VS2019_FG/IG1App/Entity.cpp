@@ -170,7 +170,7 @@ void _3DStar::update() {
 	angleZ += 3.0;
 
 	
-	mModelMat = glm::translate(dmat4(1), dvec3(-200.0, 200.0, -200.0));
+	mModelMat = glm::translate(dmat4(1), dvec3(-150.0, 200.0, -150.0));
 	mModelMat = glm::rotate(mModelMat, radians(angleY), dvec3(0, 1, 0));
 	mModelMat = glm::rotate(mModelMat, radians(angleZ), dvec3(0, 0, 1));
 }

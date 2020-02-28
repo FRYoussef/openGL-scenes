@@ -81,3 +81,15 @@ void Texture::loadColorBuffer(GLdouble w, GLdouble h) {
     glBindTexture(GL_TEXTURE_2D, 0);
     glReadBuffer(GL_BACK);
 }
+
+
+void Texture::save(const std::string& BMP_Name) {
+    PixMap32RGBA pix;
+    pix.reserve(mWidth, mHeight);
+    glBindTexture(GL_TEXTURE_2D, mId);
+   
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pix.data());
+    pix.save_bmp24BGR(BMP_Name);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+}

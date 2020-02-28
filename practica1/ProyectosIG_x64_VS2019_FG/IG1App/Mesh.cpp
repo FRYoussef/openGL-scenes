@@ -145,7 +145,7 @@ Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
     mesh->mNumVertices = 4;
     mesh->vVertices.reserve(mesh->mNumVertices);
 
-    GLdouble vertex_X = 0;
+    /*GLdouble vertex_X = 0;
     GLdouble vertex_Y = 0;
     // circle diagonals
     GLdouble ang[4] = {135, 225, 45, 315};
@@ -154,7 +154,12 @@ Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
         vertex_X = w * cos(radians(ang[i]));
         vertex_Y = h * sin(radians(ang[i]));
         mesh->vVertices.emplace_back(vertex_X, vertex_Y, 0.0);
-    }
+    }*/
+
+    mesh->vVertices.emplace_back(-(w / 2), 0, (h / 2));
+    mesh->vVertices.emplace_back((w / 2), 0, (h / 2));
+    mesh->vVertices.emplace_back(-(w / 2), 0, -(h / 2));
+    mesh->vVertices.emplace_back((w / 2), 0, -(h / 2));
     return mesh;
 }
 
@@ -264,7 +269,7 @@ Mesh* Mesh::generateContCube(GLdouble ld) {
     mesh->vVertices.reserve(mesh->mNumVertices);
 
     GLdouble vertex_X, vertex_Y, vertex_Z;
-    int size = ld / 2;
+    GLdouble size = ld / 2;
 
     //V0
     mesh->vVertices.emplace_back(-size, size, size);

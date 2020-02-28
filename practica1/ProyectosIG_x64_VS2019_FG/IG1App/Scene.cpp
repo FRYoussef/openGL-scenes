@@ -33,7 +33,7 @@ void Scene::scene2D() {
 	s->setMColor(glm::dvec4(1, 1, 0, 1));
 
 	TriangleRGB* tRGB = new TriangleRGB(30.0);
-	RectangleRGB* rRGB = new RectangleRGB(450.0, 355.0);
+	RectangleRGB* rRGB = new RectangleRGB(700.0, 500.0);
 
 
 	gObjects.push_back(circle);
@@ -44,6 +44,7 @@ void Scene::scene2D() {
 
 	// transformaciones
 	rRGB->setModelMat(glm::translate(rRGB->modelMat(), dvec3(0, 0, -100)));
+	rRGB->setModelMat(glm::rotate(rRGB->modelMat(), radians(90.0), dvec3(1, 0, 0)));
 	tRGB->setModelMat(glm::translate(tRGB->modelMat(), dvec3(250, 0, 0)));
 	tRGB->setModelMat(glm::rotate(tRGB->modelMat(), radians(25.0), dvec3(0, 0, 1)));
 }
@@ -61,32 +62,43 @@ void Scene::scene3D() {
 	Texture* txiBox = new Texture();
 	txiBox->load("..\\Bmps\\papelE.bmp");
 
+	Texture* txGlass = new Texture();
+	txGlass->load("..\\Bmps\\windowV.bmp", 100);
+
 	gTextures.push_back(tx);
 	gTextures.push_back(txFloor);
 	gTextures.push_back(txBox);
+	gTextures.push_back(txGlass);
 
 	_3DStar* star = new _3DStar(50.0, 4.0, 50.0);
 	star->setTexture(tx);
-	star->setModelMat(glm::translate(star->modelMat(), dvec3(-200.0, 200.0, -200.0)));
+	star->setModelMat(glm::translate(star->modelMat(), dvec3(-150.0, 200.0, -150.0)));
 
 	Floor* floor = new Floor(500.0, 500.0, 5, 5);
 	floor->setTexture(txFloor);
 	floor->setMColor(glm::dvec4(0.5, 0.5, 0.5, 1));
+	floor->setModelMat(glm::rotate(floor->modelMat(), radians(90.0), dvec3(1, 0, 0)));
 
 	Box* box = new Box(100.0);
 	box->setTexture(txBox);
 	box->setiTexture(txiBox);
-	box->setModelMat(glm::translate(box->modelMat(), dvec3(-200.0, 50.0, -200.0)));
+	box->setModelMat(glm::translate(box->modelMat(), dvec3(-150.0, 50.0, -150.0)));
 
 	Picture* picture = new Picture(80.0, 50.0);
 	picture->setModelMat(glm::translate(picture->modelMat(),  dvec3(0, 1, 0)));
-	picture->setModelMat(glm::rotate(picture->modelMat(), radians(90.0), dvec3(1, 0, 0)));
+
+	
+
+	Box* boxF = new Box(500.0);
+	boxF->setTexture(txGlass);
+	boxF->setModelMat(glm::translate(boxF->modelMat(), dvec3(0.0, 250.0, 0.0)));
 
 
 	gObjects.push_back(picture);
 	gObjects.push_back(box);
 	gObjects.push_back(star);
 	gObjects.push_back(floor);
+	gTransObjects.push_back(boxF);
 }
 
 //-------------------------------------------------------------------------
@@ -102,6 +114,12 @@ void Scene::free()
 		delete tx; tx = nullptr;
 	}
 	gTextures.resize(0);
+	for (Abs_Entity* el : gTransObjects)
+	{
+		delete el;  el = nullptr;
+	}
+	gTransObjects.resize(0);
+
 }
 //-------------------------------------------------------------------------
 void Scene::setGL() 
@@ -129,11 +147,25 @@ void Scene::render(Camera const& cam) const
 	{
 		el->render(cam.viewMat());
 	}
+
+	glDepthMask(GL_FALSE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	for (Abs_Entity* el : gTransObjects)
+	{
+		el->render(cam.viewMat());
+	}
+	glDepthMask(GL_TRUE);
+	glDisable(GL_BLEND);
 }
 
 void Scene::update() {
 	for (int i = 0; i < gObjects.size(); i++)
 		gObjects.at(i)->update();
+	for (int i = 0; i < gTransObjects.size(); i++)
+		gTransObjects.at(i)->update();
+
+	
 }
 
 void Scene::setState(int id) {
@@ -142,6 +174,11 @@ void Scene::setState(int id) {
 		free();
 		init();
 	}
+}
+
+
+std::vector<Abs_Entity*> Scene::getgObjects() {
+	return this->gObjects;
 }
 //-------------------------------------------------------------------------
 

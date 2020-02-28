@@ -26,6 +26,7 @@ public:
 	void setMColor(glm::dvec4 const& mCol) { mColor = mCol; };
 	void setTexture(Texture* tex) { mTexture = tex; }
 	void setiTexture(Texture* tex) { iTexture = tex; }
+	Texture* getTexture() { return mTexture; }
 	virtual void update() {};
 	
 protected:
