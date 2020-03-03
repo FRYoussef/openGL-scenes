@@ -32,6 +32,11 @@ public:
 	// Graphics objects of the scene
 	Scene const& scene() { return *mScene; };
 
+	int getWidth() { return mWinW; }
+
+	int getHeight() { return mWinH; }
+
+
 	void run();    // the main event processing loop
 	void close();  // the application
 	

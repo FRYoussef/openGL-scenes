@@ -271,3 +271,30 @@ void Picture::render(dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+
+Grass::Grass(GLdouble width, GLdouble height) {
+	this->width = width;
+	this->height = height;
+	mMesh = Mesh::generate3dObject(width, height);
+}
+
+void Grass::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glLineWidth(2);
+		glColor3d(mColor.r, mColor.g, mColor.b);
+
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);
+		mMesh->render();
+
+
+		//Resetear attrs
+		if (mTexture != nullptr)
+			mTexture->unbind();
+		glLineWidth(1);
+		glColor3d(1, 1, 1);
+	}
+}

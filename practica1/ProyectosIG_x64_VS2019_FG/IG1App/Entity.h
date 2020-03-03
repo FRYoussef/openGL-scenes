@@ -144,6 +144,17 @@ protected:
 	GLdouble ld2;
 };
 
+class Grass : public Abs_Entity
+{
+public:
+	explicit Grass(GLdouble width, GLdouble height);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble width;
+	GLdouble height;
+};
+
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "CheckML.h"
 #include <fstream>
+#include <gtc/matrix_transform.hpp>  
 using namespace std;
 using namespace glm;
 
@@ -265,10 +266,9 @@ Mesh* Mesh::generateContCube(GLdouble ld) {
     Mesh* mesh = new Mesh();
 
     mesh->mPrimitive = GL_TRIANGLE_STRIP;
-    mesh->mNumVertices = 10;
+    mesh->mNumVertices = 14;
     mesh->vVertices.reserve(mesh->mNumVertices);
 
-    GLdouble vertex_X, vertex_Y, vertex_Z;
     GLdouble size = ld / 2;
 
     //V0
@@ -305,6 +305,12 @@ Mesh* Mesh::generateContCube(GLdouble ld) {
     mesh->vVertices.emplace_back(mesh->vVertices[0]);
     mesh->vVertices.emplace_back(mesh->vVertices[1]);
 
+    // suelo
+    mesh->vVertices.emplace_back(mesh->vVertices[1]);
+    mesh->vVertices.emplace_back(mesh->vVertices[7]);
+    mesh->vVertices.emplace_back(mesh->vVertices[3]);
+    mesh->vVertices.emplace_back(mesh->vVertices[5]);
+
     return mesh;
 }
 
@@ -333,6 +339,34 @@ Mesh* Mesh::generateBoxTextCoord(GLdouble nl) {
     mesh->vTexCoords.emplace_back(0.0, 0.0);
     mesh->vTexCoords.emplace_back(1, 1);
     mesh->vTexCoords.emplace_back(1, 0.0);
+
+    mesh->vTexCoords.emplace_back(0.0, 1);
+    mesh->vTexCoords.emplace_back(0.0, 0.0);
+    mesh->vTexCoords.emplace_back(1, 1);
+    mesh->vTexCoords.emplace_back(1, 0.0);
+
+    return mesh;
+}
+
+Mesh* Mesh::generate3dObject(GLdouble w, GLdouble h) {
+    Mesh* mesh = new Mesh();
+    mesh->mPrimitive = GL_TRIANGLE_STRIP;
+    mesh->mNumVertices = 4 * 2;
+    mesh->vVertices.reserve(mesh->mNumVertices);   
+    mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+    Mesh* rec = Mesh::generateRectangleTexCoord(w, h, 1, 1);
+
+    for (int i = 0; i < rec->mNumVertices; i++) {
+        mesh->vVertices.emplace_back(rec->vVertices[i]);
+        mesh->vTexCoords.emplace_back(rec->vTexCoords[i]);
+    }
+
+    mesh->vVertices.emplace_back(0, -(w / 2), (h / 2));
+    mesh->vVertices.emplace_back((0, w / 2), (h / 2));
+    mesh->vVertices.emplace_back(0, -(w / 2), -(h / 2));
+    mesh->vVertices.emplace_back(0, (w / 2), -(h / 2));
+
 
     return mesh;
 }

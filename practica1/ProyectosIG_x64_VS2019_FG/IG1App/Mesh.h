@@ -24,6 +24,7 @@ public:
 	static Mesh* generateRectangleTexCoord(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	static Mesh* generateContCube(GLdouble ld);
 	static Mesh* generateBoxTextCoord(GLdouble nl);
+	static Mesh* generate3dObject(GLdouble w, GLdouble h);
 
 	Mesh() {};
 	virtual ~Mesh() {};
