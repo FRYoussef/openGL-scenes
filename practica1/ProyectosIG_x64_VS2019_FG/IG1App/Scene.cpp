@@ -74,7 +74,7 @@ void Scene::scene3D() {
 	gTextures.push_back(txGlass);
 	gTextures.push_back(txGrass);
 
-	_3DStar* star = new _3DStar(50.0, 4.0, 50.0);
+	_3DStar* star = new _3DStar(50.0, 6.0, 50.0);
 	star->setTexture(tx);
 	star->setModelMat(glm::translate(star->modelMat(), dvec3(-150.0, 200.0, -150.0)));
 
@@ -93,9 +93,9 @@ void Scene::scene3D() {
 
 	
 
-	Box* boxF = new Box(500.0);
-	boxF->setTexture(txGlass);
-	boxF->setModelMat(glm::translate(boxF->modelMat(), dvec3(0.0, 249.0, 0.0)));
+	Box* glass = new Box(500.0);
+	glass->setTexture(txGlass);
+	glass->setModelMat(glm::translate(glass->modelMat(), dvec3(0.0, 249.0, 0.0)));
 
 	Grass* grass = new Grass(10, 200.0, 100.0);
 	grass->setTexture(txGrass);
@@ -105,10 +105,10 @@ void Scene::scene3D() {
 	gObjects.push_back(box);
 	gObjects.push_back(star);
 	gObjects.push_back(floor);
-	gTransObjects.push_back(grass);
-	gTransObjects.push_back(boxF);
-
-
+	//gObjects.push_back(glass);
+	gObjects.push_back(grass);
+	gTransObjects.push_back(glass);
+	//gTransObjects.push_back(grass);
 }
 
 //-------------------------------------------------------------------------
