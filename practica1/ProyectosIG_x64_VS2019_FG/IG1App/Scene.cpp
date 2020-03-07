@@ -44,7 +44,7 @@ void Scene::scene2D() {
 
 	// transformaciones
 	rRGB->setModelMat(glm::translate(rRGB->modelMat(), dvec3(0, 0, -100)));
-	//rRGB->setModelMat(glm::rotate(rRGB->modelMat(), radians(90.0), dvec3(1, 0, 0)));
+	rRGB->setModelMat(glm::rotate(rRGB->modelMat(), radians(90.0), dvec3(1, 0, 0)));
 	tRGB->setModelMat(glm::translate(tRGB->modelMat(), dvec3(250, 0, 0)));
 	tRGB->setModelMat(glm::rotate(tRGB->modelMat(), radians(25.0), dvec3(0, 0, 1)));
 }
@@ -95,17 +95,20 @@ void Scene::scene3D() {
 
 	Box* boxF = new Box(500.0);
 	boxF->setTexture(txGlass);
-	boxF->setModelMat(glm::translate(boxF->modelMat(), dvec3(0.0, 250.0, 0.0)));
+	boxF->setModelMat(glm::translate(boxF->modelMat(), dvec3(0.0, 249.0, 0.0)));
 
-	Grass* grass = new Grass(400.0, 500.0);
-	grass->setMColor(glm::dvec4(0.5, 0.5, 0.5, 1));
+	Grass* grass = new Grass(10, 200.0, 100.0);
+	grass->setTexture(txGrass);
+	grass->setModelMat(glm::translate(grass->modelMat(), dvec3(150.0, 1, -150.0)));
 
 	gObjects.push_back(picture);
 	gObjects.push_back(box);
 	gObjects.push_back(star);
-	gObjects.push_back(floor); 
-	gObjects.push_back(grass);
+	gObjects.push_back(floor);
+	gTransObjects.push_back(grass);
 	gTransObjects.push_back(boxF);
+
+
 }
 
 //-------------------------------------------------------------------------

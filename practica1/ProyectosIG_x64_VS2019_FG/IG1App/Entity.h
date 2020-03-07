@@ -22,7 +22,7 @@ public:
 
 	// modeling matrix
 	glm::dmat4 const& modelMat() const { return mModelMat; };
-	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
+	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; }
 	void setMColor(glm::dvec4 const& mCol) { mColor = mCol; };
 	void setTexture(Texture* tex) { mTexture = tex; }
 	void setiTexture(Texture* tex) { iTexture = tex; }
@@ -147,12 +147,13 @@ protected:
 class Grass : public Abs_Entity
 {
 public:
-	explicit Grass(GLdouble width, GLdouble height);
+	explicit Grass(GLuint times, GLdouble width, GLdouble height);
 	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
 	GLdouble width;
 	GLdouble height;
+	std::vector<Mesh*> gMesh;
 };
 
 //-------------------------------------------------------------------------

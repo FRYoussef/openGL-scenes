@@ -348,25 +348,64 @@ Mesh* Mesh::generateBoxTextCoord(GLdouble nl) {
     return mesh;
 }
 
-Mesh* Mesh::generate3dObject(GLdouble w, GLdouble h) {
-    Mesh* mesh = new Mesh();
-    mesh->mPrimitive = GL_TRIANGLE_STRIP;
-    mesh->mNumVertices = 4 * 2;
-    mesh->vVertices.reserve(mesh->mNumVertices);   
-    mesh->vTexCoords.reserve(mesh->mNumVertices);
+vector<Mesh*> Mesh::generate3dObject(GLuint times, GLdouble w, GLdouble h) {
+    
+    vector<Mesh*> gMesh;
+    GLdouble vertex_X = 0, vertex_Y = h, vertex_Z = 0, ang = 0, incr = 360.0 / (2 * (times-1));
 
-    Mesh* rec = Mesh::generateRectangleTexCoord(w, h, 1, 1);
+    for (int i = 0; i < times; i++) {
 
-    for (int i = 0; i < rec->mNumVertices; i++) {
-        mesh->vVertices.emplace_back(rec->vVertices[i]);
-        mesh->vTexCoords.emplace_back(rec->vTexCoords[i]);
+        Mesh* mesh = new Mesh();
+        mesh->mPrimitive = GL_TRIANGLE_STRIP;
+        mesh->mNumVertices = 4;
+        mesh->vVertices.reserve(mesh->mNumVertices);
+
+        //V0
+        
+        vertex_X = (w / 2) * sin(radians(ang));
+        vertex_Z = (w / 2) * cos(radians(ang));
+        mesh->vVertices.emplace_back(vertex_X, vertex_Y, vertex_Z);
+        
+        
+        //V1
+        vertex_X = (w / 2) * sin(radians(ang));
+        vertex_Z = (w / 2) * cos(radians(ang));
+        mesh->vVertices.emplace_back(vertex_X, 0, vertex_Z);
+
+        //V2
+        vertex_X = -(w / 2) * sin(radians(ang));
+        vertex_Z = -(w / 2) * cos(radians(ang));
+        mesh->vVertices.emplace_back(vertex_X, vertex_Y, vertex_Z);
+            
+
+        //V3
+
+        vertex_X = -(w / 2) * sin(radians(ang));
+        vertex_Z = -(w / 2) * cos(radians(ang));
+        mesh->vVertices.emplace_back(vertex_X, 0, vertex_Z);
+   
+        mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+        mesh->vTexCoords.emplace_back(0.0, 1);
+        mesh->vTexCoords.emplace_back(0.0, 0.0);
+        mesh->vTexCoords.emplace_back(1, 1);
+        mesh->vTexCoords.emplace_back(1, 0.0);
+
+        mesh->vTexCoords.emplace_back(0.0, 1);
+        mesh->vTexCoords.emplace_back(0.0, 0.0);
+        mesh->vTexCoords.emplace_back(1, 1);
+        mesh->vTexCoords.emplace_back(1, 0.0);
+
+        gMesh.push_back(mesh);
+
+        ang += incr;
+            
+        
     }
 
-    mesh->vVertices.emplace_back(0, -(w / 2), (h / 2));
-    mesh->vVertices.emplace_back((0, w / 2), (h / 2));
-    mesh->vVertices.emplace_back(0, -(w / 2), -(h / 2));
-    mesh->vVertices.emplace_back(0, (w / 2), -(h / 2));
+
+        
 
 
-    return mesh;
+    return gMesh;
 }
