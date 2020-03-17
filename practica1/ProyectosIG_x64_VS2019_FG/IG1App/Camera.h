@@ -63,9 +63,9 @@ protected:
 	GLdouble mNearVal = 1, mFarVal = 10000;  // view volume
 	GLdouble mScaleFact = 1;   // scale factor
 	bool bOrto = true;   // orthogonal or perspective projection
-	glm::dvec4 mRight;
-	glm::dvec4 mUpward;
-	glm::dvec4 mFront;
+	glm::dvec3 mRight;
+	glm::dvec3 mUpward;
+	glm::dvec3 mFront;
 	GLdouble mAng, mRadius;
 
 	Viewport* mViewPort;   // the viewport
