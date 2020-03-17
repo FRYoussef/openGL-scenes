@@ -4,7 +4,8 @@
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
-
+#include <gtc/matrix_transform.hpp>
+#include <gtc/matrix_access.hpp> 
 #include "Viewport.h"
 
 //-------------------------------------------------------------------------
@@ -22,18 +23,26 @@ public:
 	
 	void set2D();
 	void set3D();
-	
+	void setAxes();
+
 	void pitch(GLdouble a); // rotates a degrees on the X axis
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis
 	void roll(GLdouble a);  // rotates a degrees on the Z axis
 
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
+
+	void setViewMat() { mViewMat = lookAt(mEye, mLook, mUp);  setAxes();};
 	
 	// sets scene visible area size 
 	void setSize(GLdouble xw, GLdouble yh);
 	// updates the scale factor 
 	void setScale(GLdouble s);
+
+	void moveLR(GLdouble cs); // Left / Right 
+	void moveFB(GLdouble cs); // Forward / Backward 
+	void moveUD(GLdouble cs); // Up / Down
+	void orbit(GLdouble incAng, GLdouble incY);
 
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const { mViewPort->upload();  uploadVM(); uploadPM(); }; 
@@ -54,6 +63,10 @@ protected:
 	GLdouble mNearVal = 1, mFarVal = 10000;  // view volume
 	GLdouble mScaleFact = 1;   // scale factor
 	bool bOrto = true;   // orthogonal or perspective projection
+	glm::dvec4 mRight;
+	glm::dvec4 mUpward;
+	glm::dvec4 mFront;
+	GLdouble mAng, mRadius;
 
 	Viewport* mViewPort;   // the viewport
 

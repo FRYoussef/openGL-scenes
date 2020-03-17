@@ -156,6 +156,15 @@ protected:
 	std::vector<Mesh*> gMesh;
 };
 
+class Glass : public Abs_Entity
+{
+public:
+	explicit Glass(GLdouble ld);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble ld;
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

@@ -34,6 +34,8 @@ void Camera::set2D()
 	mEye = dvec3(0, 0, 500);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
+	mAng = 0;
+	mRadius = 1000;
 	setVM();
 }
 //-------------------------------------------------------------------------
@@ -43,6 +45,8 @@ void Camera::set3D()
 	mEye = dvec3(500, 500, 500);  
 	mLook = dvec3(0, 10, 0);   
 	mUp = dvec3(0, 1, 0);
+	mAng = 0;
+	mRadius = 1000;
 	setVM();
 }
 //-------------------------------------------------------------------------
@@ -103,4 +107,34 @@ void Camera::uploadPM() const
 }
 //-------------------------------------------------------------------------
 
+void Camera::setAxes() {
+	mRight = row(mViewMat, 0);
+	mUpward = row(mViewMat, 1);
+	mFront = -row(mViewMat, 2);
+}
 
+void Camera::orbit(GLdouble incAng, GLdouble incY) {
+	mAng += incAng;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadius;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadius;
+	mEye.y += incY;
+	setVM();
+}
+
+void Camera::moveLR(GLdouble cs) {
+	/*mEye += mRight * cs; 
+	mLook += mRight * cs;
+	setVM();*/
+}
+
+void Camera::moveFB(GLdouble cs) {
+	/*mEye += mFront * cs;
+	mLook += mFront * cs;
+	setVM();*/
+}
+
+void Camera::moveUD(GLdouble cs) {
+	/*mEye += mUpward * cs;
+	mLook += mUpward * cs;
+	setVM();*/
+}

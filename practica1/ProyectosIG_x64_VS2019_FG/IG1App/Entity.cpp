@@ -281,9 +281,12 @@ Grass::Grass(GLuint times, GLdouble width, GLdouble height) {
 
 void Grass::render(dmat4 const& modelViewMat) const
 {
+	
 	for (int i = 0; i < gMesh.size(); i++) {
 		if (gMesh.at(i) != nullptr) {
 			dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+			glAlphaFunc(GL_GREATER, 0.0);
+			glEnable(GL_ALPHA_TEST);
 			upload(aMat);
 
 			if (mTexture != nullptr)
@@ -294,7 +297,37 @@ void Grass::render(dmat4 const& modelViewMat) const
 			if (mTexture != nullptr)
 				mTexture->unbind();
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glDisable(GL_ALPHA_TEST);
+
 		}
 	}
 }
 
+Glass::Glass(GLdouble ld) {
+	this->ld = ld;
+	mMesh = Mesh::generateBoxTextCoord(ld);
+}
+
+void Glass::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);
+
+		upload(aMat);
+		mMesh->render();
+
+		if (mTexture != nullptr)
+			mTexture->unbind();
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
+	}
+}
