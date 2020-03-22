@@ -26,32 +26,27 @@ void Camera::uploadVM() const
 void Camera::setVM() 
 {
 	mViewMat = lookAt(mEye, mLook, mUp);  // glm::lookAt defines the view matrix 
+	setAxes();
 }
 //-------------------------------------------------------------------------
 
-void Camera::set2D() 
-{
+void Camera::set2D() {
 	mEye = dvec3(0, 0, 500);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
-	mAng = 0;
-	mRadius = 1000;
 	setVM();
 }
 //-------------------------------------------------------------------------
 
-void Camera::set3D() 
-{
-	mEye = dvec3(500, 500, 500);  
+void Camera::set3D() {
+	mEye = dvec3(500, 500, 500);
 	mLook = dvec3(0, 10, 0);   
 	mUp = dvec3(0, 1, 0);
-	mAng = 0;
-	mRadius = 1000;
 	setVM();
 }
 //-------------------------------------------------------------------------
 
-void Camera::pitch(GLdouble a) 
+/*void Camera::pitch(GLdouble a) 
 {  
 	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(1.0, 0, 0));
 	// glm::rotate returns mViewMat * rotationMatrix
@@ -69,7 +64,7 @@ void Camera::roll(GLdouble a)
 {
 	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
 	// glm::rotate returns mViewMat * rotationMatrix
-}
+}*/
 //-------------------------------------------------------------------------
 
 void Camera::setSize(GLdouble xw, GLdouble yh) 
@@ -122,19 +117,30 @@ void Camera::orbit(GLdouble incAng, GLdouble incY) {
 }
 
 void Camera::moveLR(GLdouble cs) {
-	/*mEye += mRight * cs; 
+	mEye += mRight * cs; 
 	mLook += mRight * cs;
-	setVM();*/
+	setVM();
 }
 
 void Camera::moveFB(GLdouble cs) {
-	/*mEye += mFront * cs;
+	mEye += mFront * cs;
 	mLook += mFront * cs;
-	setVM();*/
+	setVM();
 }
 
 void Camera::moveUD(GLdouble cs) {
-	/*mEye += mUpward * cs;
+	mEye += mUpward * cs;
 	mLook += mUpward * cs;
-	setVM();*/
+	setVM();
+}
+
+void Camera::changePrj() {
+	if (projection == PERSPECTIVE) {
+		projection = ORTHOGONAL;
+		set3D();
+	}
+	else if (projection == ORTHOGONAL) {
+		projection = PERSPECTIVE;
+		set2D();
+	}
 }

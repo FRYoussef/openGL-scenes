@@ -4,7 +4,6 @@
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
-#include <gtc/matrix_transform.hpp>
 #include <gtc/matrix_access.hpp> 
 #include "Viewport.h"
 
@@ -25,14 +24,12 @@ public:
 	void set3D();
 	void setAxes();
 
-	void pitch(GLdouble a); // rotates a degrees on the X axis
+	/*void pitch(GLdouble a); // rotates a degrees on the X axis
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis
-	void roll(GLdouble a);  // rotates a degrees on the Z axis
+	void roll(GLdouble a);  // rotates a degrees on the Z axis*/
 
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
-
-	void setViewMat() { mViewMat = lookAt(mEye, mLook, mUp);  setAxes();};
 	
 	// sets scene visible area size 
 	void setSize(GLdouble xw, GLdouble yh);
@@ -43,12 +40,15 @@ public:
 	void moveFB(GLdouble cs); // Forward / Backward 
 	void moveUD(GLdouble cs); // Up / Down
 	void orbit(GLdouble incAng, GLdouble incY);
+	void changePrj();
 
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const { mViewPort->upload();  uploadVM(); uploadPM(); }; 
 
 protected:
-	
+
+	const int PERSPECTIVE = 0;
+	const int ORTHOGONAL = 1;
 	glm::dvec3 mEye = { 0.0, 0.0, 500.0 };  // camera's position
 	glm::dvec3 mLook = { 0.0, 0.0, 0.0 };   // target's position
 	glm::dvec3 mUp = { 0.0, 1.0, 0.0 };     // the up vector 
@@ -66,7 +66,9 @@ protected:
 	glm::dvec3 mRight;
 	glm::dvec3 mUpward;
 	glm::dvec3 mFront;
-	GLdouble mAng, mRadius;
+	GLdouble mAng = 0;
+	GLdouble mRadius = 1000;
+	int projection = PERSPECTIVE;
 
 	Viewport* mViewPort;   // the viewport
 

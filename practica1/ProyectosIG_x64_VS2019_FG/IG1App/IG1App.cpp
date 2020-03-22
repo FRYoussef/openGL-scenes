@@ -70,7 +70,7 @@ void IG1App::iniWinOpenGL()
 	// Callback registration
 	glutReshapeFunc(s_resize);
 	glutKeyboardFunc(s_key);
-	glutSpecialFunc(s_specialKey);
+	//glutSpecialFunc(s_specialKey);
 	glutDisplayFunc(s_display);
 	glutIdleFunc(s_update);
 	glutMouseFunc(s_mouse);
@@ -132,6 +132,9 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'o':
 		mCamera->set2D();
 		break;
+	case 'p':
+		mCamera->changePrj();
+		break;
 	case 'u':
 		mScene->update();
 		break;
@@ -157,7 +160,7 @@ void IG1App::key(unsigned char key, int x, int y)
 }
 //-------------------------------------------------------------------------
 
-void IG1App::specialKey(int key, int x, int y) 
+/*void IG1App::specialKey(int key, int x, int y) 
 {
 	bool need_redisplay = true;
 	int mdf = glutGetModifiers(); // returns the modifiers (Shift, Ctrl, Alt)
@@ -188,7 +191,7 @@ void IG1App::specialKey(int key, int x, int y)
 
 	if (need_redisplay)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
-}
+}*/
 
 void IG1App::update(void) {
 	int last = glutGet(GLUT_ELAPSED_TIME);
@@ -213,19 +216,24 @@ void IG1App::motion(int x, int y) {
 
 	if (mMouseButt == GLUT_LEFT_BUTTON) {
 		mCamera->orbit(mp.x * 0.05, mp.y);
-		glutPostRedisplay();
 	}
-	/*else if (mMouseButt == GLUT_LEFT_BUTTON) {
-		camera().viewMat
-	}*/
+	else if (mMouseButt == GLUT_RIGHT_BUTTON) {
+		mCamera->moveLR(mp.x);
+		mCamera->moveUD(mp.y);
+	}
+	glutPostRedisplay();
 }
 
 void IG1App::mouseWheel(int n, int d, int x, int y) {
-	if (glutGetModifiers() == 0) {
-		if (d == 1) mCamera->moveFB(5);
-		else mCamera->moveFB(-5);
-		glutPostRedisplay();
+	int m = glutGetModifiers();
+	if (m == 0) {
+		if (d == 1) mCamera->moveFB(n);
+		else mCamera->moveFB(-n);
 	}
+	else if (m == GLUT_ACTIVE_CTRL) {
+		
+	}
+	glutPostRedisplay();
 }
 //-------------------------------------------------------------------------
 
