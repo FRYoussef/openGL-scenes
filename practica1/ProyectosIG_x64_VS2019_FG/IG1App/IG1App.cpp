@@ -215,11 +215,11 @@ void IG1App::motion(int x, int y) {
 	mp = mMouseCoord - mp;
 
 	if (mMouseButt == GLUT_LEFT_BUTTON) {
-		mCamera->orbit(mp.x * 0.05, mp.y);
+		mCamera->orbit(-mp.x * 0.05, -mp.y);
 	}
 	else if (mMouseButt == GLUT_RIGHT_BUTTON) {
-		mCamera->moveLR(mp.x);
-		mCamera->moveUD(mp.y);
+		mCamera->moveUD(-mp.y);
+		mCamera->moveLR(-mp.x);
 	}
 	glutPostRedisplay();
 }
@@ -227,11 +227,12 @@ void IG1App::motion(int x, int y) {
 void IG1App::mouseWheel(int n, int d, int x, int y) {
 	int m = glutGetModifiers();
 	if (m == 0) {
-		if (d == 1) mCamera->moveFB(n);
-		else mCamera->moveFB(-n);
+		if (d == 1) mCamera->moveFB(5);
+		else mCamera->moveFB(-5);
 	}
 	else if (m == GLUT_ACTIVE_CTRL) {
-		
+		if (d == 1) mCamera->setScale(+0.01);
+		else mCamera->setScale(-0.01);
 	}
 	glutPostRedisplay();
 }

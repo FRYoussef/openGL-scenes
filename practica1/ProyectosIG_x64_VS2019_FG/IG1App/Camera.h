@@ -47,8 +47,6 @@ public:
 
 protected:
 
-	const int PERSPECTIVE = 0;
-	const int ORTHOGONAL = 1;
 	glm::dvec3 mEye = { 0.0, 0.0, 500.0 };  // camera's position
 	glm::dvec3 mLook = { 0.0, 0.0, 0.0 };   // target's position
 	glm::dvec3 mUp = { 0.0, 1.0, 0.0 };     // the up vector 
@@ -66,9 +64,8 @@ protected:
 	glm::dvec3 mRight;
 	glm::dvec3 mUpward;
 	glm::dvec3 mFront;
-	GLdouble mAng = 0;
-	GLdouble mRadius = 1000;
-	int projection = PERSPECTIVE;
+	GLdouble mAng = -90;
+	GLdouble mRadius = 500;
 
 	Viewport* mViewPort;   // the viewport
 
