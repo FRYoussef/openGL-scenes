@@ -22,6 +22,7 @@ public:
 	
 	void set2D();
 	void set3D();
+	void setCenital();
 	void setAxes();
 
 	/*void pitch(GLdouble a); // rotates a degrees on the X axis
@@ -65,7 +66,7 @@ protected:
 	glm::dvec3 mUpward;
 	glm::dvec3 mFront;
 	GLdouble mAng = -90;
-	GLdouble mRadius = 500;
+	GLdouble mRadius = 1000;
 
 	Viewport* mViewPort;   // the viewport
 

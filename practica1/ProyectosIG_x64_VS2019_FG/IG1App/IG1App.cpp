@@ -90,12 +90,33 @@ void IG1App::free()
 }
 //-------------------------------------------------------------------------
 
-void IG1App::display() const   
-{  // double buffering
+void IG1App::display2Vistas() const {
+	Camera auxCam = *mCamera;
+	Viewport auxVP = *mViewPort;
+	mViewPort->setSize(mWinW / 2, mWinH);
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
 
+	// left camera
+	mViewPort->setPos(0, 0);
+	mScene->render(*mCamera);
+
+	// right camera
+	mViewPort->setPos(mWinW / 2, 0);
+	auxCam.setCenital();
+	mScene->render(auxCam);
+
+	*mViewPort = auxVP;
+}
+
+
+void IG1App::display() const {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
-	mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
+	// double buffering
+	if (m2Vistas)
+		display2Vistas();
+	else
+		mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
 	
 	glutSwapBuffers();	// swaps the front and back buffer
 }
@@ -149,6 +170,9 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 'f':
 		mScene->getgObjects()[1]->getTexture()->save("..\\Bmps\\picture.bmp");
+		break;
+	case 'k':
+		m2Vistas = !m2Vistas;
 		break;
 	default:
 		need_redisplay = false;

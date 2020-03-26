@@ -44,6 +44,7 @@ protected:
 	void init();
 	void iniWinOpenGL();
 	void free();   
+	void display2Vistas() const;
  
 	void display() const;   // the scene
 	void resize(int newWidth, int newHeight);   // the viewport (without changing the scale) 
@@ -79,6 +80,7 @@ protected:
 	bool activate = false;
 	glm::dvec2 mMouseCoord = glm::dvec2(0, 0);
 	int mMouseButt = 0;
+	bool m2Vistas = false;
 
 
 };
