@@ -31,19 +31,25 @@ void Camera::setVM()
 //-------------------------------------------------------------------------
 
 void Camera::set2D() {
-	mEye = dvec3(0, 0, 500);
+	mAng = -90;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadius;
+	mEye.y = 0;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadius;
+	//mEye = dvec3(0, 0, 500);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
-	mAng = -90;
 	setVM();
 }
 //-------------------------------------------------------------------------
 
 void Camera::set3D() {
-	mEye = dvec3(500, 500, 500);
+	mAng = -45;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadius;
+	mEye.y = 500;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadius;
+	//mEye = dvec3(500, 500, 500);
 	mLook = dvec3(0, 10, 0);   
 	mUp = dvec3(0, 1, 0);
-	mAng = -45;
 	setVM();
 }
 
@@ -97,12 +103,12 @@ void Camera::setScale(GLdouble s)
 void Camera::setPM() 
 {
 	if (bOrto) { //  if orthogonal projection
-		mScaleFact = 1;
+		mNearVal = 1;
 		mProjMat = ortho(xLeft*mScaleFact, xRight*mScaleFact, yBot*mScaleFact, yTop*mScaleFact, mNearVal, mFarVal);
 		// glm::ortho defines the orthogonal projection matrix
 	}
 	else {
-		mScaleFact = 0.005;
+		mNearVal = 300;
 		mProjMat = frustum(xLeft*mScaleFact, xRight*mScaleFact, yBot*mScaleFact, yTop*mScaleFact, mNearVal, mFarVal);
 	}
 }
