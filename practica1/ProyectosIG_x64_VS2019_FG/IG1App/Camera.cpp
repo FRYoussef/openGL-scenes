@@ -102,15 +102,11 @@ void Camera::setScale(GLdouble s)
 
 void Camera::setPM() 
 {
-	if (bOrto) { //  if orthogonal projection
-		mNearVal = 1;
+	mNearVal = yTop;
+	if (bOrto)
 		mProjMat = ortho(xLeft*mScaleFact, xRight*mScaleFact, yBot*mScaleFact, yTop*mScaleFact, mNearVal, mFarVal);
-		// glm::ortho defines the orthogonal projection matrix
-	}
-	else {
-		mNearVal = 300;
+	else
 		mProjMat = frustum(xLeft*mScaleFact, xRight*mScaleFact, yBot*mScaleFact, yTop*mScaleFact, mNearVal, mFarVal);
-	}
 }
 //-------------------------------------------------------------------------
 
