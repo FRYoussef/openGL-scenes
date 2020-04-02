@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------
-#include "PixMap32RGBA.h"
+#include "Pixmap32RGBA.h"
 #include <fstream>
 #include <exception>
+#include <iostream>
 //using namespace std;
 //---------------------------------------------------------------------------
 
@@ -78,8 +79,8 @@ void PixMap32RGBA::save_headers(std::ofstream & stream) const noexcept
       bih.bits_per_pixel   = 24;  // 3(BGR) bytes
       bih.compression      =  0;  // BI_RGB
       bih.size_map         = ((bih.width * 3) + ((4 - ((3 * width_) % 4)) % 4)) * bih.height; 
-      bih.x_prpm           =  0;  //  Print resolution 2835 = 72 dpi × 39.3701 inches per meter yields 2834.6472
-      bih.y_prpm           =  0;  //  Print resolution 2835 = 72 dpi × 39.3701 inches per meter yields 2834.6472
+      bih.x_prpm           =  0;  //  Print resolution 2835 = 72 dpi ï¿½ 39.3701 inches per meter yields 2834.6472
+      bih.y_prpm           =  0;  //  Print resolution 2835 = 72 dpi ï¿½ 39.3701 inches per meter yields 2834.6472
       bih.clr_used         =  0;
       bih.clr_important    =  0;
                                        
@@ -163,9 +164,9 @@ void PixMap32RGBA::reserve(GLsizei width, GLsizei height) // throw(std::exceptio
 		 width_ = width;
 		 height_ = height;
       }
-      catch(std::bad_alloc &) 
-	  {
-        throw std::exception("PixMap32RGBA::reserve() ERROR: Could not allocate memory (bad_alloc)"); 
+      catch(std::bad_alloc &) {
+        std::cout << "PixMap32RGBA::reserve() ERROR: Could not allocate memory (bad_alloc)"; 
+        throw std::exception(); 
       }
   }   
 }

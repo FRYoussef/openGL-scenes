@@ -2,6 +2,13 @@
 #include "CheckML.h"
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
+#include <string>
+
+#if defined(WIN32) || defined(_WIN32)
+const std::string PATH_SEPARATOR = "\\";
+#else
+const std::string PATH_SEPARATOR = "/";
+#endif
 
 using namespace glm;
 //-------------------------------------------------------------------------
@@ -50,23 +57,30 @@ void Scene::scene2D() {
 }
 
 void Scene::scene3D() {
+	std::string path = "";
 	Texture* tx = new Texture();
-	tx->load("..\\Bmps\\baldosaP.bmp");
+	path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "baldosaP.bmp";
+	tx->load(path);
 
 	Texture* txFloor = new Texture();
-	txFloor->load("..\\Bmps\\baldosaC.bmp");
+	path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "baldosaC.bmp";
+	txFloor->load(path);
 
 	Texture* txBox = new Texture();
-	txBox->load("..\\Bmps\\container.bmp");
+	path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "container.bmp";
+	txBox->load(path);
 
 	Texture* txiBox = new Texture();
-	txiBox->load("..\\Bmps\\papelE.bmp");
+	path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "papelE.bmp";
+	txiBox->load(path);
 
 	Texture* txGlass = new Texture();
-	txGlass->load("..\\Bmps\\windowV.bmp", 100);
+	path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "windowV.bmp";
+	txGlass->load(path, 100);
 
 	Texture* txGrass = new Texture();
-	txGrass->load("..\\Bmps\\grass.bmp", u8vec3(0, 0, 0), 0.0);
+	path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "grass.bmp";
+	txGrass->load(path, u8vec3(0, 0, 0), 0.0);
 
 	gTextures.push_back(tx);
 	gTextures.push_back(txFloor);
