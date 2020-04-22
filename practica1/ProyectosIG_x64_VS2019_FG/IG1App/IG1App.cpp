@@ -96,14 +96,19 @@ void IG1App::display2Vistas() const {
 	mViewPort->setSize(mWinW / 2, mWinH);
 	auxCam.setSize(mViewPort->width(), mViewPort->height());
 
-	// left camera
-	mViewPort->setPos(0, 0);
-	mScene->render(*mCamera);
-
 	// right camera
 	mViewPort->setPos(mWinW / 2, 0);
 	auxCam.setCenital();
+	auxCam.setSize(mWinW / 2, mWinH);
 	mScene->render(auxCam);
+
+	
+	// left camera
+	mViewPort->setPos(0, 0);
+	mCamera->setSize(mWinW / 2, mWinH);
+	mScene->render(*mCamera);
+
+	
 
 	*mViewPort = auxVP;
 }
@@ -115,8 +120,10 @@ void IG1App::display() const {
 	// double buffering
 	if (m2Vistas)
 		display2Vistas();
-	else
+	else {
+		mCamera->setSize(mWinW, mWinH);
 		mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
+	}
 	
 	glutSwapBuffers();	// swaps the front and back buffer
 }
