@@ -24,6 +24,7 @@ public:
 	void init();
 
     void render(Camera const& cam) const;
+	void sceneDirLight(Camera const& cam) const;
 	void update();
 	void setState(int id);
 	std::vector<Abs_Entity*> getgObjects();
