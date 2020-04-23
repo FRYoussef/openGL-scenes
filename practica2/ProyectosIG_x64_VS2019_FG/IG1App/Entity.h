@@ -4,6 +4,7 @@
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
+#include <GL/gl.h>
 #include "Texture.h"
 #include "Mesh.h"
 
@@ -164,6 +165,59 @@ public:
 
 protected:
 	GLdouble ld;
+};
+
+class QuadricEntity: public Abs_Entity {
+public:
+	QuadricEntity() {q = gluNewQuadric();};
+	~QuadricEntity() { gluDeleteQuadric(q); };
+	void setColor(glm::fvec3 color){ this->color = color;};
+
+protected:
+	glm::fvec3 color = glm::fvec3(-1.0, -1.0, -1.0);
+	GLUquadricObj* q;
+};
+
+class Sphere: public QuadricEntity {
+public:
+	Sphere(GLdouble r);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble r;
+};
+
+class Cylinder: public QuadricEntity {
+public:
+	Cylinder(GLdouble baseR, GLdouble topR, GLdouble height);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble baseR;
+	GLdouble topR;
+	GLdouble height;
+};
+
+class Disk: public QuadricEntity {
+public:
+	Disk(GLdouble innerR, GLdouble outerR);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble innerR;
+	GLdouble outerR;
+};
+
+class PartialDisk: public QuadricEntity {
+public:
+	PartialDisk(GLdouble innerR, GLdouble outerR, GLint startAngle, GLint sweepAngle);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble innerR;
+	GLdouble outerR;
+	GLint startAngle;
+	GLint sweepAngle;
 };
 //-------------------------------------------------------------------------
 

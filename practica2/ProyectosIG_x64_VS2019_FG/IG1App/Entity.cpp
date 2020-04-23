@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
+#include <GL/gl.h>
 
 using namespace glm;
 
@@ -330,4 +331,78 @@ void Glass::render(dmat4 const& modelViewMat) const
 		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
 	}
+}
+
+Sphere::Sphere(GLdouble r) {
+	this->r = r;
+}
+
+void Sphere::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+
+	glEnable(GL_COLOR_MATERIAL);
+	//glColor3f(color.r, color.g, color.b);
+
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluSphere(q, r, 50, 50);
+
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+Cylinder::Cylinder(GLdouble baseR, GLdouble topR, GLdouble height) {
+	this->baseR = baseR;
+	this->topR = topR;
+	this->height = height;
+}
+
+void Cylinder::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+
+	glEnable(GL_COLOR_MATERIAL);
+	//glColor3f(color.r, color.g, color.b);
+
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluCylinder(q, baseR, topR, height, 50, 50);
+
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+Disk::Disk(GLdouble innerR, GLdouble outerR) {
+	this->innerR = innerR;
+	this->outerR = outerR;
+}
+
+void Disk::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+
+	glEnable(GL_COLOR_MATERIAL);
+	//glColor3f(color.r, color.g, color.b);
+
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluDisk(q, innerR, outerR, 50, 50);
+
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+PartialDisk::PartialDisk(GLdouble innerR, GLdouble outerR, GLint startAngle, GLint sweepAngle) {
+	this->innerR = innerR;
+	this->outerR = outerR;
+	this->startAngle = startAngle;
+	this->sweepAngle = sweepAngle;
+}
+
+void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+
+	glEnable(GL_COLOR_MATERIAL);
+	//glColor3f(color.r, color.g, color.b);
+
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluPartialDisk(q, innerR, outerR, 50, 50, startAngle, sweepAngle);
+
+	glColor3f(1.0, 1.0, 1.0);
 }

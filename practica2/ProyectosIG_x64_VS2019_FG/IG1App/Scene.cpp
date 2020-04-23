@@ -19,6 +19,7 @@ void Scene::init()
 	gObjects.push_back(new RGBAxis(400.0));
 	switch (mId) {
 	case SCENE_1:
+		setScene1();
 		break;
 	case SCENE_2:
 		break;
@@ -27,6 +28,34 @@ void Scene::init()
 	}
 }
 
+void Scene::setScene1() {
+	Sphere* face = new Sphere(100.0);
+	face->setColor(glm::fvec3(255.0, 213.0, 79.0));
+
+	Cylinder* eye1 = new Cylinder(10, 0, 20);
+	eye1->setColor(glm::fvec3(128.0, 222.0, 234.0));
+	glm::dmat4 mEye1 = eye1->modelMat();
+	mEye1 = translate(mEye1, dvec3(-40, 30, 80));
+	eye1->setModelMat(mEye1);
+
+	Cylinder* eye2 = new Cylinder(10, 0, 20);
+	eye2->setColor(glm::fvec3(128.0, 203.0, 196.0));
+	glm::dmat4 mEye2 = eye2->modelMat();
+	mEye2 = translate(mEye2, dvec3(40, 30, 80));
+	eye2->setModelMat(mEye2);
+
+	PartialDisk* smile = new PartialDisk(70.0, 80.0, 0, 180);
+	smile->setColor(glm::fvec3(236.0, 239.0, 241.0));
+
+	Disk* hat = new Disk(80.0, 120.0);
+	hat->setColor(glm::fvec3(225.0, 190.0, 231.0));
+
+	gObjects.push_back(face);
+	gObjects.push_back(eye1);
+	gObjects.push_back(eye2);
+	// gObjects.push_back(smile);
+	// gObjects.push_back(hat);
+}
 
 //-------------------------------------------------------------------------
 void Scene::free() 
