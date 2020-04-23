@@ -4,7 +4,7 @@
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
-
+#include <gtc/matrix_access.hpp> 
 #include "Viewport.h"
 
 //-------------------------------------------------------------------------
@@ -22,10 +22,12 @@ public:
 	
 	void set2D();
 	void set3D();
-	
-	void pitch(GLdouble a); // rotates a degrees on the X axis
+	void setCenital();
+	void setAxes();
+
+	/*void pitch(GLdouble a); // rotates a degrees on the X axis
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis
-	void roll(GLdouble a);  // rotates a degrees on the Z axis
+	void roll(GLdouble a);  // rotates a degrees on the Z axis*/
 
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
@@ -35,11 +37,17 @@ public:
 	// updates the scale factor 
 	void setScale(GLdouble s);
 
+	void moveLR(GLdouble cs); // Left / Right 
+	void moveFB(GLdouble cs); // Forward / Backward 
+	void moveUD(GLdouble cs); // Up / Down
+	void orbit(GLdouble incAng, GLdouble incY);
+	void changePrj();
+
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const { mViewPort->upload();  uploadVM(); uploadPM(); }; 
 
 protected:
-	
+
 	glm::dvec3 mEye = { 0.0, 0.0, 500.0 };  // camera's position
 	glm::dvec3 mLook = { 0.0, 0.0, 0.0 };   // target's position
 	glm::dvec3 mUp = { 0.0, 1.0, 0.0 };     // the up vector 
@@ -54,6 +62,11 @@ protected:
 	GLdouble mNearVal = 1, mFarVal = 10000;  // view volume
 	GLdouble mScaleFact = 1;   // scale factor
 	bool bOrto = true;   // orthogonal or perspective projection
+	glm::dvec3 mRight;
+	glm::dvec3 mUpward;
+	glm::dvec3 mFront;
+	GLdouble mAng = -90;
+	GLdouble mRadius = 1000;
 
 	Viewport* mViewPort;   // the viewport
 

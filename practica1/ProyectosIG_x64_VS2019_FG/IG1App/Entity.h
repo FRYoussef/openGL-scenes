@@ -4,7 +4,7 @@
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
-
+#include "Texture.h"
 #include "Mesh.h"
 
 //-------------------------------------------------------------------------
@@ -22,39 +22,149 @@ public:
 
 	// modeling matrix
 	glm::dmat4 const& modelMat() const { return mModelMat; };
-	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
+	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; }
 	void setMColor(glm::dvec4 const& mCol) { mColor = mCol; };
-
+	void setTexture(Texture* tex) { mTexture = tex; }
+	void setiTexture(Texture* tex) { iTexture = tex; }
+	Texture* getTexture() { return mTexture; }
+	virtual void update() {};
 	
 protected:
 
 	Mesh* mMesh = nullptr;   // the mesh
 	glm::dmat4 mModelMat;    // modeling matrix
 	glm::dvec4 mColor;
+	Texture* mTexture = nullptr;
+	Texture* iTexture = nullptr;
 	// transfers modelViewMat to the GPU
 	virtual void upload(glm::dmat4 const& mModelViewMat) const; 
 };
 //-------------------------------------------------------------------------
 
-class EjesRGB : public Abs_Entity 
+class RGBAxis : public Abs_Entity 
 {
 public:
-	explicit EjesRGB(GLdouble l);
-	~EjesRGB();
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	explicit RGBAxis(GLdouble l);
+	~RGBAxis();
+	void render(glm::dmat4 const& modelViewMat) const;
 };
 
-class Poligono : public Abs_Entity
+class CPolygon : public Abs_Entity
 {
 public:
-	explicit Poligono(GLuint numL, GLdouble rd);
-	virtual void render(glm::dmat4 const& modelViewMat) const;
+	explicit CPolygon(GLuint numL, GLdouble rd);
+	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
 	GLuint numL;
 	GLdouble rd;
 };
 
+class Sierpinski : public Abs_Entity
+{
+public:
+	explicit Sierpinski(GLuint numP, GLdouble rd);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLuint numP;
+	GLdouble rd;
+};
+
+class TriangleRGB : public Abs_Entity
+{
+public:
+	explicit TriangleRGB(GLdouble rd);
+	void render(glm::dmat4 const& modelViewMat) const;
+	void update();
+
+protected:
+	GLdouble rd;
+	GLdouble traslationAng;
+	GLdouble rotationAng;
+};
+
+class RectangleRGB : public Abs_Entity
+{
+public:
+	explicit RectangleRGB(GLdouble w, GLdouble h);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble w;
+	GLdouble h;
+};
+
+class _3DStar : public Abs_Entity
+{
+public:
+	explicit _3DStar(GLdouble re, GLdouble np, GLdouble h);
+	void render(glm::dmat4 const& modelViewMat) const;
+	void update();
+
+protected:
+	GLdouble re;
+	GLdouble np;
+	GLdouble h;
+	GLdouble angleY;
+	GLdouble angleZ;
+};
+
+class Floor : public Abs_Entity
+{
+public:
+	explicit Floor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble w;
+	GLdouble h;
+	GLuint rw;
+	GLuint rh;
+};
+
+class Box : public Abs_Entity
+{
+public:
+	explicit Box(GLdouble ld);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble ld;
+};
+
+class Picture : public Abs_Entity
+{
+public:
+	explicit Picture(GLdouble ld1, GLdouble ld2);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble ld1;
+	GLdouble ld2;
+};
+
+class Grass : public Abs_Entity
+{
+public:
+	explicit Grass(GLuint times, GLdouble width, GLdouble height);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble width;
+	GLdouble height;
+	std::vector<Mesh*> gMesh;
+};
+
+class Glass : public Abs_Entity
+{
+public:
+	explicit Glass(GLdouble ld);
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+	GLdouble ld;
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

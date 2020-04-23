@@ -14,8 +14,18 @@ class Mesh
 public:
 
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
-	static Mesh* generaPoligono(GLuint numL, GLdouble rd);
-	
+	static Mesh* generatePolygon(GLuint numL, GLdouble rd);
+	static Mesh* generateSierpinski(GLuint numP, GLdouble rd);
+	static Mesh* generateTriangleRGB(GLdouble rd);
+	static Mesh* generateRectangle(GLdouble w, GLdouble h);
+	static Mesh* generateRGBRectangle(GLdouble w, GLdouble h);
+	static Mesh* generate3DStar(GLdouble re, GLdouble np, GLdouble h);
+	static Mesh* generateStarTexCoord(GLdouble re, GLuint np, GLdouble h);
+	static Mesh* generateRectangleTexCoord(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
+	static Mesh* generateContCube(GLdouble ld);
+	static Mesh* generateBoxTextCoord(GLdouble nl);
+	static std::vector<Mesh*> generate3dObject(GLuint times, GLdouble w, GLdouble h);
+
 	Mesh() {};
 	virtual ~Mesh() {};
 
@@ -34,6 +44,7 @@ protected:
 	GLuint mNumVertices = 0;  // number of elements ( = vVertices.size())
 	std::vector<glm::dvec3> vVertices;  // vertex array
 	std::vector<glm::dvec4> vColors;    // color array
+	std::vector<glm::dvec2> vTexCoords;    // texture array
 	virtual void draw() const;
 };
 //-------------------------------------------------------------------------

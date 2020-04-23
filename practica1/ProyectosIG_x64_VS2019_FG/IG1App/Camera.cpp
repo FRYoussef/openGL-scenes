@@ -26,28 +26,42 @@ void Camera::uploadVM() const
 void Camera::setVM() 
 {
 	mViewMat = lookAt(mEye, mLook, mUp);  // glm::lookAt defines the view matrix 
+	setAxes();
 }
 //-------------------------------------------------------------------------
 
-void Camera::set2D() 
-{
-	mEye = dvec3(0, 0, 500);
+void Camera::set2D() {
+	mAng = -90;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadius;
+	mEye.y = 0;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadius;
+	//mEye = dvec3(0, 0, 500);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
 	setVM();
 }
 //-------------------------------------------------------------------------
 
-void Camera::set3D() 
-{
-	mEye = dvec3(500, 500, 500);  
+void Camera::set3D() {
+	mAng = -45;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadius;
+	mEye.y = 500;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadius;
+	//mEye = dvec3(500, 500, 500);
 	mLook = dvec3(0, 10, 0);   
+	mUp = dvec3(0, 1, 0);
+	setVM();
+}
+
+void Camera::setCenital() {
+	mEye = dvec3(0, 500, 1);
+	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
 	setVM();
 }
 //-------------------------------------------------------------------------
 
-void Camera::pitch(GLdouble a) 
+/*void Camera::pitch(GLdouble a) 
 {  
 	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(1.0, 0, 0));
 	// glm::rotate returns mViewMat * rotationMatrix
@@ -65,7 +79,7 @@ void Camera::roll(GLdouble a)
 {
 	mViewMat = rotate(mViewMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
 	// glm::rotate returns mViewMat * rotationMatrix
-}
+}*/
 //-------------------------------------------------------------------------
 
 void Camera::setSize(GLdouble xw, GLdouble yh) 
@@ -88,10 +102,11 @@ void Camera::setScale(GLdouble s)
 
 void Camera::setPM() 
 {
-	if (bOrto) { //  if orthogonal projection
+	mNearVal = yTop;
+	if (bOrto)
 		mProjMat = ortho(xLeft*mScaleFact, xRight*mScaleFact, yBot*mScaleFact, yTop*mScaleFact, mNearVal, mFarVal);
-		// glm::ortho defines the orthogonal projection matrix
-	}
+	else
+		mProjMat = frustum(xLeft*mScaleFact, xRight*mScaleFact, yBot*mScaleFact, yTop*mScaleFact, mNearVal, mFarVal);
 }
 //-------------------------------------------------------------------------
 
@@ -103,4 +118,41 @@ void Camera::uploadPM() const
 }
 //-------------------------------------------------------------------------
 
+void Camera::setAxes() {
+	mRight = row(mViewMat, 0);
+	mUpward = row(mViewMat, 1);
+	mFront = -row(mViewMat, 2);
+}
+
+void Camera::orbit(GLdouble incAng, GLdouble incY) {
+	mAng += incAng;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadius;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadius;
+	mEye.y += incY;
+	setVM();
+}
+
+void Camera::moveLR(GLdouble cs) {
+	mEye += mRight * cs; 
+	mLook += mRight * cs;
+	setVM();
+}
+
+void Camera::moveFB(GLdouble cs) {
+	mEye += mFront * cs;
+	mLook += mFront * cs;
+	setVM();
+}
+
+void Camera::moveUD(GLdouble cs) {
+	mEye += mUpward * cs;
+	mLook += mUpward * cs;
+	setVM();
+}
+
+void Camera::changePrj() {
+	bOrto = !bOrto;
+	setPM();
+	uploadPM();
+}
 
