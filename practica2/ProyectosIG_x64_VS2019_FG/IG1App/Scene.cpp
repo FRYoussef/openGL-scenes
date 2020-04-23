@@ -44,17 +44,25 @@ void Scene::setScene1() {
 	mEye2 = translate(mEye2, dvec3(40, 30, 80));
 	eye2->setModelMat(mEye2);
 
-	PartialDisk* smile = new PartialDisk(70.0, 80.0, 0, 180);
+	PartialDisk* smile = new PartialDisk(75.0, 80.0, 0, 180);
 	smile->setColor(glm::fvec3(236.0, 239.0, 241.0));
+	glm::dmat4 mSmile = smile->modelMat();
+	mSmile = translate(mSmile, dvec3(0, 10, 80));
+	mSmile= rotate(mSmile, radians(-90.0), dvec3(0, 0, 1.0));
+	smile->setModelMat(mSmile);
 
-	Disk* hat = new Disk(80.0, 120.0);
+	Disk* hat = new Disk(60.0, 110.0);
 	hat->setColor(glm::fvec3(225.0, 190.0, 231.0));
+	glm::dmat4 mHat = hat->modelMat();
+	mHat = translate(mHat, dvec3(0, 70, 0));
+	mHat= rotate(mHat, radians(90.0), dvec3(1.0, 0, 0));
+	hat->setModelMat(mHat);
 
 	gObjects.push_back(face);
 	gObjects.push_back(eye1);
 	gObjects.push_back(eye2);
-	// gObjects.push_back(smile);
-	// gObjects.push_back(hat);
+	gObjects.push_back(smile);
+	gObjects.push_back(hat);
 }
 
 //-------------------------------------------------------------------------
