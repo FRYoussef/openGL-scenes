@@ -342,7 +342,7 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	upload(aMat);
 
 	glEnable(GL_COLOR_MATERIAL);
-	//glColor3f(color.r, color.g, color.b);
+	glColor3f(this->color.r, this->color.g, this->color.b);
 
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluSphere(q, r, 50, 50);
@@ -361,7 +361,7 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	upload(aMat);
 
 	glEnable(GL_COLOR_MATERIAL);
-	//glColor3f(color.r, color.g, color.b);
+	glColor3f(this->color.r, this->color.g, this->color.b);
 
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluCylinder(q, baseR, topR, height, 50, 50);
@@ -379,7 +379,7 @@ void Disk::render(glm::dmat4 const& modelViewMat) const {
 	upload(aMat);
 
 	glEnable(GL_COLOR_MATERIAL);
-	//glColor3f(color.r, color.g, color.b);
+	glColor3f(this->color.r, this->color.g, this->color.b);
 
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluDisk(q, innerR, outerR, 50, 50);
@@ -399,7 +399,7 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 	upload(aMat);
 
 	glEnable(GL_COLOR_MATERIAL);
-	//glColor3f(color.r, color.g, color.b);
+	glColor3f(this->color.r, this->color.g, this->color.b);
 
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluPartialDisk(q, innerR, outerR, 50, 50, startAngle, sweepAngle);
