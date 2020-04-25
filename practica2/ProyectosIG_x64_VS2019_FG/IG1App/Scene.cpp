@@ -32,30 +32,29 @@ void Scene::setScene1() {
 	Sphere* face = new Sphere(100.0);
 	face->setColor(glm::fvec3(1, 0.5, 0));
 
-	Cylinder* eye1 = new Cylinder(10, 0, 20);
+	Cylinder* eye1 = new Cylinder(15, 0, 30);
 	eye1->setColor(glm::fvec3(0, 0, 1));
 	glm::dmat4 mEye1 = eye1->modelMat();
 	mEye1 = translate(mEye1, dvec3(-40, 30, 80));
 	eye1->setModelMat(mEye1);
 
-	Cylinder* eye2 = new Cylinder(10, 0, 20);
+	Cylinder* eye2 = new Cylinder(15, 0, 30);
 	eye2->setColor(glm::fvec3(0.2, 1, 1));
 	glm::dmat4 mEye2 = eye2->modelMat();
 	mEye2 = translate(mEye2, dvec3(40, 30, 80));
 	eye2->setModelMat(mEye2);
 
-	PartialDisk* smile = new PartialDisk(75.0, 80.0, 0, 180);
+	PartialDisk* smile = new PartialDisk(70.0, 80.0, 90, 180);
 	smile->setColor(glm::fvec3(0, 1, 0));
 	glm::dmat4 mSmile = smile->modelMat();
 	mSmile = translate(mSmile, dvec3(0, 10, 80));
-	mSmile= rotate(mSmile, radians(-90.0), dvec3(0, 0, 1.0));
 	smile->setModelMat(mSmile);
 
 	Disk* hat = new Disk(60.0, 110.0);
 	hat->setColor(glm::fvec3(1, 0, 0));
 	glm::dmat4 mHat = hat->modelMat();
 	mHat = translate(mHat, dvec3(0, 70, 0));
-	mHat= rotate(mHat, radians(90.0), dvec3(1.0, 0, 0));
+	mHat= rotate(mHat, radians(70.0), dvec3(1.0, 0, 0));
 	hat->setModelMat(mHat);
 
 	gObjects.push_back(face);
