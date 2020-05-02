@@ -22,6 +22,7 @@ void Scene::init()
 		setScene1();
 		break;
 	case SCENE_2:
+		setScene2();
 		break;
 	default:
 		break;
@@ -62,6 +63,14 @@ void Scene::setScene1() {
 	gObjects.push_back(eye2);
 	gObjects.push_back(smile);
 	gObjects.push_back(hat);
+}
+
+
+void Scene::setScene2() {
+
+	SquaredRing* sqRing = new SquaredRing();
+
+	gObjects.push_back(sqRing);
 }
 
 //-------------------------------------------------------------------------

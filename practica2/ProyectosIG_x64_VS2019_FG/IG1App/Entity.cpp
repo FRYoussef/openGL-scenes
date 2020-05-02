@@ -406,3 +406,24 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 
 	glColor3f(1.0, 1.0, 1.0);
 }
+
+SquaredRing::SquaredRing() {
+	mMesh = Mesh::generateSquaredRing();
+}
+
+void SquaredRing::render(glm::dmat4 const& modelViewMat) const {
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		
+
+		
+		
+		upload(aMat);
+		mMesh->render();
+
+		
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+

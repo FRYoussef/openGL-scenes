@@ -25,6 +25,7 @@ public:
 	static Mesh* generateContCube(GLdouble ld);
 	static Mesh* generateBoxTextCoord(GLdouble nl);
 	static std::vector<Mesh*> generate3dObject(GLuint times, GLdouble w, GLdouble h);
+	static Mesh* generateSquaredRing();
 
 	Mesh() {};
 	virtual ~Mesh() {};

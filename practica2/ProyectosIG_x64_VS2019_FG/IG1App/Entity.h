@@ -219,6 +219,16 @@ protected:
 	GLint startAngle;
 	GLint sweepAngle;
 };
+
+class SquaredRing : public Abs_Entity
+{
+public:
+	explicit SquaredRing();
+	void render(glm::dmat4 const& modelViewMat) const;
+	void draw();
+	
+};
+
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

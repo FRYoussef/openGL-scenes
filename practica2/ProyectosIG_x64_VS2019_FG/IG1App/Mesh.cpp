@@ -7,9 +7,16 @@ using namespace glm;
 
 //-------------------------------------------------------------------------
 
-void Mesh::draw() const 
+void Mesh::draw() const
 {
-  glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+
+    glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+    
+    /*
+	unsigned int stripIndices[] = { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 };
+
+	glDrawElements(GL_TRIANGLE_STRIP, 10, GL_UNSIGNED_INT, stripIndices);*/
+    
 }
 //-------------------------------------------------------------------------
 
@@ -408,4 +415,50 @@ vector<Mesh*> Mesh::generate3dObject(GLuint times, GLdouble w, GLdouble h) {
 
 
     return gMesh;
+}
+
+Mesh* Mesh::generateSquaredRing() {
+
+
+    Mesh* mesh = new Mesh();
+
+    mesh->mPrimitive = GL_TRIANGLE_STRIP;
+    mesh->mNumVertices = 10;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+
+    mesh->vVertices.emplace_back(30.0, 30.0, 0.0);
+    mesh->vVertices.emplace_back(10.0, 10.0, 0.0);
+    mesh->vVertices.emplace_back(70.0, 30.0, 0.0);
+    mesh->vVertices.emplace_back(90.0, 10.0, 0.0);
+    mesh->vVertices.emplace_back(70.0, 70.0, 0.0);
+    mesh->vVertices.emplace_back(90.0, 90.0, 0.0);
+    mesh->vVertices.emplace_back(30.0, 70.0, 0.0);
+    mesh->vVertices.emplace_back(10.0, 90.0, 0.0);
+    mesh->vVertices.emplace_back(30.0, 30.0, 0.0);
+    mesh->vVertices.emplace_back(10.0, 10.0, 0.0);
+
+
+    mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+    mesh->vColors.emplace_back(1.0, 1.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(1.0, 0.0, 1.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 1.0, 1.0, 1.0);
+    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    
+    glVertexPointer(3, GL_FLOAT, 0, &mesh->vVertices);
+    glColorPointer(4, GL_FLOAT, 0, &mesh->vColors);
+
+    mesh->draw();
+    
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+       
+    return mesh;
 }
