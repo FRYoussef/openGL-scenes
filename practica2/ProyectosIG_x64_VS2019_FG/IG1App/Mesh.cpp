@@ -9,13 +9,24 @@ using namespace glm;
 
 void Mesh::draw() const
 {
+    if (vIndices.empty()) {
+        glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+    }
+    else {
 
-    glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
-    
-    /*
-	unsigned int stripIndices[] = { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 };
+        //Temporary, this will change in next exercises (IndexMesh class - ex. 11)
 
-	glDrawElements(GL_TRIANGLE_STRIP, 10, GL_UNSIGNED_INT, stripIndices);*/
+        unsigned int stripIndices[10];
+        for (int i = 0; i < 10; i++) {
+            stripIndices[i] = vIndices[i];
+        }
+ 
+        
+
+        glDrawElements(mPrimitive, 10,
+            GL_UNSIGNED_INT, stripIndices);
+    }
+  
     
 }
 //-------------------------------------------------------------------------
@@ -434,8 +445,8 @@ Mesh* Mesh::generateSquaredRing() {
     mesh->vVertices.emplace_back(90.0, 90.0, 0.0);
     mesh->vVertices.emplace_back(30.0, 70.0, 0.0);
     mesh->vVertices.emplace_back(10.0, 90.0, 0.0);
-    mesh->vVertices.emplace_back(30.0, 30.0, 0.0);
-    mesh->vVertices.emplace_back(10.0, 10.0, 0.0);
+    //mesh->vVertices.emplace_back(30.0, 30.0, 0.0);
+    //mesh->vVertices.emplace_back(10.0, 10.0, 0.0);
 
 
     mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
@@ -446,8 +457,20 @@ Mesh* Mesh::generateSquaredRing() {
     mesh->vColors.emplace_back(1.0, 0.0, 1.0, 1.0);
     mesh->vColors.emplace_back(0.0, 1.0, 1.0, 1.0);
     mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
-    mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
-    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    //mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
+    //mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+
+
+    mesh->vIndices.emplace_back(0);
+    mesh->vIndices.emplace_back(1);
+    mesh->vIndices.emplace_back(2);
+    mesh->vIndices.emplace_back(3);
+    mesh->vIndices.emplace_back(4);
+    mesh->vIndices.emplace_back(5);
+    mesh->vIndices.emplace_back(6);
+    mesh->vIndices.emplace_back(7);
+    mesh->vIndices.emplace_back(0);
+    mesh->vIndices.emplace_back(1);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
