@@ -467,16 +467,8 @@ Mesh* Mesh::generateSquaredRing() {
     //mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 
 
-    mesh->vIndices.emplace_back(0);
-    mesh->vIndices.emplace_back(1);
-    mesh->vIndices.emplace_back(2);
-    mesh->vIndices.emplace_back(3);
-    mesh->vIndices.emplace_back(4);
-    mesh->vIndices.emplace_back(5);
-    mesh->vIndices.emplace_back(6);
-    mesh->vIndices.emplace_back(7);
-    mesh->vIndices.emplace_back(0);
-    mesh->vIndices.emplace_back(1);
+    for (int i = 0; i < 10; i++)
+        mesh->vIndices.emplace_back(i % 8);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
