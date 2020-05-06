@@ -430,3 +430,17 @@ void SquaredRing::render(glm::dmat4 const& modelViewMat) const {
 	}
 }
 
+EntityWithIndexMesh::EntityWithIndexMesh(GLdouble l) {
+	mMesh = IndexMesh::generateIndexCubeWithLids(l);
+}
+
+void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const {
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		
+		upload(aMat);
+		mMesh->render();
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}

@@ -229,6 +229,13 @@ public:
 	
 };
 
+
+class EntityWithIndexMesh : public Abs_Entity
+{
+public:
+	explicit EntityWithIndexMesh(GLdouble l);
+	void render(glm::dmat4 const& modelViewMat) const;
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

@@ -15,16 +15,12 @@ void Mesh::draw() const
     else {
 
         //Temporary, this will change in next exercises (IndexMesh class - ex. 11)
-
         unsigned int stripIndices[10];
         for (int i = 0; i < 10; i++) {
             stripIndices[i] = vIndices[i];
         }
  
-        
-
-        glDrawElements(mPrimitive, 10,
-            GL_UNSIGNED_INT, stripIndices);
+        glDrawElements(mPrimitive, 10, GL_UNSIGNED_INT, stripIndices);
     }
   
     
@@ -482,4 +478,64 @@ Mesh* Mesh::generateSquaredRing() {
     glDisableClientState(GL_VERTEX_ARRAY);
        
     return mesh;
+}
+
+void IndexMesh::render() const{
+    if(vIndixes != nullptr){
+        glEnableClientState(GL_INDEX_ARRAY);
+        glIndexPointer(GL_UNSIGNED_INT, 0, vIndixes);
+    }
+
+    draw();
+
+    glDisableClientState(GL_INDEX_ARRAY);
+}
+
+void IndexMesh::draw() const{
+    glDrawElements(mPrimitive, nNumIndices, GL_UNSIGNED_INT, vIndixes);
+}
+
+IndexMesh* IndexMesh::generateIndexCubeWithLids(GLdouble l){
+    IndexMesh* mesh = new IndexMesh();
+
+    mesh->mPrimitive = GL_TRIANGLES;
+    mesh->mNumVertices = 8;
+    mesh->vVertices.reserve(mesh->size());
+    mesh->vColors.reserve(mesh->size());
+    mesh->vNormals.reserve(12);
+
+    GLdouble half = l / 2;
+
+    // colors
+    for(int i = 0; i < mesh->size(); i++)
+        mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+
+    // vertexes
+    mesh->vVertices.emplace_back(half, half, -half);
+    mesh->vVertices.emplace_back(half, -half, -half);
+    mesh->vVertices.emplace_back(half, -half, half);
+    mesh->vVertices.emplace_back(half, half, half);
+    mesh->vVertices.emplace_back(-half, half, -half);
+    mesh->vVertices.emplace_back(-half, half, half);
+    mesh->vVertices.emplace_back(-half, -half, half);
+    mesh->vVertices.emplace_back(-half, -half, -half);
+
+    //indixes
+    mesh->vIndixes = new GLuint[36]{
+        0, 1, 2,
+        2, 1, 3,
+        2, 3, 4,
+        4, 3, 5,
+        4, 5, 6,
+        6, 5, 7,
+        6, 7, 0,
+        0, 7, 1,
+        4, 6, 2,
+        2, 6, 0,
+        1, 7, 3,
+        3, 7, 5
+    };
+
+    // normals
+    
 }

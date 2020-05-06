@@ -51,6 +51,22 @@ protected:
 	std::vector<glm::dvec3> vNormals;
 	virtual void draw() const;
 };
+
+class IndexMesh: public Mesh{
+
+	protected:
+		GLuint* vIndixes = nullptr;
+		GLuint nNumIndices = 0;
+
+		virtual void draw() const;
+
+	public:
+		IndexMesh() { mPrimitive = GL_TRIANGLES; };
+		~IndexMesh() { delete[] vIndixes; };
+		virtual void render() const;
+		static IndexMesh* generateIndexCubeWithLids(GLdouble l);
+};
+
 //-------------------------------------------------------------------------
 
 #endif //_H_Scene_H_
