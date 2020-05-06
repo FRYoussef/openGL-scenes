@@ -72,7 +72,7 @@ void Scene::setScene2() {
 
 	EntityWithIndexMesh* cube = new EntityWithIndexMesh(100.0);
 
-	gObjects.push_back(sqRing);
+	//gObjects.push_back(sqRing);
 	gObjects.push_back(cube);
 }
 

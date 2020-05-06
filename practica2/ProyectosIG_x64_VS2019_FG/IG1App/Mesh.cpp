@@ -481,14 +481,35 @@ Mesh* Mesh::generateSquaredRing() {
 }
 
 void IndexMesh::render() const{
-    if(vIndixes != nullptr){
-        glEnableClientState(GL_INDEX_ARRAY);
-        glIndexPointer(GL_UNSIGNED_INT, 0, vIndixes);
+    if(vVertices.size() > 0){
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());
+
+        if(vIndixes != nullptr){
+            glEnableClientState(GL_INDEX_ARRAY);
+            glIndexPointer(GL_UNSIGNED_INT, 0, vIndixes);
+        }
+        if (vColors.size() > 0) { // transfer colors
+        glEnableClientState(GL_COLOR_ARRAY);
+        glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
+        }
+        if (vTexCoords.size() > 0) { // transfer colors
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=4), type of each component, stride, pointer  
+        }
+        if(vNormals.size() > 0){
+            glEnableClientState(GL_NORMAL_ARRAY);
+            glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+        }
+
+        draw();
+
+        glDisableClientState(GL_INDEX_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
     }
-
-    draw();
-
-    glDisableClientState(GL_INDEX_ARRAY);
 }
 
 void IndexMesh::draw() const{
@@ -502,7 +523,7 @@ IndexMesh* IndexMesh::generateIndexCubeWithLids(GLdouble l){
     mesh->mNumVertices = 8;
     mesh->vVertices.reserve(mesh->size());
     mesh->vColors.reserve(mesh->size());
-    mesh->vNormals.reserve(12);
+    mesh->vNormals.reserve(mesh->size());
 
     GLdouble half = l / 2;
 
@@ -511,17 +532,18 @@ IndexMesh* IndexMesh::generateIndexCubeWithLids(GLdouble l){
         mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 
     // vertexes
+    mesh->vVertices.emplace_back(half, half, half);
+    mesh->vVertices.emplace_back(half, -half, half);
     mesh->vVertices.emplace_back(half, half, -half);
     mesh->vVertices.emplace_back(half, -half, -half);
-    mesh->vVertices.emplace_back(half, -half, half);
-    mesh->vVertices.emplace_back(half, half, half);
     mesh->vVertices.emplace_back(-half, half, -half);
+    mesh->vVertices.emplace_back(-half, -half, -half);
     mesh->vVertices.emplace_back(-half, half, half);
     mesh->vVertices.emplace_back(-half, -half, half);
-    mesh->vVertices.emplace_back(-half, -half, -half);
 
     //indixes
-    mesh->vIndixes = new GLuint[36]{
+    mesh->nNumIndices = 36;
+    mesh->vIndixes = new GLuint[mesh->nNumIndices]{
         0, 1, 2,
         2, 1, 3,
         2, 3, 4,
@@ -537,5 +559,5 @@ IndexMesh* IndexMesh::generateIndexCubeWithLids(GLdouble l){
     };
 
     // normals
-    
+    //mesh->vNormals.emplace_back(1, 0, 0);
 }
