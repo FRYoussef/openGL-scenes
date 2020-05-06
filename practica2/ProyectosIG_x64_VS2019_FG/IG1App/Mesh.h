@@ -35,6 +35,7 @@ public:
 			
 	virtual void render() const;
 	
+	void setvNormals(std::vector<glm::dvec3> _vNormals){ vNormals = _vNormals; };
 	GLuint size() const { return mNumVertices; };   // number of elements
 	std::vector<glm::dvec3> const& vertices() const { return vVertices; };
 	std::vector<glm::dvec4> const& colors() const { return vColors; };

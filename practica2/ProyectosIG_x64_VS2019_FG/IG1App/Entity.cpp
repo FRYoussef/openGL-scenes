@@ -409,20 +409,23 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 
 SquaredRing::SquaredRing() {
 	mMesh = Mesh::generateSquaredRing();
+
+	std::vector<glm::dvec3> vNormals;
+	vNormals.reserve(mMesh->size());
+
+	for(int i = 0; i < mMesh->size(); i++)
+		vNormals.emplace_back(glm::dvec3(0, 0, 1));
+
+	mMesh->setvNormals(vNormals);
 }
 
 void SquaredRing::render(glm::dmat4 const& modelViewMat) const {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-
-		
-
-		
 		
 		upload(aMat);
 		mMesh->render();
 
-		
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
