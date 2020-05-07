@@ -59,6 +59,7 @@ class IndexMesh: public Mesh{
 		GLuint nNumIndices = 0;
 
 		virtual void draw() const;
+		void buildNormalVectors();
 
 	public:
 		IndexMesh() { mPrimitive = GL_TRIANGLES; };

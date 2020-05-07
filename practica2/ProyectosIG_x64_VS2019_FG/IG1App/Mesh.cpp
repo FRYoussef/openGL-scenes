@@ -489,13 +489,13 @@ void IndexMesh::render() const{
             glEnableClientState(GL_INDEX_ARRAY);
             glIndexPointer(GL_UNSIGNED_INT, 0, vIndixes);
         }
-        if (vColors.size() > 0) { // transfer colors
+        if (vColors.size() > 0) {
         glEnableClientState(GL_COLOR_ARRAY);
-        glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
+        glColorPointer(4, GL_DOUBLE, 0, vColors.data());
         }
-        if (vTexCoords.size() > 0) { // transfer colors
+        if (vTexCoords.size() > 0) {
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=4), type of each component, stride, pointer  
+            glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
         }
         if(vNormals.size() > 0){
             glEnableClientState(GL_NORMAL_ARRAY);
@@ -516,6 +516,34 @@ void IndexMesh::draw() const{
     glDrawElements(mPrimitive, nNumIndices, GL_UNSIGNED_INT, vIndixes);
 }
 
+void IndexMesh::buildNormalVectors() {
+    int i1, i2, i3;
+    glm::dvec3 a, b, c, normal;
+
+    vNormals.reserve(size());
+
+    // init vNormals
+    for(int i = 0; i < size(); i++)
+        vNormals.emplace_back(dvec3(0.0, 0.0, 0.0));
+
+    //calculate normals
+    for(int i = 0; i < nNumIndices; i += 3){
+        // take triangle ABC from indexes
+        i1 = vIndixes[i]; a = vVertices[i1];
+        i2 = vIndixes[i+1]; b = vVertices[i2];
+        i3 = vIndixes[i+2]; c = vVertices[i3];
+
+        normal = glm::cross(b - a, c - a);
+        vNormals[i1] += normal;
+        vNormals[i2] += normal;
+        vNormals[i3] += normal;
+    }
+
+    // normalize
+    for(int i = 0; i < size(); i++)
+        vNormals[i] = glm::normalize(vNormals[i]);
+}
+
 IndexMesh* IndexMesh::generateIndexCubeWithLids(GLdouble l){
     IndexMesh* mesh = new IndexMesh();
 
@@ -523,7 +551,6 @@ IndexMesh* IndexMesh::generateIndexCubeWithLids(GLdouble l){
     mesh->mNumVertices = 8;
     mesh->vVertices.reserve(mesh->size());
     mesh->vColors.reserve(mesh->size());
-    mesh->vNormals.reserve(mesh->size());
 
     GLdouble half = l / 2;
 
@@ -560,4 +587,8 @@ IndexMesh* IndexMesh::generateIndexCubeWithLids(GLdouble l){
 
     // normals
     //mesh->vNormals.emplace_back(1, 0, 0);
+
+    mesh->buildNormalVectors();
+
+    return mesh;
 }
