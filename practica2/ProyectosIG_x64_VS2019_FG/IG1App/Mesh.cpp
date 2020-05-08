@@ -9,19 +9,20 @@ using namespace glm;
 
 void Mesh::draw() const
 {
+    glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+    /* EJERCICIO 8
     if (vIndices.empty()) {
         glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
     }
     else {
 
-        //Temporary, this will change in next exercises (IndexMesh class - ex. 11)
         unsigned int stripIndices[10];
         for (int i = 0; i < 10; i++) {
             stripIndices[i] = vIndices[i];
         }
  
         glDrawElements(mPrimitive, 10, GL_UNSIGNED_INT, stripIndices);
-    }
+    }*/
   
     
 }
