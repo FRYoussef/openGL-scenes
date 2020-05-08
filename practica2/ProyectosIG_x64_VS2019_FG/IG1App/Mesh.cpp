@@ -448,8 +448,8 @@ Mesh* Mesh::generateSquaredRing() {
     mesh->vVertices.emplace_back(90.0, 90.0, 0.0);
     mesh->vVertices.emplace_back(30.0, 70.0, 0.0);
     mesh->vVertices.emplace_back(10.0, 90.0, 0.0);
-    //mesh->vVertices.emplace_back(30.0, 30.0, 0.0);
-    //mesh->vVertices.emplace_back(10.0, 10.0, 0.0);
+    mesh->vVertices.emplace_back(30.0, 30.0, 0.0);
+    mesh->vVertices.emplace_back(10.0, 10.0, 0.0);
 
 
     mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
@@ -460,8 +460,8 @@ Mesh* Mesh::generateSquaredRing() {
     mesh->vColors.emplace_back(1.0, 0.0, 1.0, 1.0);
     mesh->vColors.emplace_back(0.0, 1.0, 1.0, 1.0);
     mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
-    //mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
-    //mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 
 
     for (int i = 0; i < 10; i++)
@@ -477,6 +477,11 @@ Mesh* Mesh::generateSquaredRing() {
     
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+
+    mesh->vNormals.reserve(mesh->size());
+
+    for (int i = 0; i < mesh->size(); i++)
+        mesh->vNormals.emplace_back(glm::dvec3(0, 0, 1));
        
     return mesh;
 }
