@@ -448,3 +448,23 @@ void Cube::render(glm::dmat4 const& modelViewMat) const {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+
+CompoundEntity::~CompoundEntity(){
+	for (Abs_Entity* ae : gObjects){
+		delete ae;  
+		ae = nullptr;
+	}
+	gObjects.resize(0);
+}
+
+void CompoundEntity::addEntity(Abs_Entity* ae) {
+	gObjects.push_back(ae);
+}
+
+void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+
+	for (Abs_Entity* ae : gObjects)
+		ae->render(aMat);
+}

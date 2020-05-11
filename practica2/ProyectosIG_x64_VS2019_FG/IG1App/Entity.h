@@ -244,6 +244,16 @@ public:
 protected:
 	GLdouble l;
 };
+
+class CompoundEntity: public Abs_Entity {
+public:
+	CompoundEntity() {};
+	~CompoundEntity();
+	void render(glm::dmat4 const& modelViewMat) const;
+	void addEntity(Abs_Entity* ae);
+protected:
+	std::vector<Abs_Entity*> gObjects;
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_
