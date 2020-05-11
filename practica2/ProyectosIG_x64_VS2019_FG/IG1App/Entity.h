@@ -233,8 +233,16 @@ public:
 class EntityWithIndexMesh : public Abs_Entity
 {
 public:
-	explicit EntityWithIndexMesh(GLdouble l);
+	explicit EntityWithIndexMesh() {};
 	void render(glm::dmat4 const& modelViewMat) const;
+};
+
+class Cube: public EntityWithIndexMesh {
+public:
+	Cube(GLdouble l);
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble l;
 };
 //-------------------------------------------------------------------------
 
