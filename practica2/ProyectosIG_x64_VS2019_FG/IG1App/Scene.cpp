@@ -80,9 +80,29 @@ void Scene::setScene2() {
 }
 
 void Scene::setScene3() {
+	/* Ex 21
 	Cone* cone = new Cone(200, 80, 400);
 	cone->setMColor(dvec4(0.0, 0.0, 1.0, 1.0));
 	gObjects.emplace_back(cone);
+	*/
+	Esfera* sphere = new Esfera(100, 100, 100);
+	sphere->setMColor(dvec4(0.0, 1.0, 1.0, 1.0));
+	
+
+	/*Ex 23
+	glm::dmat4 mSphere1 = sphere->modelMat();
+	mSphere1 = translate(mSphere1, dvec3(300, 0, 60));
+	sphere->setModelMat(mSphere1);
+
+	Sphere* sphere2 = new Sphere(100);
+	glm::dmat4 mSphere2 = sphere2->modelMat();
+	mSphere2 = translate(mSphere2, dvec3(60, 0, 300));
+	sphere2->setModelMat(mSphere2);
+	sphere2->setColor(dvec4(0.0, 1.0, 1.0, 1.0));
+	gObjects.emplace_back(sphere2);
+	*/
+
+	gObjects.emplace_back(sphere);
 	/* AIRPLANE
 	CompoundEntity* airplane = new CompoundEntity();
 	gObjects.push_back(airplane);

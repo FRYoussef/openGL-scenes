@@ -487,3 +487,22 @@ Cone::Cone(GLdouble h, GLdouble r, GLint n) {
 	perfil[2] = dvec3(0.5, h, 0.0);
 	mMesh = MbR::generateIndexMeshByRevolution(m, n, perfil);
 };
+
+Esfera::Esfera(GLdouble r, GLint p, GLint m) {
+	p = p; 
+	m = m; 
+	r = r;
+
+	dvec3* perfil = new dvec3[p];
+
+	GLdouble ang = -90;
+	GLdouble incr = 180.0 / p;
+
+	for (int i = 0; i < p; i++) {
+		GLdouble x = r * cos(radians(ang));
+		GLdouble y = r * sin(radians(ang));
+		perfil[i] = dvec3(x, y, 0.0);
+		ang += incr;
+	}
+	mMesh = MbR::generateIndexMeshByRevolution(p, m, perfil);
+};

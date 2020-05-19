@@ -263,4 +263,12 @@ class Cone: public EntityWithIndexMesh {
 		GLdouble r;
 		GLint n;
 };
+class Esfera : public EntityWithIndexMesh {
+public:
+	Esfera(GLdouble r, GLint p, GLint m);
+protected:
+	GLdouble r;
+	GLint p;
+	GLint n;
+};
 #endif //_H_Entities_H_
