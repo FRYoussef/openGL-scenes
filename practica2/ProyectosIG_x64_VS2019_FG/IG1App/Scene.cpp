@@ -80,37 +80,14 @@ void Scene::setScene2() {
 }
 
 void Scene::setScene3() {
-	/* Ex 21
-	Cone* cone = new Cone(200, 80, 400);
-	cone->setMColor(dvec4(0.0, 0.0, 1.0, 1.0));
-	gObjects.emplace_back(cone);
-	*/
-	Esfera* sphere = new Esfera(100, 100, 100);
-	sphere->setMColor(dvec4(0.0, 1.0, 1.0, 1.0));
-	
-
-	/*Ex 23
-	glm::dmat4 mSphere1 = sphere->modelMat();
-	mSphere1 = translate(mSphere1, dvec3(300, 0, 60));
-	sphere->setModelMat(mSphere1);
-
-	Sphere* sphere2 = new Sphere(100);
-	glm::dmat4 mSphere2 = sphere2->modelMat();
-	mSphere2 = translate(mSphere2, dvec3(60, 0, 300));
-	sphere2->setModelMat(mSphere2);
-	sphere2->setColor(dvec4(0.0, 1.0, 1.0, 1.0));
-	gObjects.emplace_back(sphere2);
-	*/
-
-	gObjects.emplace_back(sphere);
-	/* AIRPLANE
+	//Ex 18
 	CompoundEntity* airplane = new CompoundEntity();
 	gObjects.push_back(airplane);
 
 	CompoundEntity* propellers = new CompoundEntity();
 	Cylinder* cyl1 = new Cylinder(9, 15, 50);
 	Cylinder* cyl2 = new Cylinder(15, 9, 50);
-	
+
 	cyl1->setColor(glm::fvec3(0, 0, 1));
 	glm::dmat4 mCyl1 = cyl1->modelMat();
 	mCyl1 = translate(mCyl1, dvec3(-50, 80, 80));
@@ -138,15 +115,44 @@ void Scene::setScene3() {
 	Cube* cube = new Cube(100.0);
 	cube->setMColor(dvec4(0.0, 1.0, 0.0, 1.0));
 	glm::dmat4 mCube = cube->modelMat();
-		
-	mCube = translate(mCube, dvec3(0, 80, 0));
-	mCube = scale(mCube, dvec3(2.5,0.2,1));
+
+	mCube = translate(mCube, dvec3(0, 50, 0));
+	mCube = scale(mCube, dvec3(2.5, 0.2, 1));
 
 	cube->setModelMat(mCube);
 	airplane->addEntity(chasis);
 	airplane->addEntity(cube);
+	
+	/* Ex 21
+	Cone* cone = new Cone(200, 80, 400);
+	cone->setMColor(dvec4(0.0, 0.0, 1.0, 1.0));
+	gObjects.emplace_back(cone);
 	*/
 
+
+	//Ex 22
+	Esfera* sphere = new Esfera(200, 250, 250);
+	sphere->setMColor(dvec4(0.0, 1.0, 1.0, 1.0));
+	gObjects.emplace_back(sphere);
+
+	/*Ex 23
+	glm::dmat4 mSphere1 = sphere->modelMat();
+	mSphere1 = translate(mSphere1, dvec3(300, 0, 60));
+	sphere->setModelMat(mSphere1);
+
+	Sphere* sphere2 = new Sphere(100);
+	glm::dmat4 mSphere2 = sphere2->modelMat();
+	mSphere2 = translate(mSphere2, dvec3(60, 0, 300));
+	sphere2->setModelMat(mSphere2);
+	sphere2->setColor(dvec4(0.0, 1.0, 1.0, 1.0));
+	gObjects.emplace_back(sphere2);
+	*/
+
+	//Ex 24
+	glm::dmat4 mAirplane = airplane->modelMat();
+	mAirplane = translate(mAirplane, dvec3(0, 200, 0));
+	mAirplane = scale(mAirplane, dvec3(0.5, 0.5, 0.5));
+	airplane->setModelMat(mAirplane);
 
 }
 
