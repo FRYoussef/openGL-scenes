@@ -26,7 +26,7 @@ public:
 	static Mesh* generateBoxTextCoord(GLdouble nl);
 	static std::vector<Mesh*> generate3dObject(GLuint times, GLdouble w, GLdouble h);
 	static Mesh* generateSquaredRing();
-
+	void setVColors(std::vector<glm::dvec4> vc) { vColors = vc; };
 	Mesh() {};
 	virtual ~Mesh() {};
 
@@ -38,6 +38,7 @@ public:
 	GLuint size() const { return mNumVertices; };   // number of elements
 	std::vector<glm::dvec3> const& vertices() const { return vVertices; };
 	std::vector<glm::dvec4> const& colors() const { return vColors; };
+	
 		
 protected:
 	

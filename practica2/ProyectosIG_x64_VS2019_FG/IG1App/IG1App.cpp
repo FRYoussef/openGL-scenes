@@ -175,6 +175,9 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '2':
 		mScene->setState(Scene::SCENE_2);
 		break;
+	case '3':
+		mScene->setState(Scene::SCENE_3);
+		break;
 	case 'f':
 		mScene->getgObjects()[1]->getTexture()->save("..\\Bmps\\picture.bmp");
 		break;

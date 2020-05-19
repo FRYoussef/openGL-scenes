@@ -468,3 +468,10 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
 	for (Abs_Entity* ae : gObjects)
 		ae->render(aMat);
 }
+
+void Abs_Entity::setMColor(glm::dvec4 const& mCol) {
+	std::vector<glm::dvec4> vc;
+		for(int i = 0; i < mMesh->size(); i++)
+		vc.emplace_back(mCol);
+	mMesh->setVColors(vc);
+};

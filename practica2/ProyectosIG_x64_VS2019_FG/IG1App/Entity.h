@@ -24,7 +24,7 @@ public:
 	// modeling matrix
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; }
-	void setMColor(glm::dvec4 const& mCol) { mColor = mCol; };
+	void setMColor(glm::dvec4 const& mCol);
 	void setTexture(Texture* tex) { mTexture = tex; }
 	void setiTexture(Texture* tex) { iTexture = tex; }
 	Texture* getTexture() { return mTexture; }

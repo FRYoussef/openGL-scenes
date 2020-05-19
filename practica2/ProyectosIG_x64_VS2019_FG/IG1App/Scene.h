@@ -30,6 +30,7 @@ public:
 	std::vector<Abs_Entity*> getgObjects();
 	static const int SCENE_1 = 0;
 	static const int SCENE_2 = 1;
+	static const int SCENE_3 = 2;
 
 protected:
 	void free();
@@ -37,6 +38,7 @@ protected:
 	void resetGL();
 	void setScene1();
 	void setScene2();
+	void setScene3();
 	std::vector<Texture*> gTextures;
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gTransObjects;
