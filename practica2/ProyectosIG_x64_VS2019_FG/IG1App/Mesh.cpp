@@ -11,14 +11,14 @@ void Mesh::draw() const
 {
     glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
     /* EJERCICIO 8
-    if (vIndices.empty()) {
+    if (vIndexes.empty()) {
         glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
     }
     else {
 
         unsigned int stripIndices[10];
         for (int i = 0; i < 10; i++) {
-            stripIndices[i] = vIndices[i];
+            stripIndices[i] = vIndexes[i];
         }
  
         glDrawElements(mPrimitive, 10, GL_UNSIGNED_INT, stripIndices);
@@ -491,9 +491,9 @@ void IndexMesh::render() const{
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());
 
-        if(vIndixes != nullptr){
+        if(vIndexes != nullptr){
             glEnableClientState(GL_INDEX_ARRAY);
-            glIndexPointer(GL_UNSIGNED_INT, 0, vIndixes);
+            glIndexPointer(GL_UNSIGNED_INT, 0, vIndexes);
         }
         if (vColors.size() > 0) {
         glEnableClientState(GL_COLOR_ARRAY);
@@ -519,8 +519,10 @@ void IndexMesh::render() const{
 }
 
 void IndexMesh::draw() const{
-    glDrawElements(mPrimitive, nNumIndices, GL_UNSIGNED_INT, vIndixes);
+    glDrawElements(mPrimitive, nNumIndices, GL_UNSIGNED_INT, vIndexes);
 }
+
+
 
 void IndexMesh::buildNormalVectors() {
     int i1, i2, i3;
@@ -535,9 +537,9 @@ void IndexMesh::buildNormalVectors() {
     //calculate normals
     for(int i = 0; i < nNumIndices; i += 3){
         // take triangle ABC from indexes
-        i1 = vIndixes[i]; a = vVertices[i1];
-        i2 = vIndixes[i+1]; b = vVertices[i2];
-        i3 = vIndixes[i+2]; c = vVertices[i3];
+        i1 = vIndexes[i]; a = vVertices[i1];
+        i2 = vIndexes[i+1]; b = vVertices[i2];
+        i3 = vIndexes[i+2]; c = vVertices[i3];
 
         normal = glm::cross(b - a, c - a);
         vNormals[i1] += normal;
@@ -574,9 +576,9 @@ IndexMesh* IndexMesh::generateIndexCubeWithLids(GLdouble l){
     mesh->vVertices.emplace_back(-half, half, half);
     mesh->vVertices.emplace_back(-half, -half, half);
 
-    //indixes
+
     mesh->nNumIndices = 36;
-    mesh->vIndixes = new GLuint[mesh->nNumIndices]{
+    mesh->vIndexes = new GLuint[mesh->nNumIndices]{
         0, 1, 2,
         2, 1, 3,
         2, 3, 4,
@@ -596,5 +598,54 @@ IndexMesh* IndexMesh::generateIndexCubeWithLids(GLdouble l){
 
     mesh->buildNormalVectors();
 
+    return mesh;
+}
+
+MbR* MbR::generateIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil){
+    MbR* mesh = new MbR(mm, nn, perfil);
+    mesh->mPrimitive = GL_TRIANGLES;
+    mesh->mNumVertices = mm*nn;
+    mesh->nNumIndices = nn * (mm - 1) * 6;
+    mesh->vVertices.reserve(mesh->size());
+    mesh->vColors.reserve(mesh->size());
+    mesh->vIndexes = new GLuint[mesh->nNumIndices];
+
+    dvec3* vertices = new dvec3[mesh->size()];
+
+    for(int i=0; i<nn; i++) {
+
+        GLdouble theta = i * 360 / nn;
+        GLdouble c = cos(radians(theta));
+        GLdouble s = sin(radians(theta));
+
+        for (int j = 0; j < mm; j++) {
+            int indice = i * mm + j;
+            GLdouble x = c * perfil[j].x + s * perfil[j].z;
+            GLdouble z = -s * perfil[j].x + c * perfil[j].z;
+            vertices[indice] = dvec3(x, perfil[j].y, z);
+        }
+    }
+    for (int i = 0; i < mesh->size(); i++){
+        mesh->vVertices.emplace_back(vertices[i]);
+    }
+    int indiceMayor = 0;
+    for (int i=0; i<nn; i++){
+        for(int j=0; j<mm-1; j++) {
+            int indice = i*mm+j;
+            mesh->vIndexes[indiceMayor] = indice;
+            indiceMayor++;
+            mesh->vIndexes[indiceMayor] = (indice + mm) % (nn * mm);
+            indiceMayor++;
+            mesh->vIndexes[indiceMayor] = (indice + mm + 1) % (nn * mm);
+            indiceMayor++;
+            mesh->vIndexes[indiceMayor] = (indice + mm + 1) % (nn * mm);
+            indiceMayor++;
+            mesh->vIndexes[indiceMayor] = indice + 1;
+            indiceMayor++;
+            mesh->vIndexes[indiceMayor] = indice;
+            indiceMayor++;
+        }
+    }
+    mesh->buildNormalVectors();
     return mesh;
 }

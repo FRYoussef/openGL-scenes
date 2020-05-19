@@ -80,6 +80,10 @@ void Scene::setScene2() {
 }
 
 void Scene::setScene3() {
+	Cone* cone = new Cone(200, 80, 400);
+	cone->setMColor(dvec4(0.0, 0.0, 1.0, 1.0));
+	gObjects.emplace_back(cone);
+	/* AIRPLANE
 	CompoundEntity* airplane = new CompoundEntity();
 	gObjects.push_back(airplane);
 
@@ -121,7 +125,7 @@ void Scene::setScene3() {
 	cube->setModelMat(mCube);
 	airplane->addEntity(chasis);
 	airplane->addEntity(cube);
-	
+	*/
 
 
 }

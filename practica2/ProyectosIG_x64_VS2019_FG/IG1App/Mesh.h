@@ -52,10 +52,10 @@ protected:
 	virtual void draw() const;
 };
 
-class IndexMesh: public Mesh{
+class IndexMesh: public Mesh {
 
 	protected:
-		GLuint* vIndixes = nullptr;
+		GLuint* vIndexes = nullptr;
 		GLuint nNumIndices = 0;
 
 		virtual void draw() const;
@@ -63,11 +63,23 @@ class IndexMesh: public Mesh{
 
 	public:
 		IndexMesh() { mPrimitive = GL_TRIANGLES; };
-		~IndexMesh() { delete[] vIndixes; };
+		~IndexMesh() { delete[] vIndexes; };
 		virtual void render() const;
 		static IndexMesh* generateIndexCubeWithLids(GLdouble l);
 };
 
+class MbR: public IndexMesh {
+	protected:
+		int n;
+		glm::dvec3* perfil;
+		int m;
+		
+	public:
+		
+		MbR(int nn, int mm, glm::dvec3* p) { n = nn; perfil = p; m = mm; };
+		
+		static MbR* generateIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil);
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Scene_H_

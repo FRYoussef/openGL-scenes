@@ -475,3 +475,15 @@ void Abs_Entity::setMColor(glm::dvec4 const& mCol) {
 		vc.emplace_back(mCol);
 	mMesh->setVColors(vc);
 };
+
+Cone::Cone(GLdouble h, GLdouble r, GLint n) {
+	h = h; 
+	r = r; 
+	n = n;
+	int m = 3;
+	dvec3* perfil = new dvec3[m];
+	perfil[0] = dvec3(0.5, 0.0, 0.0);
+	perfil[1] = dvec3(r, 0.0, 0.0);
+	perfil[2] = dvec3(0.5, h, 0.0);
+	mMesh = MbR::generateIndexMeshByRevolution(m, n, perfil);
+};

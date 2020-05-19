@@ -255,5 +255,12 @@ protected:
 	std::vector<Abs_Entity*> gObjects;
 };
 //-------------------------------------------------------------------------
-
+class Cone: public EntityWithIndexMesh {
+	public:
+		Cone(GLdouble h, GLdouble r, GLint n);
+	protected:
+		GLdouble h;
+		GLdouble r;
+		GLint n;
+};
 #endif //_H_Entities_H_
