@@ -105,7 +105,7 @@ void Scene::setScene3() {
 	CompoundEntity* chasis = new CompoundEntity();
 	Sphere* ball = new Sphere(80.0);
 	glm::dmat4 mBall = ball->modelMat();
-	mBall = translate(mBall, dvec3(0, 50, 0));
+	mBall = translate(mBall, dvec3(0, 80, 0));
 	ball->setModelMat(mBall);
 	ball->setColor(glm::fvec3(1, 0, 0));
 	chasis->addEntity(ball);
@@ -113,7 +113,12 @@ void Scene::setScene3() {
 
 	Cube* cube = new Cube(100.0);
 	cube->setMColor(dvec4(0.0, 1.0, 0.0, 1.0));
-	//vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	glm::dmat4 mCube = cube->modelMat();
+		
+	mCube = translate(mCube, dvec3(0, 80, 0));
+	mCube = scale(mCube, dvec3(2.5,0.2,1));
+
+	cube->setModelMat(mCube);
 	airplane->addEntity(chasis);
 	airplane->addEntity(cube);
 	
