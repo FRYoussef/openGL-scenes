@@ -90,13 +90,13 @@ void Scene::setScene3() {
 
 	cyl1->setColor(glm::fvec3(0, 0, 1));
 	glm::dmat4 mCyl1 = cyl1->modelMat();
-	mCyl1 = translate(mCyl1, dvec3(-50, 80, 80));
+	mCyl1 = translate(mCyl1, dvec3(-50, 80, 90));
 	mCyl1 = rotate(mCyl1, radians(90.0), dvec3(0, 1.0, 0));
 	cyl1->setModelMat(mCyl1);
 
 	cyl2->setColor(glm::fvec3(0, 0, 1));
 	glm::dmat4 mCyl2 = cyl2->modelMat();
-	mCyl2 = translate(mCyl2, dvec3(0, 80, 80));
+	mCyl2 = translate(mCyl2, dvec3(0, 80, 90));
 	mCyl2 = rotate(mCyl2, radians(90.0), dvec3(0, 1.0, 0));
 	cyl2->setModelMat(mCyl2);
 
@@ -116,7 +116,7 @@ void Scene::setScene3() {
 	cube->setMColor(dvec4(0.0, 1.0, 0.0, 1.0));
 	glm::dmat4 mCube = cube->modelMat();
 
-	mCube = translate(mCube, dvec3(0, 50, 0));
+	mCube = translate(mCube, dvec3(0, 80, 0));
 	mCube = scale(mCube, dvec3(2.5, 0.2, 1));
 
 	cube->setModelMat(mCube);
