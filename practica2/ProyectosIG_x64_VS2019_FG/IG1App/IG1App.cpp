@@ -184,6 +184,12 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'k':
 		m2Vistas = !m2Vistas;
 		break;
+	case 'q':
+		mScene->light0_switch(true);
+		break;
+	case 'w':
+		mScene->light0_switch(false);
+		break;
 	default:
 		need_redisplay = false;
 		break;

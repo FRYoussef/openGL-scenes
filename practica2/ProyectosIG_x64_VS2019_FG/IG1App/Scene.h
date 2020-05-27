@@ -22,7 +22,7 @@ public:
 	Scene& operator=(const Scene& s) = delete;  // no copy assignment
 		
 	void init();
-
+	void light0_switch(bool b);
     void render(Camera const& cam) const;
 	void sceneDirLight(Camera const& cam) const;
 	void update();
@@ -42,6 +42,7 @@ protected:
 	std::vector<Texture*> gTextures;
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gTransObjects;
+	bool light0 = false;
 	int mId = 0;
 };
 //-------------------------------------------------------------------------
