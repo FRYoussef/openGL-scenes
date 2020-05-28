@@ -186,6 +186,7 @@ void Scene::setGL()
 	glClearColor(0.7, 0.8, 0.9, 1.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test
 	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
 }
 //-------------------------------------------------------------------------
 void Scene::resetGL() 
@@ -237,8 +238,6 @@ std::vector<Abs_Entity*> Scene::getgObjects() {
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {
-	glEnable(GL_LIGHTING);
-
 	if (light0) {
 		glEnable(GL_LIGHT0);
 		glm::fvec4 posDir = { 1, 1, 1, 0 };
@@ -258,7 +257,6 @@ void Scene::sceneDirLight(Camera const& cam) const {
 }
 
 void Scene::scenePosLight(Camera const&cam) const {
-	glEnable(GL_LIGHTING);
 	if (light1) {
 		glEnable(GL_LIGHT1);
 		glShadeModel(GL_SMOOTH);
@@ -278,7 +276,6 @@ void Scene::scenePosLight(Camera const&cam) const {
 }
 
 void Scene::sceneSpotLight(Camera const&cam) const {
-	glEnable(GL_LIGHTING);
 	if (light2) {
 		glEnable(GL_LIGHT2);
 		glShadeModel(GL_SMOOTH);
