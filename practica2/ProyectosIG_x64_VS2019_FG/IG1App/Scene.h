@@ -24,9 +24,11 @@ public:
 	void init();
 	void light0_switch(bool b);
 	void light1_switch(bool b);
+	void light2_switch(bool b);
     void render(Camera const& cam) const;
 	void sceneDirLight(Camera const& cam) const;
 	void scenePosLight(Camera const&cam) const;
+	void sceneSpotLight(Camera const& cam) const;
 	void update();
 	void setState(int id);
 	std::vector<Abs_Entity*> getgObjects();
@@ -46,6 +48,7 @@ protected:
 	std::vector<Abs_Entity*> gTransObjects;
 	bool light0 = false;
 	bool light1 = false;
+	bool light2 = false;
 	int mId = 0;
 };
 //-------------------------------------------------------------------------
