@@ -23,8 +23,10 @@ public:
 		
 	void init();
 	void light0_switch(bool b);
+	void light1_switch(bool b);
     void render(Camera const& cam) const;
 	void sceneDirLight(Camera const& cam) const;
+	void scenePosLight(Camera const&cam) const;
 	void update();
 	void setState(int id);
 	std::vector<Abs_Entity*> getgObjects();
@@ -43,6 +45,7 @@ protected:
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gTransObjects;
 	bool light0 = false;
+	bool light1 = false;
 	int mId = 0;
 };
 //-------------------------------------------------------------------------

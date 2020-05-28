@@ -190,6 +190,12 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'w':
 		mScene->light0_switch(false);
 		break;
+	case 'a':
+		mScene->light1_switch(true);
+		break;
+	case 's':
+		mScene->light1_switch(false);
+		break;
 	default:
 		need_redisplay = false;
 		break;

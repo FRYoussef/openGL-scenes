@@ -3,6 +3,7 @@
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 #include <string>
+#include <iostream>
 
 #if defined(WIN32) || defined(_WIN32)
 const std::string PATH_SEPARATOR = "\\";
@@ -182,8 +183,9 @@ void Scene::free()
 void Scene::setGL() 
 {
 	// OpenGL basic setting
-	glClearColor(0.7, 0.8, 0.9, 0.0);  // background color (alpha=1 -> opaque)
+	glClearColor(0.7, 0.8, 0.9, 1.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test
+	glEnable(GL_NORMALIZE);
 }
 //-------------------------------------------------------------------------
 void Scene::resetGL() 
@@ -195,7 +197,8 @@ void Scene::resetGL()
 
 void Scene::render(Camera const& cam) const {
 	sceneDirLight(cam);
-	
+	scenePosLight(cam);
+
 	cam.upload();
 	for (Abs_Entity* el : gObjects)
 		el->render(cam.viewMat());
@@ -253,8 +256,31 @@ void Scene::sceneDirLight(Camera const& cam) const {
 	}
 }
 
+void Scene::scenePosLight(Camera const&cam) const {
+	glEnable(GL_LIGHTING);
+	if (light1) {
+		glEnable(GL_LIGHT1);
+		glm::fvec4 v = {500.0, 500.0, 0.0, 1.0};
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixd(value_ptr(cam.viewMat()));
+		glLightfv(GL_LIGHT1, GL_POSITION, value_ptr(v));
+		glm::fvec4 amb1 = {0.0, 0.0, 0.0, 1.0};
+		glm::fvec4 dif1 = {0.0, 1.0, 0.0, 1.0};
+		glm::fvec4 esp1 = {0.5, 0.5, 0.5, 1.0};
+		glLightfv(GL_LIGHT1, GL_AMBIENT, value_ptr(amb1));
+		glLightfv(GL_LIGHT1, GL_DIFFUSE, value_ptr(dif1));
+		glLightfv(GL_LIGHT1, GL_SPECULAR, value_ptr(esp1));
+	}
+	else
+		glDisable(GL_LIGHT1);
+}
+
 void Scene::light0_switch(bool b) {
 	light0 = b;
+}
+
+void Scene::light1_switch(bool b) {
+	light1 = b;
 }
 //-------------------------------------------------------------------------
 

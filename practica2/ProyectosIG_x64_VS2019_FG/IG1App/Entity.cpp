@@ -424,11 +424,16 @@ void SquaredRing::render(glm::dmat4 const& modelViewMat) const {
 
 void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const {
 	if (mMesh != nullptr) {
+		glEnable(GL_COLOR_MATERIAL);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		glColor3f(mColor.r, mColor.g, mColor.b);
 
 		upload(aMat);
 		mMesh->render();
 
+		glColor3f(1.0, 1.0, 1.0);
+		glDisable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
