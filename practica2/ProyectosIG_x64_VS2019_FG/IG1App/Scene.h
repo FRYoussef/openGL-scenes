@@ -27,7 +27,7 @@ public:
 	void light2_switch(bool b);
     void render(Camera const& cam) const;
 	void sceneDirLight(Camera const& cam) const;
-	void scenePosLight(Camera const&cam) const;
+	void scenePosLight(Camera const& cam) const;
 	void sceneSpotLight(Camera const& cam) const;
 	void update();
 	void setState(int id);
