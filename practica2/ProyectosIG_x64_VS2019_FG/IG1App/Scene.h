@@ -31,6 +31,7 @@ public:
 	void sceneSpotLight(Camera const& cam) const;
 	void update();
 	void setState(int id);
+
 	std::vector<Abs_Entity*> getgObjects();
 	static const int SCENE_1 = 0;
 	static const int SCENE_2 = 1;

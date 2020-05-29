@@ -104,11 +104,11 @@ void Scene::setScene3() {
 	propellers->addEntity(cyl2);
 
 	CompoundEntity* chasis = new CompoundEntity();
-	Sphere* ball = new Sphere(80.0);
+	Esfera* ball = new Esfera(80.0, 50, 50);
 	glm::dmat4 mBall = ball->modelMat();
 	mBall = translate(mBall, dvec3(0, 80, 0));
 	ball->setModelMat(mBall);
-	ball->setColor(glm::fvec3(1, 0, 0));
+	ball->setMColor(dvec4(1.0, 0.0, 0.0, 1.0));
 	chasis->addEntity(ball);
 	chasis->addEntity(propellers);
 
@@ -312,5 +312,3 @@ void Scene::light2_switch(bool b) {
 	light2 = b;
 }
 //-------------------------------------------------------------------------
-
-

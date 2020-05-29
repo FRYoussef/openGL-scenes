@@ -267,8 +267,9 @@ class Esfera : public EntityWithIndexMesh {
 public:
 	Esfera(GLdouble r, GLint p, GLint m);
 	void render(glm::dmat4 const& modelViewMat) const;
+
 protected:
-	bool gold = true;
+	bool gold = true; //set to false -> blue ball
 	GLdouble r;
 	GLint p;
 	GLint n;

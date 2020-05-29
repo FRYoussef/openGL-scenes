@@ -522,15 +522,8 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
-		glEnable(GL_COLOR_MATERIAL);
-
-		glColorMaterial(GL_FRONT_AND_BACK, GL_SHININESS);
-
 		if (gold) {
-
-			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
-			glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
-			glColorMaterial(GL_FRONT_AND_BACK, GL_SPECULAR);
+			
 			glm::fvec4 amb = { 0.24725, 0.1995, 0.0745, 1.0 };
 			glm::fvec4 diff = { 0.75164, 0.60648, 0.22648, 1.0 };
 			glm::fvec4 spec = { 0.628281, 0.555802, 0.366065, 1.0 };
@@ -538,27 +531,23 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const {
 			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, value_ptr(amb));
 			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, value_ptr(diff));
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, value_ptr(spec));
-			GLfloat e[] = { 51.2 };
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SPOT_EXPONENT, e);
 
-			GLfloat s[] = { 128.0 };
+			GLfloat s[] = { 51.2 };
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, s);
 			
 			mMesh->render();
 
 		}
 		else {
+			glEnable(GL_COLOR_MATERIAL);
 			glColor3f(this->mColor.r, this->mColor.g, this->mColor.b);
 			mMesh->render();
 			glColor3f(1.0, 1.0, 1.0);
+			glDisable(GL_COLOR_MATERIAL);
 		}
 	
 
 
-		glDisable(GL_COLOR_MATERIAL);
-		
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	}
 }
-
