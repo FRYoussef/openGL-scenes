@@ -266,7 +266,9 @@ class Cone: public EntityWithIndexMesh {
 class Esfera : public EntityWithIndexMesh {
 public:
 	Esfera(GLdouble r, GLint p, GLint m);
+	void render(glm::dmat4 const& modelViewMat) const;
 protected:
+	bool gold = true;
 	GLdouble r;
 	GLint p;
 	GLint n;

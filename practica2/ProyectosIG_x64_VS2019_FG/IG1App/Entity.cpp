@@ -31,6 +31,8 @@ void RGBAxis::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+
+		glEnable(GL_COLOR_MATERIAL);
 		upload(aMat);
 		glLineWidth(2);
 		
@@ -348,6 +350,7 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	gluSphere(q, r, 50, 50);
 
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 Cylinder::Cylinder(GLdouble baseR, GLdouble topR, GLdouble height) {
@@ -367,6 +370,7 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	gluCylinder(q, baseR, topR, height, 50, 50);
 
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 Disk::Disk(GLdouble innerR, GLdouble outerR) {
@@ -385,6 +389,7 @@ void Disk::render(glm::dmat4 const& modelViewMat) const {
 	gluDisk(q, innerR, outerR, 50, 50);
 
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 PartialDisk::PartialDisk(GLdouble innerR, GLdouble outerR, GLint startAngle, GLint sweepAngle) {
@@ -405,6 +410,8 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 	gluPartialDisk(q, innerR, outerR, 50, 50, startAngle, sweepAngle);
 
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
+
 }
 
 SquaredRing::SquaredRing() {
@@ -441,10 +448,11 @@ Cube::Cube(GLdouble l) {
 void Cube::render(glm::dmat4 const& modelViewMat) const {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-
+		
 		upload(aMat);
+		glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
-
+		glDisable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
@@ -506,3 +514,51 @@ Esfera::Esfera(GLdouble r, GLint p, GLint m) {
 	}
 	mMesh = MbR::generateIndexMeshByRevolution(p, m, perfil);
 };
+
+
+void Esfera::render(glm::dmat4 const& modelViewMat) const {
+	if (mMesh != nullptr) {
+	
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		glEnable(GL_COLOR_MATERIAL);
+
+		glColorMaterial(GL_FRONT_AND_BACK, GL_SHININESS);
+
+		if (gold) {
+
+			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_SPECULAR);
+			glm::fvec4 amb = { 0.24725, 0.1995, 0.0745, 1.0 };
+			glm::fvec4 diff = { 0.75164, 0.60648, 0.22648, 1.0 };
+			glm::fvec4 spec = { 0.628281, 0.555802, 0.366065, 1.0 };
+
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, value_ptr(amb));
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, value_ptr(diff));
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, value_ptr(spec));
+			GLfloat e[] = { 51.2 };
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPOT_EXPONENT, e);
+
+			GLfloat s[] = { 128.0 };
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, s);
+			
+			mMesh->render();
+
+		}
+		else {
+			glColor3f(this->mColor.r, this->mColor.g, this->mColor.b);
+			mMesh->render();
+			glColor3f(1.0, 1.0, 1.0);
+		}
+	
+
+
+		glDisable(GL_COLOR_MATERIAL);
+		
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	}
+}
+
