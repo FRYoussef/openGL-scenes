@@ -29,7 +29,7 @@ public:
 	void setiTexture(Texture* tex) { iTexture = tex; }
 	Texture* getTexture() { return mTexture; }
 	virtual void update() {};
-	
+
 protected:
 
 	Mesh* mMesh = nullptr;   // the mesh
@@ -38,7 +38,7 @@ protected:
 	Texture* mTexture = nullptr;
 	Texture* iTexture = nullptr;
 	// transfers modelViewMat to the GPU
-	virtual void upload(glm::dmat4 const& mModelViewMat) const; 
+	virtual void upload(glm::dmat4 const& mModelViewMat) const;
 };
 //-------------------------------------------------------------------------
 
@@ -225,7 +225,6 @@ class SquaredRing : public Abs_Entity
 public:
 	explicit SquaredRing();
 	void render(glm::dmat4 const& modelViewMat) const;
-	void draw();
 	
 };
 
@@ -235,14 +234,18 @@ class EntityWithIndexMesh : public Abs_Entity
 public:
 	explicit EntityWithIndexMesh() {};
 	void render(glm::dmat4 const& modelViewMat) const;
+
 };
 
 class Cube: public EntityWithIndexMesh {
 public:
 	Cube(GLdouble l);
 	void render(glm::dmat4 const& modelViewMat) const;
+	void setCopper(bool b) { copper = b; }
+	void update();
 protected:
 	GLdouble l;
+	bool copper = false;
 };
 
 class CompoundEntity: public Abs_Entity {
@@ -251,6 +254,7 @@ public:
 	~CompoundEntity();
 	void render(glm::dmat4 const& modelViewMat) const;
 	void addEntity(Abs_Entity* ae);
+	void update();
 protected:
 	std::vector<Abs_Entity*> gObjects;
 };
@@ -267,11 +271,12 @@ class Esfera : public EntityWithIndexMesh {
 public:
 	Esfera(GLdouble r, GLint p, GLint m);
 	void render(glm::dmat4 const& modelViewMat) const;
-
+	void update();
+	void setGold(bool b) { gold = b; };
 protected:
-	bool gold = true; //set to false -> blue ball
 	GLdouble r;
 	GLint p;
 	GLint n;
+	bool gold = false;
 };
 #endif //_H_Entities_H_

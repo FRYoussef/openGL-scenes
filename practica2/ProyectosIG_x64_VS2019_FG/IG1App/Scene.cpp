@@ -104,16 +104,17 @@ void Scene::setScene3() {
 	propellers->addEntity(cyl2);
 
 	CompoundEntity* chasis = new CompoundEntity();
-	Esfera* ball = new Esfera(80.0, 50, 50);
+	Sphere* ball = new Sphere(80.0);
 	glm::dmat4 mBall = ball->modelMat();
 	mBall = translate(mBall, dvec3(0, 80, 0));
 	ball->setModelMat(mBall);
-	ball->setMColor(dvec4(1.0, 0.0, 0.0, 1.0));
+	ball->setColor(glm::fvec3(1, 0, 0));
 	chasis->addEntity(ball);
 	chasis->addEntity(propellers);
 
 	Cube* cube = new Cube(100.0);
 	cube->setMColor(dvec4(0.0, 1.0, 0.0, 1.0));
+	cube->setCopper(false); //press u key to switch
 	glm::dmat4 mCube = cube->modelMat();
 
 	mCube = translate(mCube, dvec3(0, 80, 0));
@@ -133,6 +134,8 @@ void Scene::setScene3() {
 	//Ex 22
 	Esfera* sphere = new Esfera(200, 250, 250);
 	sphere->setMColor(dvec4(0.0, 1.0, 1.0, 1.0));
+	sphere->setGold(false); //press u key to switch
+	
 	gObjects.emplace_back(sphere);
 
 	/*Ex 23
@@ -198,10 +201,15 @@ void Scene::render(Camera const& cam) const {
 	sceneDirLight(cam);
 	scenePosLight(cam);
 	sceneSpotLight(cam);
-
+	
 	cam.upload();
-	for (Abs_Entity* el : gObjects)
+
+	
+
+	for (Abs_Entity* el : gObjects) 
 		el->render(cam.viewMat());
+	
+
 
 	glDepthMask(GL_FALSE);
 	glEnable(GL_BLEND);

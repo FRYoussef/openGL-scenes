@@ -151,7 +151,7 @@ void _3DStar::render(dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		
 		if (mTexture != nullptr)
 			mTexture->bind(GL_REPLACE);
 
@@ -191,7 +191,7 @@ void Floor::render(dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		
 		if (mTexture != nullptr)
 			mTexture->bind(GL_MODULATE);
 
@@ -446,16 +446,48 @@ Cube::Cube(GLdouble l) {
 }
 
 void Cube::render(glm::dmat4 const& modelViewMat) const {
+
 	if (mMesh != nullptr) {
+
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		
 		upload(aMat);
-		glEnable(GL_COLOR_MATERIAL);
-		mMesh->render();
-		glDisable(GL_COLOR_MATERIAL);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		if (this->copper) {
+
+			glm::fvec4 amb = { 0.19125, 0.0735, 0.0225, 1.0 };
+			glm::fvec4 diff = { 0.7038, 0.27048, 0.0828, 1.0 };
+			glm::fvec4 spec = { 0.256777, 0.137622, 0.086014, 1.0 };
+
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, value_ptr(amb));
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, value_ptr(diff));
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, value_ptr(spec));
+
+			GLfloat s[] = { 12.8 };
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, s);
+
+			mMesh->render();
+
+		}
+		else {
+			glEnable(GL_COLOR_MATERIAL);
+			glColor3f(this->mColor.r, this->mColor.g, this->mColor.b);
+			mMesh->render();
+			glColor3f(1.0, 1.0, 1.0);
+			glDisable(GL_COLOR_MATERIAL);
+		}
+
+
+
+
 	}
+	
 }
+
+void Cube::update() {
+	this->copper = !this->copper;
+	this->render(this->mModelMat);
+}
+
 
 CompoundEntity::~CompoundEntity(){
 	for (Abs_Entity* ae : gObjects){
@@ -476,7 +508,10 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
 	for (Abs_Entity* ae : gObjects)
 		ae->render(aMat);
 }
-
+void CompoundEntity::update() {
+	for (int i = 0; i < gObjects.size(); i++)
+		gObjects.at(i)->update();
+}
 void Abs_Entity::setMColor(glm::dvec4 const& mCol) {
 	std::vector<glm::dvec4> vc;
 		for(int i = 0; i < mMesh->size(); i++)
@@ -522,7 +557,7 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 
-		if (gold) {
+		if (this->gold) {
 			
 			glm::fvec4 amb = { 0.24725, 0.1995, 0.0745, 1.0 };
 			glm::fvec4 diff = { 0.75164, 0.60648, 0.22648, 1.0 };
@@ -550,4 +585,9 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const {
 
 
 	}
+}
+
+void Esfera::update() {
+	this->gold = !this->gold;
+	this->render(this->mModelMat);
 }
