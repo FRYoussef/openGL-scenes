@@ -118,7 +118,7 @@ void Scene::setScene3() {
 	glm::dmat4 mCube = cube->modelMat();
 
 	mCube = translate(mCube, dvec3(0, 80, 0));
-	mCube = scale(mCube, dvec3(2.5, 0.2, 1));
+	mCube = scale(mCube, dvec3(3.0, 0.2, 1));
 
 	cube->setModelMat(mCube);
 	airplane->addEntity(chasis);
@@ -264,7 +264,6 @@ void Scene::sceneDirLight(Camera const& cam) const {
 }
 
 void Scene::scenePosLight(Camera const& cam) const {
-	glEnable(GL_LIGHTING);
 	if (light1) {
 		glEnable(GL_LIGHT1);
 		glShadeModel(GL_SMOOTH);
@@ -284,7 +283,6 @@ void Scene::scenePosLight(Camera const& cam) const {
 }
 
 void Scene::sceneSpotLight(Camera const& cam) const {
-	glEnable(GL_LIGHTING);
 	if (light2) {
 		glEnable(GL_LIGHT2);
 		glShadeModel(GL_SMOOTH);

@@ -475,12 +475,7 @@ void Cube::render(glm::dmat4 const& modelViewMat) const {
 			glColor3f(1.0, 1.0, 1.0);
 			glDisable(GL_COLOR_MATERIAL);
 		}
-
-
-
-
 	}
-	
 }
 
 void Cube::update() {
@@ -571,19 +566,15 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const {
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, s);
 			
 			mMesh->render();
-
 		}
 		else {
 			glEnable(GL_COLOR_MATERIAL);
+			//glColorMaterial(GL_FRONT_AND_BACK, GL_SHININESS);
 			glColor3f(this->mColor.r, this->mColor.g, this->mColor.b);
 			mMesh->render();
 			glColor3f(1.0, 1.0, 1.0);
 			glDisable(GL_COLOR_MATERIAL);
 		}
-	
-
-
-
 	}
 }
 
