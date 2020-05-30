@@ -4,7 +4,7 @@
 GLuint Light::cont = 0;
 
 Light::Light() { 
-    if(cont< GL_MAX_LIGHTS) { 
+    if(cont < GL_MAX_LIGHTS) { 
         id = GL_LIGHT0 + cont; 
         ++cont;
         glEnable(id);

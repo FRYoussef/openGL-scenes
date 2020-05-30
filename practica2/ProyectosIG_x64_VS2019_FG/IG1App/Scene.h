@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Camera.h"
 #include "Entity.h"
+#include "Light.h"
 
 #include <vector>
 
@@ -44,6 +45,7 @@ protected:
 	void setScene1();
 	void setScene2();
 	void setScene3();
+	void setLights();
 	std::vector<Texture*> gTextures;
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gTransObjects;
@@ -51,6 +53,9 @@ protected:
 	bool light1 = false;
 	bool light2 = false;
 	int mId = 0;
+	DirLight* directionalLight;
+	PosLight* positionalLight;
+	SpotLight* spotSceneLight;
 };
 //-------------------------------------------------------------------------
 

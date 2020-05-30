@@ -15,10 +15,6 @@ class Light {
         glm::fvec4 specular = {0.5, 0.5, 0.5, 1};
         glm::fvec4 posDir= {0, 0, 1, 0};
 
-        void setAmbient(glm::fvec4 amb) { ambient = amb; uploadL();};
-        void setDiffuse(glm::fvec4 diff) { diffuse = diff; uploadL();};
-        void setSpecular(glm::fvec4 spec) { specular = spec; uploadL();};
-
     public:
         Light();
         virtual ~Light() { disable(); }
@@ -26,6 +22,9 @@ class Light {
         virtual void upload(glm::dmat4 const& modelViewMat) const = 0;
         void disable() {if(id < GL_LIGHT0 + GL_MAX_LIGHTS) glDisable(id);};
         void enable() {if(id < GL_LIGHT0 + GL_MAX_LIGHTS) glEnable(id);};
+        void setAmbient(glm::fvec4 amb) { ambient = amb; uploadL();};
+        void setDiffuse(glm::fvec4 diff) { diffuse = diff; uploadL();};
+        void setSpecular(glm::fvec4 spec) { specular = spec; uploadL();};
 };
 
 class DirLight: public Light { 
@@ -52,8 +51,7 @@ class SpotLight: public PosLight{
         GLfloat cutoff= 180;
         GLfloat exp= 0;
     public: 
-        SpotLight(glm::fvec3 pos = { 0, 0, 0 }) 
-            : PosLight() {posDir = glm::fvec4(pos, 1.0);};
+        SpotLight(glm::fvec3 pos = { 0, 0, 0 }) : PosLight() {posDir = glm::fvec4(pos, 1.0);};
         virtual void upload(glm::dmat4 const& modelViewMat) const;
         void setSpot(glm::fvec3 dir, GLfloat cf, GLfloat e);
 };

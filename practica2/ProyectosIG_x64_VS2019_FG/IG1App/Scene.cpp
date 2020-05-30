@@ -16,6 +16,7 @@ using namespace glm;
 void Scene::init()
 { 
 	setGL();  // OpenGL settings
+	setLights();
 	gObjects.push_back(new RGBAxis(400.0));
 	switch (mId) {
 	case SCENE_1:
@@ -199,19 +200,18 @@ void Scene::resetGL()
 //-------------------------------------------------------------------------
 
 void Scene::render(Camera const& cam) const {
-	sceneDirLight(cam);
+	/*sceneDirLight(cam);
 	scenePosLight(cam);
-	sceneSpotLight(cam);
-	
-	cam.upload();
+	sceneSpotLight(cam);*/
+	directionalLight->upload(cam.viewMat());
+	positionalLight->upload(cam.viewMat());
+	spotSceneLight->upload(cam.viewMat());
 
-	
+	cam.upload();
 
 	for (Abs_Entity* el : gObjects) 
 		el->render(cam.viewMat());
 	
-
-
 	glDepthMask(GL_FALSE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -307,13 +307,48 @@ void Scene::sceneSpotLight(Camera const& cam) const {
 
 void Scene::light0_switch(bool b) {
 	light0 = b;
+	if(b)
+		directionalLight->enable();
+	else
+		directionalLight->disable();
 }
 
 void Scene::light1_switch(bool b) {
 	light1 = b;
+	if(b)
+		positionalLight->enable();
+	else
+		positionalLight->disable();
 }
 
 void Scene::light2_switch(bool b) {
 	light2 = b;
+	if(b)
+		spotSceneLight->enable();
+	else
+		spotSceneLight->disable();
+}
+
+void Scene::setLights() {
+	directionalLight = new DirLight();
+	directionalLight->setPosDir(glm::fvec3(1, 1, 1));
+	directionalLight->setAmbient(glm::fvec4(0, 0, 0, 1));
+	directionalLight->setDiffuse(glm::fvec4(1, 1, 1, 1));
+	directionalLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
+	directionalLight->disable();
+
+	positionalLight = new PosLight();
+	positionalLight->setPosDir(glm::fvec3(500.0, 500.0, 0.0));
+	positionalLight->setAmbient(glm::fvec4(0, 0, 0, 1));
+	positionalLight->setDiffuse(glm::fvec4(0, 1, 0, 1));
+	positionalLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
+	positionalLight->disable();
+
+	spotSceneLight = new SpotLight(glm::fvec3(0, 0, 300.0));
+	spotSceneLight->setAmbient(glm::fvec4(0, 0, 0, 1));
+	spotSceneLight->setDiffuse(glm::fvec4(0, 1, 0, 1));
+	spotSceneLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
+	spotSceneLight->setSpot(glm::fvec3(0, 0, -1.0), 180.0, 0);
+	spotSceneLight->disable();
 }
 //-------------------------------------------------------------------------
