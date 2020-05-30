@@ -289,6 +289,7 @@ class Esfera : public EntityWithMaterial {
 		GLint p;
 		GLint n;
 		bool gold = false;
+		SpotLight *light = nullptr;
 };
 
 #endif //_H_Entities_H_

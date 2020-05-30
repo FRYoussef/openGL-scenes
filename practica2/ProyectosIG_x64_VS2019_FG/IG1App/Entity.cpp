@@ -483,7 +483,6 @@ void Cube::update() {
 	this->render(this->mModelMat);
 }
 
-
 CompoundEntity::~CompoundEntity(){
 	for (Abs_Entity* ae : gObjects){
 		delete ae;  
@@ -503,10 +502,12 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
 	for (Abs_Entity* ae : gObjects)
 		ae->render(aMat);
 }
+
 void CompoundEntity::update() {
 	for (int i = 0; i < gObjects.size(); i++)
 		gObjects.at(i)->update();
 }
+
 void Abs_Entity::setMColor(glm::dvec4 const& mCol) {
 	std::vector<glm::dvec4> vc;
 		for(int i = 0; i < mMesh->size(); i++)
@@ -543,8 +544,17 @@ Esfera::Esfera(GLdouble r, GLint p, GLint m) {
 		ang += incr;
 	}
 	mMesh = MbR::generateIndexMeshByRevolution(p, m, perfil);
+
 	material = new Material();
 	material->setGold();
+
+	light = new SpotLight(glm::fvec3(0, -(r/2), 0)); // below the sphere chasis
+	//light = new SpotLight();
+	light->setAmbient(glm::fvec4(0, 0, 0, 1));
+	light->setDiffuse(glm::fvec4(1, 1, 1, 1));
+	light->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
+	light->setSpot(glm::fvec3(0, -1, 0), 180.0, 4.0);
+	//light->disable();
 };
 
 // Ejercicio 28
@@ -583,6 +593,9 @@ Esfera::Esfera(GLdouble r, GLint p, GLint m) {
 void Esfera::render(glm::dmat4 const& modelViewMat) const { 
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;
+		if(light != nullptr)
+			light->upload(aMat);
+
 		upload(aMat);
 
 		if(this->gold){
