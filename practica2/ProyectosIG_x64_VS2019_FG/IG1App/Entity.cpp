@@ -543,10 +543,12 @@ Esfera::Esfera(GLdouble r, GLint p, GLint m) {
 		ang += incr;
 	}
 	mMesh = MbR::generateIndexMeshByRevolution(p, m, perfil);
+	material = new Material();
+	material->setGold();
 };
 
-
-void Esfera::render(glm::dmat4 const& modelViewMat) const {
+// Ejercicio 28
+/*void Esfera::render(glm::dmat4 const& modelViewMat) const {
 	if (mMesh != nullptr) {
 	
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
@@ -570,6 +572,27 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const {
 		else {
 			glEnable(GL_COLOR_MATERIAL);
 			//glColorMaterial(GL_FRONT_AND_BACK, GL_SHININESS);
+			glColor3f(this->mColor.r, this->mColor.g, this->mColor.b);
+			mMesh->render();
+			glColor3f(1.0, 1.0, 1.0);
+			glDisable(GL_COLOR_MATERIAL);
+		}
+	}
+}*/
+
+void Esfera::render(glm::dmat4 const& modelViewMat) const { 
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;
+		upload(aMat);
+
+		if(this->gold){
+			if(material != nullptr)
+				material->upload();
+			mMesh->render();
+		}
+		else{
+			glEnable(GL_COLOR_MATERIAL);
+			glColorMaterial(GL_FRONT_AND_BACK, GL_SHININESS);
 			glColor3f(this->mColor.r, this->mColor.g, this->mColor.b);
 			mMesh->render();
 			glColor3f(1.0, 1.0, 1.0);

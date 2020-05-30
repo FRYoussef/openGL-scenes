@@ -7,6 +7,7 @@
 #include <GL/gl.h>
 #include "Texture.h"
 #include "Mesh.h"
+#include "Light.h"
 
 //-------------------------------------------------------------------------
 
@@ -267,16 +268,27 @@ class Cone: public EntityWithIndexMesh {
 		GLdouble r;
 		GLint n;
 };
-class Esfera : public EntityWithIndexMesh {
-public:
-	Esfera(GLdouble r, GLint p, GLint m);
-	void render(glm::dmat4 const& modelViewMat) const;
-	void update();
-	void setGold(bool b) { gold = b; };
-protected:
-	GLdouble r;
-	GLint p;
-	GLint n;
-	bool gold = false;
+
+class EntityWithMaterial : public Abs_Entity{
+	public:
+		EntityWithMaterial () : Abs_Entity() { };
+		virtual ~EntityWithMaterial () { };
+		void setMaterial(Material*matl) { material = matl; };
+	protected:
+		Material *material = nullptr;
 };
+
+class Esfera : public EntityWithMaterial {
+	public:
+		Esfera(GLdouble r, GLint p, GLint m);
+		void render(glm::dmat4 const& modelViewMat) const;
+		void update();
+		void setGold(bool b) { gold = b; };
+	protected:
+		GLdouble r;
+		GLint p;
+		GLint n;
+		bool gold = false;
+};
+
 #endif //_H_Entities_H_
