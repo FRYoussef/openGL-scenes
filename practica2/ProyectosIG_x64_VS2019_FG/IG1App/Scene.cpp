@@ -3,7 +3,6 @@
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 #include <string>
-#include <iostream>
 
 #if defined(WIN32) || defined(_WIN32)
 const std::string PATH_SEPARATOR = "\\";
@@ -115,6 +114,7 @@ void Scene::setScene3() {
 
 	Cube* cube = new Cube(100.0);
 	cube->setMColor(dvec4(0.0, 1.0, 0.0, 1.0));
+	cube->setCopper(false); //press u key to switch
 	glm::dmat4 mCube = cube->modelMat();
 
 	mCube = translate(mCube, dvec3(0, 80, 0));
@@ -134,6 +134,8 @@ void Scene::setScene3() {
 	//Ex 22
 	Esfera* sphere = new Esfera(200, 250, 250);
 	sphere->setMColor(dvec4(0.0, 1.0, 1.0, 1.0));
+	sphere->setGold(false); //press u key to switch
+	
 	gObjects.emplace_back(sphere);
 
 	/*Ex 23
@@ -200,10 +202,15 @@ void Scene::render(Camera const& cam) const {
 	sceneDirLight(cam);
 	scenePosLight(cam);
 	sceneSpotLight(cam);
-
+	
 	cam.upload();
-	for (Abs_Entity* el : gObjects)
+
+	
+
+	for (Abs_Entity* el : gObjects) 
 		el->render(cam.viewMat());
+	
+
 
 	glDepthMask(GL_FALSE);
 	glEnable(GL_BLEND);
@@ -256,17 +263,18 @@ void Scene::sceneDirLight(Camera const& cam) const {
 	}
 }
 
-void Scene::scenePosLight(Camera const&cam) const {
+void Scene::scenePosLight(Camera const& cam) const {
+	glEnable(GL_LIGHTING);
 	if (light1) {
 		glEnable(GL_LIGHT1);
 		glShadeModel(GL_SMOOTH);
-		glm::fvec4 v = {500.0, 500.0, 0.0, 1.0};
+		glm::fvec4 v = { 500.0, 500.0, 0.0, 1.0 };
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixd(value_ptr(cam.viewMat()));
 		glLightfv(GL_LIGHT1, GL_POSITION, value_ptr(v));
-		glm::fvec4 amb1 = {0.0, 0.0, 0.0, 1.0};
-		glm::fvec4 dif1 = {0.0, 1.0, 0.0, 1.0};
-		glm::fvec4 esp1 = {0.5, 0.5, 0.5, 1.0};
+		glm::fvec4 amb1 = { 0.0, 0.0, 0.0, 1.0 };
+		glm::fvec4 dif1 = { 0.0, 1.0, 0.0, 1.0 };
+		glm::fvec4 esp1 = { 0.5, 0.5, 0.5, 1.0 };
 		glLightfv(GL_LIGHT1, GL_AMBIENT, value_ptr(amb1));
 		glLightfv(GL_LIGHT1, GL_DIFFUSE, value_ptr(dif1));
 		glLightfv(GL_LIGHT1, GL_SPECULAR, value_ptr(esp1));
@@ -275,21 +283,22 @@ void Scene::scenePosLight(Camera const&cam) const {
 		glDisable(GL_LIGHT1);
 }
 
-void Scene::sceneSpotLight(Camera const&cam) const {
+void Scene::sceneSpotLight(Camera const& cam) const {
+	glEnable(GL_LIGHTING);
 	if (light2) {
 		glEnable(GL_LIGHT2);
 		glShadeModel(GL_SMOOTH);
-		glm::fvec4 v = {0.0, 0.0, 300.0, 1.0};
-		glm::fvec3 dir = {0.0, 0.0, -1.0};
+		glm::fvec4 v = { 0.0, 0.0, 300.0, 1.0 };
+		glm::fvec3 dir = { 0.0, 0.0, -1.0 };
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixd(value_ptr(cam.viewMat()));
 		glLightfv(GL_LIGHT2, GL_POSITION, value_ptr(v));
 		glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 180.0);
 		glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 0.0);
 		glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, value_ptr(dir));
-		glm::fvec4 amb = {0.0, 0.0, 0.0, 1.0};
-		glm::fvec4 dif = {0.0, 1.0, 0.0, 1.0};
-		glm::fvec4 esp = {0.5, 0.5, 0.5, 1.0};
+		glm::fvec4 amb = { 0.0, 0.0, 0.0, 1.0 };
+		glm::fvec4 dif = { 0.0, 1.0, 0.0, 1.0 };
+		glm::fvec4 esp = { 0.5, 0.5, 0.5, 1.0 };
 		glLightfv(GL_LIGHT2, GL_AMBIENT, value_ptr(amb));
 		glLightfv(GL_LIGHT2, GL_DIFFUSE, value_ptr(dif));
 		glLightfv(GL_LIGHT2, GL_SPECULAR, value_ptr(esp));
@@ -310,5 +319,3 @@ void Scene::light2_switch(bool b) {
 	light2 = b;
 }
 //-------------------------------------------------------------------------
-
-
