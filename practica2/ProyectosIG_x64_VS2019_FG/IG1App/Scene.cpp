@@ -82,7 +82,7 @@ void Scene::setScene2() {
 
 void Scene::setScene3() {
 	//Ex 18
-	CompoundEntity* airplane = new CompoundEntity();
+	airplane = new EntityWithLight();
 	gObjects.push_back(airplane);
 
 	CompoundEntity* propellers = new CompoundEntity();
@@ -91,13 +91,13 @@ void Scene::setScene3() {
 
 	cyl1->setColor(glm::fvec3(0, 0, 1));
 	glm::dmat4 mCyl1 = cyl1->modelMat();
-	mCyl1 = translate(mCyl1, dvec3(-50, 320, 90));
+	mCyl1 = translate(mCyl1, dvec3(-50, 0, 90));
 	mCyl1 = rotate(mCyl1, radians(90.0), dvec3(0, 1.0, 0));
 	cyl1->setModelMat(mCyl1);
 
 	cyl2->setColor(glm::fvec3(0, 0, 1));
 	glm::dmat4 mCyl2 = cyl2->modelMat();
-	mCyl2 = translate(mCyl2, dvec3(0, 320, 90));
+	mCyl2 = translate(mCyl2, dvec3(0, 0, 90));
 	mCyl2 = rotate(mCyl2, radians(90.0), dvec3(0, 1.0, 0));
 	cyl2->setModelMat(mCyl2);
 
@@ -106,9 +106,6 @@ void Scene::setScene3() {
 
 	CompoundEntity* chasis = new CompoundEntity();
 	Sphere* ball = new Sphere(80.0);
-	glm::dmat4 mBall = ball->modelMat();
-	mBall = translate(mBall, dvec3(0, 320, 0));
-	ball->setModelMat(mBall);
 	ball->setColor(glm::fvec3(1, 0, 0));
 	chasis->addEntity(ball);
 	chasis->addEntity(propellers);
@@ -117,8 +114,6 @@ void Scene::setScene3() {
 	cube->setMColor(dvec4(0.0, 1.0, 0.0, 1.0));
 	cube->setCopper(false); //press u key to switch
 	glm::dmat4 mCube = cube->modelMat();
-
-	mCube = translate(mCube, dvec3(0, 320, 0));
 	mCube = scale(mCube, dvec3(3.0, 0.2, 1));
 
 	cube->setModelMat(mCube);
@@ -154,8 +149,8 @@ void Scene::setScene3() {
 
 	//Ex 24
 	glm::dmat4 mAirplane = airplane->modelMat();
-	mAirplane = translate(mAirplane, dvec3(0, 200, 0));
-	mAirplane = scale(mAirplane, dvec3(0.5, 0.5, 0.5));
+	mAirplane = translate(mAirplane, dvec3(0, 350, 0));
+	mAirplane = scale(mAirplane, dvec3(0.3, 0.3, 0.3));
 	airplane->setModelMat(mAirplane);
 
 }
@@ -226,9 +221,7 @@ void Scene::update() {
 	for (int i = 0; i < gObjects.size(); i++)
 		gObjects.at(i)->update();
 	for (int i = 0; i < gTransObjects.size(); i++)
-		gTransObjects.at(i)->update();
-
-	
+		gTransObjects.at(i)->update();	
 }
 
 void Scene::setState(int id) {
@@ -327,6 +320,10 @@ void Scene::light2_switch(bool b) {
 		spotSceneLight->enable();
 	else
 		spotSceneLight->disable();
+}
+
+void Scene::light_airplane_switch(bool b) {
+	airplane->switch_light(b);
 }
 
 void Scene::setLights() {

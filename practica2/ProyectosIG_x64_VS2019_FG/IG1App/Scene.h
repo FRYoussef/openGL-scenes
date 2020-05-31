@@ -26,6 +26,7 @@ public:
 	void light0_switch(bool b);
 	void light1_switch(bool b);
 	void light2_switch(bool b);
+	void light_airplane_switch(bool b);
     void render(Camera const& cam) const;
 	void sceneDirLight(Camera const& cam) const;
 	void scenePosLight(Camera const& cam) const;
@@ -56,6 +57,7 @@ protected:
 	DirLight* directionalLight;
 	PosLight* positionalLight;
 	SpotLight* spotSceneLight;
+	EntityWithLight* airplane;
 };
 //-------------------------------------------------------------------------
 

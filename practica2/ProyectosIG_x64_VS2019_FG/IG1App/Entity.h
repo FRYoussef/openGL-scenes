@@ -259,7 +259,7 @@ public:
 protected:
 	std::vector<Abs_Entity*> gObjects;
 };
-//-------------------------------------------------------------------------
+
 class Cone: public EntityWithIndexMesh {
 	public:
 		Cone(GLdouble h, GLdouble r, GLint n);
@@ -289,7 +289,17 @@ class Esfera : public EntityWithMaterial {
 		GLint p;
 		GLint n;
 		bool gold = false;
-		SpotLight *light = nullptr;
+};
+
+class EntityWithLight: public CompoundEntity {
+public:
+	EntityWithLight();
+	~EntityWithLight() {if(light == nullptr) {delete light; light = nullptr;};};
+	void render(glm::dmat4 const& modelViewMat) const;
+	void switch_light(bool b);
+protected:
+	SpotLight *light = nullptr;
+	bool enabledLight = false;
 };
 
 #endif //_H_Entities_H_

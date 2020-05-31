@@ -453,7 +453,6 @@ void Cube::render(glm::dmat4 const& modelViewMat) const {
 		upload(aMat);
 
 		if (this->copper) {
-
 			glm::fvec4 amb = { 0.19125, 0.0735, 0.0225, 1.0 };
 			glm::fvec4 diff = { 0.7038, 0.27048, 0.0828, 1.0 };
 			glm::fvec4 spec = { 0.256777, 0.137622, 0.086014, 1.0 };
@@ -466,7 +465,6 @@ void Cube::render(glm::dmat4 const& modelViewMat) const {
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, s);
 
 			mMesh->render();
-
 		}
 		else {
 			glEnable(GL_COLOR_MATERIAL);
@@ -547,14 +545,6 @@ Esfera::Esfera(GLdouble r, GLint p, GLint m) {
 
 	material = new Material();
 	material->setGold();
-
-	light = new SpotLight(glm::fvec3(0, -(r/2), 0)); // below the sphere chasis
-	//light = new SpotLight();
-	light->setAmbient(glm::fvec4(0, 0, 0, 1));
-	light->setDiffuse(glm::fvec4(1, 1, 1, 1));
-	light->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
-	light->setSpot(glm::fvec3(0, -1, 0), 180.0, 4.0);
-	//light->disable();
 };
 
 // Ejercicio 28
@@ -593,9 +583,6 @@ Esfera::Esfera(GLdouble r, GLint p, GLint m) {
 void Esfera::render(glm::dmat4 const& modelViewMat) const { 
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;
-		if(light != nullptr)
-			light->upload(aMat);
-
 		upload(aMat);
 
 		if(this->gold){
@@ -617,4 +604,33 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const {
 void Esfera::update() {
 	this->gold = !this->gold;
 	this->render(this->mModelMat);
+}
+
+EntityWithLight::EntityWithLight() {
+	light = new SpotLight();
+	light->setAmbient(glm::fvec4(0, 0, 0, 1));
+	light->setDiffuse(glm::fvec4(1, 1, 1, 1));
+	light->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
+	light->setSpot(glm::fvec3(0, -1, 0), 45.0, 0);
+	light->disable();
+}
+
+void EntityWithLight::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+
+	if(light != nullptr)
+		light->upload(aMat);
+
+	upload(aMat);
+
+	for (Abs_Entity* ae : gObjects)
+		ae->render(aMat);
+ }
+
+void EntityWithLight::switch_light(bool b){
+	enabledLight = b;
+	if(enabledLight)
+		light->enable();
+	else
+		light->disable();
 }
