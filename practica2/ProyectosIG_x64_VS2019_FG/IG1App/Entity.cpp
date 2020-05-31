@@ -634,3 +634,19 @@ void EntityWithLight::switch_light(bool b){
 	else
 		light->disable();
 }
+
+void Airplane::update(){
+	Abs_Entity *propellers = ((CompoundEntity *) gObjects[0])->getGObjects()[1];
+	propellersAngle += 3.0;
+	propellers->setModelMat(glm::rotate(dmat4(1), radians(propellersAngle), dvec3(0, 0, 1)));
+
+	angleX += 3.0;
+	traslationAngle += 3.0;
+
+	GLdouble z = (50 + planetR) * cos(radians(traslationAngle));
+	GLdouble y = (50 + planetR) * sin(radians(traslationAngle));
+
+	mModelMat = translate(dmat4(1), dvec3(0, y, -z));
+	mModelMat = scale(mModelMat, dvec3(0.3, 0.3, 0.3));
+	mModelMat = glm::rotate(mModelMat, radians(angleX), dvec3(1, 0, 0));
+}

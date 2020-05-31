@@ -82,7 +82,8 @@ void Scene::setScene2() {
 
 void Scene::setScene3() {
 	//Ex 18
-	airplane = new EntityWithLight();
+	GLdouble planetR = 300.0;
+	airplane = new Airplane(planetR);
 	gObjects.push_back(airplane);
 
 	CompoundEntity* propellers = new CompoundEntity();
@@ -128,7 +129,7 @@ void Scene::setScene3() {
 
 
 	//Ex 22
-	Esfera* sphere = new Esfera(300, 250, 250);
+	Esfera* sphere = new Esfera(planetR, 250, 250);
 	sphere->setMColor(dvec4(0.0, 1.0, 1.0, 1.0));
 	sphere->setGold(false); //press u key to switch
 	
@@ -220,6 +221,7 @@ void Scene::render(Camera const& cam) const {
 void Scene::update() {
 	for (int i = 0; i < gObjects.size(); i++)
 		gObjects.at(i)->update();
+
 	for (int i = 0; i < gTransObjects.size(); i++)
 		gTransObjects.at(i)->update();	
 }
@@ -347,5 +349,9 @@ void Scene::setLights() {
 	spotSceneLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
 	// spotSceneLight->setSpot(glm::fvec3(0, 1.0, -1.0), 90.0, 3.0); // diagonal spot
 	spotSceneLight->disable();
+}
+
+void Scene::move() {
+	airplane->update();
 }
 //-------------------------------------------------------------------------

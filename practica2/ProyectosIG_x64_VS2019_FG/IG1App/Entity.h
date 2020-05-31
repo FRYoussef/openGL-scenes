@@ -256,6 +256,7 @@ public:
 	void render(glm::dmat4 const& modelViewMat) const;
 	void addEntity(Abs_Entity* ae);
 	void update();
+	std::vector<Abs_Entity*> getGObjects(){ return gObjects; };
 protected:
 	std::vector<Abs_Entity*> gObjects;
 };
@@ -300,6 +301,18 @@ public:
 protected:
 	SpotLight *light = nullptr;
 	bool enabledLight = false;
+};
+
+class Airplane: public EntityWithLight {
+public:
+	Airplane(GLfloat r) { planetR = r; };
+	~Airplane() {};
+	void update();
+protected:
+	GLdouble angleX = 0.0;
+	GLdouble traslationAngle = 90.0;
+	GLdouble planetR;
+	GLdouble propellersAngle = 0.0;
 };
 
 #endif //_H_Entities_H_

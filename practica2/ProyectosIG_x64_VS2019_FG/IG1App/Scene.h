@@ -33,6 +33,7 @@ public:
 	void sceneSpotLight(Camera const& cam) const;
 	void update();
 	void setState(int id);
+	void move();
 
 	std::vector<Abs_Entity*> getgObjects();
 	static const int SCENE_1 = 0;
@@ -57,7 +58,7 @@ protected:
 	DirLight* directionalLight;
 	PosLight* positionalLight;
 	SpotLight* spotSceneLight;
-	EntityWithLight* airplane;
+	Airplane* airplane;
 };
 //-------------------------------------------------------------------------
 

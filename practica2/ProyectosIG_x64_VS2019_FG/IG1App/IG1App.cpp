@@ -214,6 +214,9 @@ void IG1App::key(unsigned char key, int x, int y)
 		mScene->light2_switch(false);
 		mScene->light_airplane_switch(false);
 		break;
+	case 'y':
+		mScene->move();
+		break;
 	default:
 		need_redisplay = false;
 		break;
