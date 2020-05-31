@@ -113,7 +113,7 @@ void Scene::setScene3() {
 
 	Cube* cube = new Cube(100.0);
 	cube->setMColor(dvec4(0.0, 1.0, 0.0, 1.0));
-	cube->setCopper(false); //press u key to switch
+	cube->setCopper(true); //press u key to switch
 	glm::dmat4 mCube = cube->modelMat();
 	mCube = scale(mCube, dvec3(3.0, 0.2, 1));
 
@@ -360,7 +360,6 @@ void Scene::setLights() {
 	spotSceneLight->disable();
 
 	mineLight = new PosLight();
-	mineLight->setPosDir(glm::fvec3(0, 0, -1));
 	mineLight->setAmbient(glm::fvec4(0, 0, 0, 1));
 	mineLight->setDiffuse(glm::fvec4(1, 1, 1, 1));
 	mineLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));

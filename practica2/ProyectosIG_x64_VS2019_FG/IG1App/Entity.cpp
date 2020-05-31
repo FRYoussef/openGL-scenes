@@ -477,8 +477,7 @@ void Cube::render(glm::dmat4 const& modelViewMat) const {
 }
 
 void Cube::update() {
-	this->copper = !this->copper;
-	this->render(this->mModelMat);
+	//this->copper = !this->copper;
 }
 
 CompoundEntity::~CompoundEntity(){
@@ -602,8 +601,7 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const {
 }
 
 void Esfera::update() {
-	this->gold = !this->gold;
-	this->render(this->mModelMat);
+	//this->gold = !this->gold;
 }
 
 EntityWithLight::EntityWithLight() {

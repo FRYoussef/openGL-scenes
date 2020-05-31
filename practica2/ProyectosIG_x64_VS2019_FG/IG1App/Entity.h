@@ -305,7 +305,7 @@ protected:
 
 class Airplane: public EntityWithLight {
 public:
-	Airplane(GLfloat r) { planetR = r; };
+	Airplane(GLfloat r) : EntityWithLight() {planetR = r; };
 	~Airplane() {};
 	void update();
 protected:
