@@ -615,9 +615,8 @@ EntityWithLight::EntityWithLight() {
 
 void EntityWithLight::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
-
-	if(light != nullptr)
-		light->upload(aMat);
+	
+	light->upload(aMat);
 
 	upload(aMat);
 

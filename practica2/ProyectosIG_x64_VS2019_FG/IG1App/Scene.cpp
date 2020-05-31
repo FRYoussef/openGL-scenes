@@ -113,7 +113,7 @@ void Scene::setScene3() {
 
 	Cube* cube = new Cube(100.0);
 	cube->setMColor(dvec4(0.0, 1.0, 0.0, 1.0));
-	cube->setCopper(true); //press u key to switch
+	cube->setCopper(true);
 	glm::dmat4 mCube = cube->modelMat();
 	mCube = scale(mCube, dvec3(3.0, 0.2, 1));
 
@@ -131,7 +131,7 @@ void Scene::setScene3() {
 	//Ex 22
 	Esfera* sphere = new Esfera(planetR, 250, 250);
 	sphere->setMColor(dvec4(0.0, 1.0, 1.0, 1.0));
-	sphere->setGold(false); //press u key to switch
+	sphere->setGold(false);
 	
 	gObjects.emplace_back(sphere);
 

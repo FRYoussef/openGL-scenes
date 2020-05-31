@@ -43,7 +43,8 @@ void PosLight::setAtte(GLfloat kc, GLfloat kl, GLfloat kq){
 
 void SpotLight::upload(glm::dmat4 const& modelViewMat) const{
     PosLight::upload(modelViewMat);
-    glLightfv(id, GL_SPOT_DIRECTION, value_ptr(direction));
+    glLightfv(id, GL_SPOT_DIRECTION, 
+    value_ptr(direction));
     glLightf(id, GL_SPOT_CUTOFF, cutoff);
     glLightf(id, GL_SPOT_EXPONENT, exp);
 }
