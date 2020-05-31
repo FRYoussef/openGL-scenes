@@ -21,12 +21,15 @@ void Scene::init()
 	switch (mId) {
 	case SCENE_1:
 		setScene1();
+		light0 = true;
 		break;
 	case SCENE_2:
 		setScene2();
+		light0 = true;
 		break;
 	case SCENE_3:
 		setScene3();
+		light0 = false;
 		break;
 	default:
 		break;
@@ -176,6 +179,12 @@ void Scene::free()
 	}
 	gTransObjects.resize(0);
 
+	if(directionalLight != nullptr){
+		delete directionalLight; directionalLight = nullptr;
+		delete positionalLight; positionalLight = nullptr;
+		delete spotSceneLight; spotSceneLight = nullptr;
+		delete mineLight; mineLight = nullptr;
+	}
 }
 //-------------------------------------------------------------------------
 
@@ -207,6 +216,9 @@ void Scene::render(Camera const& cam) const {
 		spotSceneLight->upload(cam.viewMat());
 		mineLight->upload(dmat4(1.0));
 	}
+	else 
+		sceneDirLight(cam);
+
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects) 
@@ -242,7 +254,7 @@ void Scene::setState(int id) {
 std::vector<Abs_Entity*> Scene::getgObjects() {
 	return this->gObjects;
 }
-/*
+
 void Scene::sceneDirLight(Camera const& cam) const {
 	if (light0) {
 		glEnable(GL_LIGHT0);
@@ -261,8 +273,7 @@ void Scene::sceneDirLight(Camera const& cam) const {
 		glDisable(GL_LIGHT0);
 	}
 }
-*/
-/*
+
 void Scene::scenePosLight(Camera const& cam) const {
 	if (light1) {
 		glEnable(GL_LIGHT1);
@@ -281,8 +292,7 @@ void Scene::scenePosLight(Camera const& cam) const {
 	else
 		glDisable(GL_LIGHT1);
 }
-*/
-/*
+
 void Scene::sceneSpotLight(Camera const& cam) const {
 	if (light2) {
 		glEnable(GL_LIGHT2);
@@ -305,51 +315,66 @@ void Scene::sceneSpotLight(Camera const& cam) const {
 	else
 		glDisable(GL_LIGHT2);
 }
-*/
+
+
 void Scene::light0_switch(bool b) {
 	light0 = b;
-	if(b)
-		directionalLight->enable();
-	else
-		directionalLight->disable();
+	if(mId == SCENE_3){
+		if(b)
+			directionalLight->enable();
+		else
+			directionalLight->disable();
+	}
 }
 
 void Scene::light1_switch(bool b) {
 	light1 = b;
-	if(b)
-		positionalLight->enable();
-	else
-		positionalLight->disable();
+	if(mId == SCENE_3){
+		if(b)
+			positionalLight->enable();
+		else
+			positionalLight->disable();
+	}
 }
 
 void Scene::light2_switch(bool b) {
 	light2 = b;
-	if(b)
-		spotSceneLight->enable();
-	else
-		spotSceneLight->disable();
+	if(mId == SCENE_3){
+		if(b)
+			spotSceneLight->enable();
+		else
+			spotSceneLight->disable();
+	}
 }
 
 void Scene::light3_switch(bool b) {
 	light3 = b;
-	if(b)
-		mineLight->enable();
-	else
-		mineLight->disable();
+	if(mId == SCENE_3){
+		if(b)
+			mineLight->enable();
+		else
+			mineLight->disable();
+	}
 }
 
 void Scene::light_airplane_switch(bool b) {
-	airplane->switch_light(b);
+	if(mId == SCENE_3)
+		airplane->switch_light(b);
 }
 
 void Scene::turn_off_lights() {
 	GLfloat amb[] = { 0, 0, 0, 1.0 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+	light0_switch(false);
+	if(mId == SCENE_3){
+		light1_switch(false);
+		light2_switch(false);
+		light3_switch(false);
+		airplane->switch_light(false);
+	}
 }
+
 void Scene::setLights() {
-
-	
-
 	directionalLight = new DirLight();
 	directionalLight->setPosDir(glm::fvec3(1, 1, 1));
 	directionalLight->setAmbient(glm::fvec4(0, 0, 0, 1));
@@ -376,11 +401,10 @@ void Scene::setLights() {
 	mineLight->setDiffuse(glm::fvec4(1, 1, 1, 1));
 	mineLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
 	mineLight->disable();
-
-
 }
 
 void Scene::move() {
-	airplane->update();
+	if(mId == SCENE_3)
+		airplane->update();
 }
 //-------------------------------------------------------------------------

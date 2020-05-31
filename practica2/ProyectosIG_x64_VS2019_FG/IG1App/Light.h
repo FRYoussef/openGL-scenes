@@ -17,7 +17,7 @@ class Light {
 
     public:
         Light();
-        virtual ~Light() { disable(); }
+        virtual ~Light() { disable(); cont--; }
         void uploadL(); // Metodo abstracto
         virtual void upload(glm::dmat4 const& modelViewMat) = 0;
         void disable() {if(id < GL_LIGHT0 + GL_MAX_LIGHTS) glDisable(id);};

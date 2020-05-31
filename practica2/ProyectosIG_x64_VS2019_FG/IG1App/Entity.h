@@ -295,7 +295,7 @@ class Esfera : public EntityWithMaterial {
 class EntityWithLight: public CompoundEntity {
 public:
 	EntityWithLight();
-	~EntityWithLight() {if(light == nullptr) {delete light; light = nullptr;};};
+	~EntityWithLight() {if(light != nullptr) { delete light; light = nullptr; };};
 	void render(glm::dmat4 const& modelViewMat) const;
 	void switch_light(bool b);
 protected:
@@ -306,7 +306,7 @@ protected:
 class Airplane: public EntityWithLight {
 public:
 	Airplane(GLfloat r) : EntityWithLight() {planetR = r; };
-	~Airplane() {};
+	~Airplane() { };
 	void update();
 protected:
 	GLdouble angleX = 0.0;

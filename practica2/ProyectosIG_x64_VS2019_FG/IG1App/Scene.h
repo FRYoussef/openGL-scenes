@@ -58,11 +58,11 @@ protected:
 	bool light2 = false;
 	bool light3 = false;
 	int mId = 0;
-	DirLight* directionalLight;
-	PosLight* positionalLight;
-	SpotLight* spotSceneLight;
-	PosLight* mineLight;
-	Airplane* airplane;
+	DirLight* directionalLight = nullptr;
+	PosLight* positionalLight = nullptr;
+	SpotLight* spotSceneLight = nullptr;
+	PosLight* mineLight = nullptr;
+	Airplane* airplane = nullptr;
 };
 //-------------------------------------------------------------------------
 
