@@ -53,10 +53,10 @@ protected:
 	std::vector<Texture*> gTextures;
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gTransObjects;
-	bool light0 = false;
+	/*bool light0 = false;
 	bool light1 = false;
 	bool light2 = false;
-	bool light3 = false;
+	bool light3 = false;*/
 	int mId = 0;
 	DirLight* directionalLight;
 	PosLight* positionalLight;

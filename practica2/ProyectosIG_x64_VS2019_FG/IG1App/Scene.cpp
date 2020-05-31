@@ -241,7 +241,7 @@ void Scene::setState(int id) {
 std::vector<Abs_Entity*> Scene::getgObjects() {
 	return this->gObjects;
 }
-
+/*
 void Scene::sceneDirLight(Camera const& cam) const {
 	if (light0) {
 		glEnable(GL_LIGHT0);
@@ -260,7 +260,8 @@ void Scene::sceneDirLight(Camera const& cam) const {
 		glDisable(GL_LIGHT0);
 	}
 }
-
+*/
+/*
 void Scene::scenePosLight(Camera const& cam) const {
 	if (light1) {
 		glEnable(GL_LIGHT1);
@@ -279,7 +280,8 @@ void Scene::scenePosLight(Camera const& cam) const {
 	else
 		glDisable(GL_LIGHT1);
 }
-
+*/
+/*
 void Scene::sceneSpotLight(Camera const& cam) const {
 	if (light2) {
 		glEnable(GL_LIGHT2);
@@ -302,7 +304,7 @@ void Scene::sceneSpotLight(Camera const& cam) const {
 	else
 		glDisable(GL_LIGHT2);
 }
-
+*/
 void Scene::light0_switch(bool b) {
 	light0 = b;
 	if(b)
