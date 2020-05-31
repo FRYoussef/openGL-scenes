@@ -16,7 +16,7 @@ using namespace glm;
 void Scene::init()
 { 
 	setGL();  // OpenGL settings
-	setLights();
+	
 	gObjects.push_back(new RGBAxis(400.0));
 	switch (mId) {
 	case SCENE_1:
@@ -81,6 +81,7 @@ void Scene::setScene2() {
 }
 
 void Scene::setScene3() {
+	setLights();
 	//Ex 18
 	GLdouble planetR = 300.0;
 	airplane = new Airplane(planetR);
@@ -200,12 +201,12 @@ void Scene::render(Camera const& cam) const {
 	scenePosLight(cam);
 	sceneSpotLight(cam);*/
 
-	
-	directionalLight->upload(cam.viewMat());
-	positionalLight->upload(cam.viewMat());
-	spotSceneLight->upload(cam.viewMat());
-	mineLight->upload(dmat4(1.0));
-
+	if (mId == SCENE_3) {
+		directionalLight->upload(cam.viewMat());
+		positionalLight->upload(cam.viewMat());
+		spotSceneLight->upload(cam.viewMat());
+		mineLight->upload(dmat4(1.0));
+	}
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects) 
