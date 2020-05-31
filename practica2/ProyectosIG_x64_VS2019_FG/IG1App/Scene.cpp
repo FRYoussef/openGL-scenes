@@ -344,11 +344,11 @@ void Scene::setLights() {
 	positionalLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
 	positionalLight->disable();
 
-	spotSceneLight = new SpotLight(glm::fvec3(0, 0, 300.0));
+	spotSceneLight = new SpotLight(glm::fvec3(0, 0, 400.0));
 	spotSceneLight->setAmbient(glm::fvec4(0, 0, 0, 1));
 	spotSceneLight->setDiffuse(glm::fvec4(0, 1, 0, 1));
 	spotSceneLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
-	spotSceneLight->setSpot(glm::fvec3(0, 0, -1.0), 180.0, 0);
+	// spotSceneLight->setSpot(glm::fvec3(0, 1.0, -1.0), 90.0, 3.0); // diagonal spot
 	spotSceneLight->disable();
 }
 //-------------------------------------------------------------------------
