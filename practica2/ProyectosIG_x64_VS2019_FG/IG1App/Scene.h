@@ -35,6 +35,7 @@ public:
 	void update();
 	void setState(int id);
 	void move();
+	void turn_off_lights();
 
 	std::vector<Abs_Entity*> getgObjects();
 	static const int SCENE_1 = 0;

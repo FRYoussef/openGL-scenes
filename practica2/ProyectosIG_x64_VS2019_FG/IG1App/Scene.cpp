@@ -199,10 +199,12 @@ void Scene::render(Camera const& cam) const {
 	/*sceneDirLight(cam);
 	scenePosLight(cam);
 	sceneSpotLight(cam);*/
+
+	
 	directionalLight->upload(cam.viewMat());
 	positionalLight->upload(cam.viewMat());
 	spotSceneLight->upload(cam.viewMat());
-	//mineLight->upload(dmat4(1.0));
+	mineLight->upload(dmat4(1.0));
 
 	cam.upload();
 
@@ -337,7 +339,14 @@ void Scene::light_airplane_switch(bool b) {
 	airplane->switch_light(b);
 }
 
+void Scene::turn_off_lights() {
+	GLfloat amb[] = { 0, 0, 0, 1.0 };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+}
 void Scene::setLights() {
+
+	
+
 	directionalLight = new DirLight();
 	directionalLight->setPosDir(glm::fvec3(1, 1, 1));
 	directionalLight->setAmbient(glm::fvec4(0, 0, 0, 1));
@@ -359,11 +368,13 @@ void Scene::setLights() {
 	// spotSceneLight->setSpot(glm::fvec3(0, 1.0, -1.0), 90.0, 3.0); // diagonal spot
 	spotSceneLight->disable();
 
-	/*mineLight = new PosLight();
+	mineLight = new PosLight();
 	mineLight->setAmbient(glm::fvec4(0, 0, 0, 1));
 	mineLight->setDiffuse(glm::fvec4(1, 1, 1, 1));
 	mineLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
-	mineLight->disable();*/
+	mineLight->disable();
+
+
 }
 
 void Scene::move() {
