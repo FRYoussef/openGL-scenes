@@ -18,21 +18,23 @@ void Light::uploadL() {
     glLightfv(id, GL_SPECULAR, value_ptr(specular));
 }
 
-void DirLight::upload(glm::dmat4 const& modelViewMat) const{
+void DirLight::upload(glm::dmat4 const& modelViewMat) {
     glMatrixMode(GL_MODELVIEW);
     glLoadMatrixd(value_ptr(modelViewMat));
     glLightfv(id, GL_POSITION, value_ptr(posDir));
-    Light::uploadL();
+
+
+    this->uploadL();
 }
 
-void PosLight::upload(glm::dmat4 const& modelViewMat) const{
+void PosLight::upload(glm::dmat4 const& modelViewMat){
     glMatrixMode(GL_MODELVIEW);
     glLoadMatrixd(value_ptr(modelViewMat));
     glLightfv(id, GL_POSITION, value_ptr(posDir));
     glLightf(id, GL_CONSTANT_ATTENUATION, kc);
     glLightf(id, GL_LINEAR_ATTENUATION, kl);
     glLightf(id, GL_QUADRATIC_ATTENUATION, kq);
-    Light::uploadL();
+    uploadL();
 }
 
 void PosLight::setAtte(GLfloat kc, GLfloat kl, GLfloat kq){
@@ -41,7 +43,7 @@ void PosLight::setAtte(GLfloat kc, GLfloat kl, GLfloat kq){
     this->kq = kq;
 }
 
-void SpotLight::upload(glm::dmat4 const& modelViewMat) const{
+void SpotLight::upload(glm::dmat4 const& modelViewMat){
     PosLight::upload(modelViewMat);
     glLightfv(id, GL_SPOT_DIRECTION, 
     value_ptr(direction));

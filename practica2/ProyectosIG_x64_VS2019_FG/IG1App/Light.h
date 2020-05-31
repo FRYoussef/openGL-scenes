@@ -19,7 +19,7 @@ class Light {
         Light();
         virtual ~Light() { disable(); }
         void uploadL(); // Metodo abstracto
-        virtual void upload(glm::dmat4 const& modelViewMat) const = 0;
+        virtual void upload(glm::dmat4 const& modelViewMat) = 0;
         void disable() {if(id < GL_LIGHT0 + GL_MAX_LIGHTS) glDisable(id);};
         void enable() {if(id < GL_LIGHT0 + GL_MAX_LIGHTS) glEnable(id);};
         void setAmbient(glm::fvec4 amb) { ambient = amb; uploadL();};
@@ -29,7 +29,7 @@ class Light {
 
 class DirLight: public Light { 
     public: 
-        virtual void upload(glm::dmat4 const& modelViewMat) const;
+        virtual void upload(glm::dmat4 const& modelViewMat);
         // Ojo al 0.0 que determina que la luz sea remota
         void setPosDir(glm::fvec3 dir) { posDir= glm::fvec4(dir, 0.0); };
 };
@@ -39,7 +39,7 @@ class PosLight: public Light {
         // Factores de atenuación   
         GLfloat kc = 1, kl = 0, kq= 0;  
     public:
-        virtual void upload(glm::dmat4 const& modelViewMat) const;
+        virtual void upload(glm::dmat4 const& modelViewMat);
         void setPosDir(glm::fvec3 dir) { posDir= glm::fvec4(dir, 1.0); };
         void setAtte(GLfloat kc, GLfloat kl, GLfloat kq);
 };
@@ -52,7 +52,7 @@ class SpotLight: public PosLight{
         GLfloat exp= 0;
     public: 
         SpotLight(glm::fvec3 pos = { 0, 0, 0 }) : PosLight() {posDir = glm::fvec4(pos, 1.0);};
-        virtual void upload(glm::dmat4 const& modelViewMat) const;
+        virtual void upload(glm::dmat4 const& modelViewMat);
         void setSpot(glm::fvec3 dir, GLfloat cf, GLfloat e);
 };
 
