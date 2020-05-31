@@ -178,8 +178,12 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '3':
 		mScene->setState(Scene::SCENE_3);
 		break;
+	case 'd':
+		mScene->light3_switch(true);
+		break;
 	case 'f':
-		mScene->getgObjects()[1]->getTexture()->save("..\\Bmps\\picture.bmp");
+		mScene->light3_switch(false);
+		//mScene->getgObjects()[1]->getTexture()->save("..\\Bmps\\picture.bmp");
 		break;
 	case 'k':
 		m2Vistas = !m2Vistas;
@@ -212,6 +216,7 @@ void IG1App::key(unsigned char key, int x, int y)
 		mScene->light0_switch(false);
 		mScene->light1_switch(false);
 		mScene->light2_switch(false);
+		mScene->light3_switch(false);
 		mScene->light_airplane_switch(false);
 		break;
 	case 'y':
