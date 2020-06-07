@@ -2,6 +2,13 @@
 #include "CheckML.h"
 #include <iostream>
 
+
+#if defined(WIN32) || defined(_WIN32)
+const std::string PATH_SEPARATOR = "\\";
+#else
+const std::string PATH_SEPARATOR = "/";
+
+#endif
 using namespace std;
 
 //-------------------------------------------------------------------------
@@ -37,9 +44,20 @@ void IG1App::init()
 	// create an OpenGL Context
 	iniWinOpenGL();   
 
+
+
+	mBackground = new Background(mWinW, mWinH);
+	const std::string& tx = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "noche.bmp";
+	mBackground->setTexture(tx);
+
+
+
+
+
+
 	// create the scene after creating the context 
 	// allocate memory and resources
-	mViewPort = new Viewport(mWinW, mWinH); //glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)
+	mViewPort = new Viewport(mWinW, mWinH);
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
 	
@@ -87,6 +105,7 @@ void IG1App::free()
 	delete mScene; mScene = nullptr;
 	delete mCamera; mCamera = nullptr;
 	delete mViewPort; mViewPort = nullptr;
+	delete mBackground; mBackground = nullptr;
 }
 //-------------------------------------------------------------------------
 
@@ -104,12 +123,6 @@ void IG1App::display2Vistas() const {
 	mViewPort->setPos(mWinW / 2, 0);
 	auxCam.setCenital();
 	mScene->render(auxCam);
-
-	
-
-
-	
-
 	*mViewPort = auxVP;
 }
 
@@ -121,6 +134,7 @@ void IG1App::display() const {
 	if (m2Vistas)
 		display2Vistas();
 	else {
+		mBackground->render();
 		mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
 	}
 	
@@ -134,7 +148,7 @@ void IG1App::resize(int newWidth, int newHeight)
 
 	// Resize Viewport to the new window size
 	mViewPort->setSize(newWidth, newHeight);
-
+	mBackground->setSizeVP(mWinW, mWinH);
 	// Resize Scene Visible Area such that the scale is not modified
 	mCamera->setSize(mViewPort->width(), mViewPort->height()); 
 }

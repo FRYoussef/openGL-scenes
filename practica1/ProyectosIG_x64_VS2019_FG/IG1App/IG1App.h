@@ -81,7 +81,7 @@ protected:
 	glm::dvec2 mMouseCoord = glm::dvec2(0, 0);
 	int mMouseButt = 0;
 	bool m2Vistas = false;
-
+	Background* mBackground = nullptr;
 
 };
 //-------------------------------------------------------------------------

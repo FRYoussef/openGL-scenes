@@ -2,6 +2,8 @@
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 
+
+
 using namespace glm;
 
 //-------------------------------------------------------------------------
@@ -330,4 +332,42 @@ void Glass::render(dmat4 const& modelViewMat) const
 		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
 	}
+}
+
+
+
+
+Background::Background (GLdouble w, GLdouble h) {
+	this->w = w; this->h = h;
+	mMesh = Mesh::generateRectangleTexCoord(2, 2, 1, 1);
+	mTexture = new Texture();
+	mViewPort = new Viewport(w, h);
+	mCamera = new Camera(mViewPort);
+	mCamera->set2D();
+	mCamera->setSize(2,2);
+}
+
+void Background::render() const {
+	mCamera->upload();
+	if (mMesh != nullptr) {
+		glPolygonMode(GL_FRONT, GL_FILL);
+
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);
+
+		mMesh->render();
+
+		if (mTexture != nullptr)
+			mTexture->unbind();
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void Background::setSizeVP(int xw, int yh) {
+	mViewPort->setSize(xw, yh);
+}
+
+void Background::setTexture(const std::string& tx) {
+	mTexture->load(tx);
 }

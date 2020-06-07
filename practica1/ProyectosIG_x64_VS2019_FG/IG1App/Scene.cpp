@@ -16,13 +16,13 @@ using namespace glm;
 void Scene::init()
 { 
 	setGL();  // OpenGL settings
-	gObjects.push_back(new RGBAxis(400.0));
+	//gObjects.push_back(new RGBAxis(400.0));
 	switch (mId) {
 	case SCENE_2D:
-		scene2D();
+		//scene2D();
 		break;
 	case SCENE_3D:
-		scene3D();
+		//scene3D();
 		break;
 	default:
 		break;
