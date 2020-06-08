@@ -349,18 +349,16 @@ Background::~Background() {
 }
 
 void Background::render() const {
+	mCamera->upload();
 	if (mMesh != nullptr) {
+		glEnable(GL_TEXTURE_2D);
 		glPolygonMode(GL_FRONT, GL_LINE);
 
-		if (mTexture != nullptr)
-			mTexture->bind(GL_REPLACE);
-
-		mCamera->upload();
+		mTexture->bind(GL_REPLACE);
 		mMesh->render();
+		mTexture->unbind();
 
-		if (mTexture != nullptr)
-			mTexture->unbind();
-
+		glDisable(GL_TEXTURE_2D);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

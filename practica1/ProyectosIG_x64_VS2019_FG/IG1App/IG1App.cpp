@@ -124,9 +124,7 @@ void IG1App::display2Vistas() const {
 void IG1App::display() const {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
-	glEnable(GL_TEXTURE_2D);
 	mBackground->render();
-	glDisable(GL_TEXTURE_2D);
 
 	// double buffering
 	if (m2Vistas)
@@ -144,8 +142,8 @@ void IG1App::resize(int newWidth, int newHeight)
 	mWinH = newHeight;
 
 	// Resize Viewport to the new window size
-	mViewPort->setSize(mWinW, mWinH);
 	mBackground->setSizeVP(mWinW, mWinH);
+	mViewPort->setSize(mWinW, mWinH);
 	// Resize Scene Visible Area such that the scale is not modified
 	mCamera->setSize(mViewPort->width(), mViewPort->height()); 
 }
