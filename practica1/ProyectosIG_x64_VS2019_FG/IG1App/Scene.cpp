@@ -16,13 +16,13 @@ using namespace glm;
 void Scene::init()
 { 
 	setGL();  // OpenGL settings
-	//gObjects.push_back(new RGBAxis(400.0));
+	gObjects.push_back(new RGBAxis(400.0));
 	switch (mId) {
 	case SCENE_2D:
-		//scene2D();
+		scene2D();
 		break;
 	case SCENE_3D:
-		//scene3D();
+		scene3D();
 		break;
 	default:
 		break;
@@ -151,16 +151,14 @@ void Scene::setGL()
 	// OpenGL basic setting
 	glClearColor(0.0, 0.0, 0.0, 0.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test
-	if (mId == SCENE_3D)
-		glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------
 void Scene::resetGL() 
 {
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
-	glDisable(GL_DEPTH_TEST);  // disable Depth test 	
-	if (mId == SCENE_3D)
-		glDisable(GL_TEXTURE_2D);
+	glDisable(GL_DEPTH_TEST);  // disable Depth test
+	glDisable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------
 

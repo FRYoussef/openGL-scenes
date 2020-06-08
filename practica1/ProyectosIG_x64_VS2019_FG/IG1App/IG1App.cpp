@@ -42,18 +42,12 @@ void IG1App::run()   // enters the main event processing loop
 void IG1App::init()
 {
 	// create an OpenGL Context
-	iniWinOpenGL();   
+	iniWinOpenGL();
 
-
-
-	mBackground = new Background(mWinW, mWinH);
-	const std::string& tx = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "noche.bmp";
+	mBackground = new Background();
+	const std::string tx = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "noche.bmp";
 	mBackground->setTexture(tx);
-
-
-
-
-
+	mBackground->setSizeVP(mWinW, mWinH);
 
 	// create the scene after creating the context 
 	// allocate memory and resources
@@ -130,13 +124,15 @@ void IG1App::display2Vistas() const {
 void IG1App::display() const {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
+	glEnable(GL_TEXTURE_2D);
+	mBackground->render();
+	glDisable(GL_TEXTURE_2D);
+
 	// double buffering
 	if (m2Vistas)
 		display2Vistas();
-	else {
-		mBackground->render();
+	else
 		mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
-	}
 	
 	glutSwapBuffers();	// swaps the front and back buffer
 }
@@ -144,10 +140,11 @@ void IG1App::display() const {
 
 void IG1App::resize(int newWidth, int newHeight) 
 {
-	mWinW = newWidth; mWinH = newHeight;
+	mWinW = newWidth; 
+	mWinH = newHeight;
 
 	// Resize Viewport to the new window size
-	mViewPort->setSize(newWidth, newHeight);
+	mViewPort->setSize(mWinW, mWinH);
 	mBackground->setSizeVP(mWinW, mWinH);
 	// Resize Scene Visible Area such that the scale is not modified
 	mCamera->setSize(mViewPort->width(), mViewPort->height()); 

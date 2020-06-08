@@ -2,8 +2,6 @@
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 
-
-
 using namespace glm;
 
 //-------------------------------------------------------------------------
@@ -334,27 +332,30 @@ void Glass::render(dmat4 const& modelViewMat) const
 	}
 }
 
-
-
-
-Background::Background (GLdouble w, GLdouble h) {
-	this->w = w; this->h = h;
+Background::Background () {
 	mMesh = Mesh::generateRectangleTexCoord(2, 2, 1, 1);
 	mTexture = new Texture();
-	mViewPort = new Viewport(w, h);
+	mViewPort = new Viewport(1, 1);
 	mCamera = new Camera(mViewPort);
 	mCamera->set2D();
-	mCamera->setSize(2,2);
+	mCamera->setSize(2.0, 2.0);
+}
+
+Background::~Background() {
+	delete mMesh;  mMesh = nullptr; 
+	delete mTexture; mTexture = nullptr;
+	delete mViewPort; mViewPort = nullptr; 
+	delete mCamera; mCamera = nullptr;
 }
 
 void Background::render() const {
-	mCamera->upload();
 	if (mMesh != nullptr) {
-		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_FRONT, GL_LINE);
 
 		if (mTexture != nullptr)
 			mTexture->bind(GL_REPLACE);
 
+		mCamera->upload();
 		mMesh->render();
 
 		if (mTexture != nullptr)
@@ -368,6 +369,6 @@ void Background::setSizeVP(int xw, int yh) {
 	mViewPort->setSize(xw, yh);
 }
 
-void Background::setTexture(const std::string& tx) {
+void Background::setTexture(const std::string tx) {
 	mTexture->load(tx);
 }

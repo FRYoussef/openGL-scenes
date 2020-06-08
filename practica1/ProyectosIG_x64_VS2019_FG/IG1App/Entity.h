@@ -170,28 +170,18 @@ protected:
 };
 //-------------------------------------------------------------------------
 
-
-
-
-class Background
-{
+class Background {
 public:
-	explicit Background(GLdouble w, GLdouble h);
-	~Background() {
-		delete mMesh;  mMesh = nullptr; delete mTexture; mTexture = nullptr;
-		delete mViewPort; mViewPort = nullptr; delete mCamera; mCamera = nullptr;
-	}
+	explicit Background();
+	~Background();
 	void render() const;
 	void setSizeVP(int xw, int yh);
-	void setTexture(const std::string& tx);
+	void setTexture(const std::string tx);
 protected:
 	Mesh* mMesh = nullptr;   // the mesh
 	Texture* mTexture = nullptr;
 	Viewport* mViewPort = nullptr; // Viewport position and size
 	Camera* mCamera = nullptr; 	// Camera position, view volume and projection
-	GLdouble w;
-	GLdouble h;
 };
-
 
 #endif //_H_Entities_H_
