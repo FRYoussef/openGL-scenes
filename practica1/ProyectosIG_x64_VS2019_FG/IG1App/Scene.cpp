@@ -19,7 +19,7 @@ void Scene::init()
 	gObjects.push_back(new RGBAxis(400.0));
 	switch (mId) {
 	case SCENE_2D:
-		//scene2D();
+		scene2D();
 		break;
 	case SCENE_3D:
 		scene3D();
@@ -126,8 +126,7 @@ void Scene::scene3D() {
 }
 
 //-------------------------------------------------------------------------
-void Scene::free() 
-{ // release memory and resources   
+void Scene::free() { // release memory and resources   
 
 	for (Abs_Entity* el : gObjects)
 	{
@@ -146,37 +145,32 @@ void Scene::free()
 
 }
 //-------------------------------------------------------------------------
-void Scene::setGL() 
-{
+void Scene::setGL() {
 	// OpenGL basic setting
 	glClearColor(0.0, 0.0, 0.0, 0.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test
 	glEnable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------
-void Scene::resetGL() 
-{
+void Scene::resetGL() {
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);  // disable Depth test
 	glDisable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------
 
-void Scene::render(Camera const& cam) const 
-{
+void Scene::render(Camera const& cam) const {
 	cam.upload();
 	for (Abs_Entity* el : gObjects)
-	{
 		el->render(cam.viewMat());
-	}
 
 	glDepthMask(GL_FALSE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	for (Abs_Entity* el : gTransObjects)
-	{
 		el->render(cam.viewMat());
-	}
+
 	glDepthMask(GL_TRUE);
 	glDisable(GL_BLEND);
 }
@@ -184,10 +178,9 @@ void Scene::render(Camera const& cam) const
 void Scene::update() {
 	for (int i = 0; i < gObjects.size(); i++)
 		gObjects.at(i)->update();
+
 	for (int i = 0; i < gTransObjects.size(); i++)
 		gTransObjects.at(i)->update();
-
-	
 }
 
 void Scene::setState(int id) {

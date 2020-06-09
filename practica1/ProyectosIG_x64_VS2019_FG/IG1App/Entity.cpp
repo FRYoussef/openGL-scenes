@@ -332,6 +332,7 @@ void Glass::render(dmat4 const& modelViewMat) const
 	}
 }
 
+// EXTRA 1
 Background::Background () {
 	mMesh = Mesh::generateRectangleTexCoord(2, 2, 1, 1);
 	mTexture = new Texture();
@@ -351,14 +352,14 @@ Background::~Background() {
 void Background::render() const {
 	mCamera->upload();
 	if (mMesh != nullptr) {
-		glEnable(GL_TEXTURE_2D);
-		glPolygonMode(GL_FRONT, GL_LINE);
+		glPolygonMode(GL_FRONT, GL_FILL);
 
 		mTexture->bind(GL_REPLACE);
+
 		mMesh->render();
+
 		mTexture->unbind();
 
-		glDisable(GL_TEXTURE_2D);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
@@ -367,6 +368,6 @@ void Background::setSizeVP(int xw, int yh) {
 	mViewPort->setSize(xw, yh);
 }
 
-void Background::setTexture(const std::string tx) {
+void Background::setTexture(const std::string &tx) {
 	mTexture->load(tx);
 }

@@ -176,7 +176,7 @@ public:
 	~Background();
 	void render() const;
 	void setSizeVP(int xw, int yh);
-	void setTexture(const std::string tx);
+	void setTexture(const std::string &tx);
 protected:
 	Mesh* mMesh = nullptr;   // the mesh
 	Texture* mTexture = nullptr;

@@ -44,11 +44,6 @@ void IG1App::init()
 	// create an OpenGL Context
 	iniWinOpenGL();
 
-	mBackground = new Background();
-	const std::string tx = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "noche.bmp";
-	mBackground->setTexture(tx);
-	mBackground->setSizeVP(mWinW, mWinH);
-
 	// create the scene after creating the context 
 	// allocate memory and resources
 	mViewPort = new Viewport(mWinW, mWinH);
@@ -57,6 +52,12 @@ void IG1App::init()
 	
 	mCamera->set2D();
 	mScene->init();
+
+	// EXTRA 1
+	mBackground = new Background();
+	const std::string tx = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "noche.bmp";
+	mBackground->setTexture(tx);
+	mBackground->setSizeVP(mWinW, mWinH);
 }
 //-------------------------------------------------------------------------
 
