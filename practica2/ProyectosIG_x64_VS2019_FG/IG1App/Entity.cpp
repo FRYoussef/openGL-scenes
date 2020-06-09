@@ -651,7 +651,7 @@ void Airplane::update(){
 Grid::Grid(GLdouble _side, GLuint _chunks){
 	side = _side;
 	chunks = _chunks;
-	mMesh = IndexMesh::generateGrid(side, chunks);
+	mMesh = IndexMesh::generateGridTex(side, chunks);
 }
 
 void Grid::render(dmat4 const& modelViewMat) const {
@@ -659,13 +659,11 @@ void Grid::render(dmat4 const& modelViewMat) const {
 		dmat4 aMat = modelViewMat * mModelMat;
 		upload(aMat);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 		if (mTexture != nullptr)
 			mTexture->bind(GL_REPLACE);
 		else{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			glLineWidth(2.0);
-			glEnable(GL_COLOR_MATERIAL);
 			glColor3f(this->mColor.r, this->mColor.g, this->mColor.b);
 		}
 
@@ -674,11 +672,9 @@ void Grid::render(dmat4 const& modelViewMat) const {
 		if (mTexture != nullptr)
 			mTexture->unbind();
 		else{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glLineWidth(1.0);
 			glColor3f(1.0, 1.0, 1.0);
-			glDisable(GL_COLOR_MATERIAL);
 		}
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

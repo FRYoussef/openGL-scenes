@@ -161,16 +161,18 @@ void Scene::setScene3() {
 	mAirplane = translate(mAirplane, dvec3(0, 350, 0));
 	mAirplane = scale(mAirplane, dvec3(0.3, 0.3, 0.3));
 	airplane->setModelMat(mAirplane);
-
 }
 
 void Scene::setScene4() {
 	Grid* grid = new Grid(200.0, 10);
-	/*glm::dmat4 mGrid = grid->modelMat();
-	mGrid= rotate(mGrid, radians(90.0), dvec3(1, 0, 0));
-	grid->setModelMat(mGrid);*/
+	std::string path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "checker.bmp";
+	Texture* tx = new Texture();
+	tx->load(path);
+	grid->setTexture(tx);
+	//grid->setMColor(glm::dvec4(0, 0, 255, 1));
 	
 	gObjects.push_back(grid);
+	gTextures.push_back(tx);
 }
 
 //-------------------------------------------------------------------------
@@ -209,12 +211,14 @@ void Scene::setGL()
 	glEnable(GL_DEPTH_TEST);  // enable Depth test
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------
 void Scene::resetGL() 
 {
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
-	glDisable(GL_DEPTH_TEST);  // disable Depth test 	
+	glDisable(GL_DEPTH_TEST);  // disable Depth test
+	glDisable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------
 

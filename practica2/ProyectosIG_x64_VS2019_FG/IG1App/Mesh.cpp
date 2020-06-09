@@ -337,7 +337,6 @@ Mesh* Mesh::generateContCube(GLdouble ld) {
 }
 
 Mesh* Mesh::generateBoxTextCoord(GLdouble nl) {
-   
     Mesh* mesh = generateContCube(nl);
 
     mesh->vTexCoords.reserve(mesh->mNumVertices);
@@ -371,7 +370,6 @@ Mesh* Mesh::generateBoxTextCoord(GLdouble nl) {
 }
 
 vector<Mesh*> Mesh::generate3dObject(GLuint times, GLdouble w, GLdouble h) {
-    
     vector<Mesh*> gMesh;
     GLdouble vertex_X = 0, vertex_Y = h, vertex_Z = 0, ang = 0, incr = 360.0 / (2 * (times-1));
 
@@ -383,11 +381,9 @@ vector<Mesh*> Mesh::generate3dObject(GLuint times, GLdouble w, GLdouble h) {
         mesh->vVertices.reserve(mesh->mNumVertices);
 
         //V0
-        
         vertex_X = (w / 2) * sin(radians(ang));
         vertex_Z = (w / 2) * cos(radians(ang));
         mesh->vVertices.emplace_back(vertex_X, vertex_Y, vertex_Z);
-        
         
         //V1
         vertex_X = (w / 2) * sin(radians(ang));
@@ -398,10 +394,8 @@ vector<Mesh*> Mesh::generate3dObject(GLuint times, GLdouble w, GLdouble h) {
         vertex_X = -(w / 2) * sin(radians(ang));
         vertex_Z = -(w / 2) * cos(radians(ang));
         mesh->vVertices.emplace_back(vertex_X, vertex_Y, vertex_Z);
-            
 
         //V3
-
         vertex_X = -(w / 2) * sin(radians(ang));
         vertex_Z = -(w / 2) * cos(radians(ang));
         mesh->vVertices.emplace_back(vertex_X, 0, vertex_Z);
@@ -421,20 +415,12 @@ vector<Mesh*> Mesh::generate3dObject(GLuint times, GLdouble w, GLdouble h) {
         gMesh.push_back(mesh);
 
         ang += incr;
-            
-        
     }
-
-
-        
-
 
     return gMesh;
 }
 
 Mesh* Mesh::generateSquaredRing() {
-
-
     Mesh* mesh = new Mesh();
 
     mesh->mPrimitive = GL_TRIANGLE_STRIP;
@@ -497,8 +483,8 @@ void IndexMesh::render() const{
             glIndexPointer(GL_UNSIGNED_INT, 0, vIndexes);
         }
         if (vColors.size() > 0) {
-        glEnableClientState(GL_COLOR_ARRAY);
-        glColorPointer(4, GL_DOUBLE, 0, vColors.data());
+            glEnableClientState(GL_COLOR_ARRAY);
+            glColorPointer(4, GL_DOUBLE, 0, vColors.data());
         }
         if (vTexCoords.size() > 0) {
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -522,8 +508,6 @@ void IndexMesh::render() const{
 void IndexMesh::draw() const{
     glDrawElements(mPrimitive, nNumIndices, GL_UNSIGNED_INT, vIndexes);
 }
-
-
 
 void IndexMesh::buildNormalVectors() {
     int i1, i2, i3;
@@ -657,14 +641,10 @@ IndexMesh* IndexMesh::generateGrid(GLdouble side, GLuint chunks) {
     mesh->mPrimitive = GL_TRIANGLES;
     mesh->mNumVertices = (chunks + 1) * (chunks + 1);
     mesh->vVertices.reserve(mesh->size());
-    mesh->vColors.reserve(mesh->size());
+
     // caras = chk * chk; triangulos = caras * 2; indice = triang * 3;
     mesh->nNumIndices = chunks * chunks * 6;
     mesh->vIndexes = new GLuint[mesh->nNumIndices];
-
-    // colors
-    for(int i = 0; i < mesh->size(); i++)
-        mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
 
     // vertex
     GLdouble chkSize = side / (chunks + 1);
@@ -696,6 +676,25 @@ IndexMesh* IndexMesh::generateGrid(GLdouble side, GLuint chunks) {
     }
 
     mesh->buildNormalVectors();
+
+    return mesh;
+}
+
+IndexMesh* IndexMesh::generateGridTex(GLdouble side, GLuint chunks) {
+    IndexMesh* mesh = generateGrid(side, chunks);
+    mesh->vTexCoords.reserve(mesh->size());
+
+    GLdouble chkSize = side / chunks;
+    GLdouble incX = 0.0, incY = 0.0;
+
+    for(int i = 0; i < chunks + 1; i++){
+        for(int j = 0; j < chunks + 1; j++){
+            mesh->vTexCoords.emplace_back(incX/side, incY/side);
+            incY += chkSize;
+        }
+        incX += chkSize;
+        incY = 0.0;
+    }
 
     return mesh;
 }

@@ -67,6 +67,7 @@ class IndexMesh: public Mesh {
 		virtual void render() const;
 		static IndexMesh* generateIndexCubeWithLids(GLdouble l);
 		static IndexMesh* generateGrid(GLdouble side, GLuint chunks);
+		static IndexMesh* generateGridTex(GLdouble side, GLuint chunks);
 };
 
 class MbR: public IndexMesh {
