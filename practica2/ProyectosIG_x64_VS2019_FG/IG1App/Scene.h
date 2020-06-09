@@ -41,6 +41,7 @@ public:
 	static const int SCENE_1 = 0;
 	static const int SCENE_2 = 1;
 	static const int SCENE_3 = 2;
+	static const int SCENE_4 = 3;
 
 protected:
 	void free();
@@ -49,6 +50,7 @@ protected:
 	void setScene1();
 	void setScene2();
 	void setScene3();
+	void setScene4();
 	void setLights();
 	std::vector<Texture*> gTextures;
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene

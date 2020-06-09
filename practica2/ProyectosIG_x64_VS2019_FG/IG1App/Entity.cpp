@@ -647,3 +647,38 @@ void Airplane::update(){
 	mModelMat = scale(mModelMat, dvec3(0.3, 0.3, 0.3));
 	mModelMat = glm::rotate(mModelMat, radians(angleX), dvec3(1, 0, 0));
 }
+
+Grid::Grid(GLdouble _side, GLuint _chunks){
+	side = _side;
+	chunks = _chunks;
+	mMesh = IndexMesh::generateGrid(side, chunks);
+}
+
+void Grid::render(dmat4 const& modelViewMat) const {
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+		if (mTexture != nullptr)
+			mTexture->bind(GL_REPLACE);
+		else{
+			glLineWidth(2.0);
+			glEnable(GL_COLOR_MATERIAL);
+			glColor3f(this->mColor.r, this->mColor.g, this->mColor.b);
+		}
+
+		mMesh->render();
+
+		if (mTexture != nullptr)
+			mTexture->unbind();
+		else{
+			glLineWidth(1.0);
+			glColor3f(1.0, 1.0, 1.0);
+			glDisable(GL_COLOR_MATERIAL);
+		}
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}

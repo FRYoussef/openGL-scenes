@@ -178,6 +178,9 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '3':
 		mScene->setState(Scene::SCENE_3);
 		break;
+	case '4':
+		mScene->setState(Scene::SCENE_4);
+		break;
 	case 'd':
 		mScene->light3_switch(true);
 		break;

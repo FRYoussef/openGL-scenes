@@ -31,6 +31,10 @@ void Scene::init()
 		setScene3();
 		light0 = false;
 		break;
+	case SCENE_4:
+		setScene4();
+		light0 = true;
+		break;
 	default:
 		break;
 	}
@@ -158,6 +162,15 @@ void Scene::setScene3() {
 	mAirplane = scale(mAirplane, dvec3(0.3, 0.3, 0.3));
 	airplane->setModelMat(mAirplane);
 
+}
+
+void Scene::setScene4() {
+	Grid* grid = new Grid(200.0, 10);
+	/*glm::dmat4 mGrid = grid->modelMat();
+	mGrid= rotate(mGrid, radians(90.0), dvec3(1, 0, 0));
+	grid->setModelMat(mGrid);*/
+	
+	gObjects.push_back(grid);
 }
 
 //-------------------------------------------------------------------------

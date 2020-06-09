@@ -2,6 +2,7 @@
 #include "CheckML.h"
 #include <fstream>
 #include <gtc/matrix_transform.hpp>  
+#include <iostream>
 using namespace std;
 using namespace glm;
 
@@ -647,5 +648,54 @@ MbR* MbR::generateIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil){
         }
     }
     mesh->buildNormalVectors();
+    return mesh;
+}
+
+IndexMesh* IndexMesh::generateGrid(GLdouble side, GLuint chunks) {
+    IndexMesh* mesh = new IndexMesh();
+
+    mesh->mPrimitive = GL_TRIANGLES;
+    mesh->mNumVertices = (chunks + 1) * (chunks + 1);
+    mesh->vVertices.reserve(mesh->size());
+    mesh->vColors.reserve(mesh->size());
+    // caras = chk * chk; triangulos = caras * 2; indice = triang * 3;
+    mesh->nNumIndices = chunks * chunks * 6;
+    mesh->vIndexes = new GLuint[mesh->nNumIndices];
+
+    // colors
+    for(int i = 0; i < mesh->size(); i++)
+        mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+
+    // vertex
+    GLdouble chkSize = side / (chunks + 1);
+    GLdouble incX = 0.0, incY = 0.0;
+
+    for(int i = 0; i < chunks + 1; i++){
+        for(int j = 0; j < chunks + 1; j++){
+            mesh->vVertices.emplace_back(incX, incY, 0.0);
+            incY += chkSize;
+        }
+        incX += chkSize;
+        incY = 0.0;
+    }
+
+    // index
+    int index = 0;
+    for(int i = 0; i < chunks; i++){
+        for(int j = 0; j < chunks; j++){
+            // first triangle
+            mesh->vIndexes[index++] = j + i * (chunks + 1);
+            mesh->vIndexes[index++] = (j + 1) + i * (chunks + 1);
+            mesh->vIndexes[index++] = (j + 1) + (i + 1)  * (chunks + 1);
+
+            // second triangle
+            mesh->vIndexes[index++] = j + i * (chunks + 1);
+            mesh->vIndexes[index++] = j + (i + 1) * (chunks + 1);
+            mesh->vIndexes[index++] = (j + 1) + (i + 1) * (chunks + 1);
+        }
+    }
+
+    mesh->buildNormalVectors();
+
     return mesh;
 }

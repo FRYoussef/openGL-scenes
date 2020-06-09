@@ -235,7 +235,6 @@ class EntityWithIndexMesh : public Abs_Entity
 public:
 	explicit EntityWithIndexMesh() {};
 	void render(glm::dmat4 const& modelViewMat) const;
-
 };
 
 class Cube: public EntityWithIndexMesh {
@@ -313,6 +312,16 @@ protected:
 	GLdouble traslationAngle = 90.0;
 	GLdouble planetR;
 	GLdouble propellersAngle = 0.0;
+};
+
+class Grid: public EntityWithIndexMesh {
+public:
+	Grid(GLdouble _side, GLuint _chunks);
+	~Grid() { };
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble side;
+	GLuint chunks;
 };
 
 #endif //_H_Entities_H_
