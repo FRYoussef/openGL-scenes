@@ -333,4 +333,14 @@ protected:
 	GLuint chunks;
 };
 
+class SirenCube: public CompoundEntity {
+public:
+	SirenCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx);
+	~SirenCube() {};
+protected:
+	GLdouble side;
+	GLuint chunks;
+	GLdouble radius;
+};
+
 #endif //_H_Entities_H_

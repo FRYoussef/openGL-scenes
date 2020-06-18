@@ -38,6 +38,10 @@ void Scene::init()
 		setScene4();
 		light0 = false;
 		break;
+	case SCENE_5:
+		setScene5();
+		light0 = false;
+		break;
 	default:
 		break;
 	}
@@ -178,8 +182,37 @@ void Scene::setScene4() {
 	tx2->load(path);
 
 	GridCube* cube = new GridCube(200.0, 10, tx1, tx2);
-	
+
 	gObjects.push_back(cube);
+	
+	gTextures.push_back(tx1);
+	gTextures.push_back(tx2);
+}
+
+void Scene::setScene5() {
+	setLights();
+
+	GLdouble planetR = 200.0;
+	Esfera* planet = new Esfera(planetR, 250, 250);
+	planet->setMColor(dvec4(0.0, 1.0, 1.0, 1.0));
+
+	Texture* tx1 = new Texture();
+	std::string path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "checker.bmp";
+	tx1->load(path);
+
+	Texture* tx2 = new Texture();
+	path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "stones.bmp";
+	tx2->load(path);
+
+	SirenCube *sirenCube = new SirenCube(200.0, 10, tx1, tx2);
+
+	glm::dmat4 mCube = sirenCube->modelMat();
+	mCube = translate(mCube, dvec3(0, planetR+30, 0));
+	mCube = scale(mCube, dvec3(0.2, 0.2, 0.2));
+	sirenCube->setModelMat(mCube);
+	
+	gObjects.emplace_back(planet);
+	gObjects.push_back(sirenCube);
 	gTextures.push_back(tx1);
 	gTextures.push_back(tx2);
 }
@@ -250,6 +283,7 @@ void Scene::render(Camera const& cam) const {
 
 	switch (mId){
 	case SCENE_3:
+	case SCENE_5:
 		directionalLight->upload(cam.viewMat());
 		positionalLight->upload(cam.viewMat());
 		spotSceneLight->upload(cam.viewMat());
@@ -419,6 +453,7 @@ void Scene::turn_off_lights() {
 void Scene::setLights() {
 	switch (mId) {
 	case SCENE_3:
+	case SCENE_5:
 		directionalLight = new DirLight();
 		directionalLight->setPosDir(glm::fvec3(1, 1, 1));
 		directionalLight->setAmbient(glm::fvec4(0, 0, 0, 1));
@@ -461,8 +496,9 @@ void Scene::setLights() {
 		spotSceneLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
 		spotSceneLight->setSpot(glm::fvec3(0, 0, -1.0), 45.0, 20);
 		spotSceneLight->disable();
-		
+
 	 	break;
+
 	default:
 		break;
 	}

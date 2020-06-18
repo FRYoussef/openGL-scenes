@@ -731,3 +731,17 @@ GridCube::GridCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx){
 	face->setModelMat(glm::rotate(face->modelMat(), radians(180.0), dvec3(1, 0, 0)));
 	addEntity(face);
 }
+
+SirenCube::SirenCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx) {
+	side = _side;
+	chunks = _chunks;
+	radius = side / 4;
+
+	GridCube *cube = new GridCube(_side, _chunks, vTx, hTx);
+	addEntity(cube);
+
+	Esfera* sphere = new Esfera(radius, 250, 250);
+	sphere->setMColor(dvec4(1.0, 0, 0, 1.0));
+	sphere->setModelMat(glm::translate(sphere->modelMat(), dvec3(0, side/2, 0)));
+	addEntity(sphere);
+}
