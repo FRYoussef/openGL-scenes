@@ -54,6 +54,8 @@ protected:
 	void setScene4();
 	void setScene5();
 	void setLights();
+	void airplaneMove();
+	void sirenMove();
 	std::vector<Texture*> gTextures;
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Abs_Entity*> gTransObjects;
@@ -67,6 +69,7 @@ protected:
 	SpotLight* spotSceneLight = nullptr;
 	PosLight* mineLight = nullptr;
 	Airplane* airplane = nullptr;
+	SirenCube* sirenCube = nullptr;
 };
 //-------------------------------------------------------------------------
 

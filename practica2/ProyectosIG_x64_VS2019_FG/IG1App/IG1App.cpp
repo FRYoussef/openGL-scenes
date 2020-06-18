@@ -222,6 +222,7 @@ void IG1App::key(unsigned char key, int x, int y)
 		mScene->turn_off_lights();
 		break;
 	case 'y':
+	case 'j':
 		mScene->move();
 		break;
 	default:

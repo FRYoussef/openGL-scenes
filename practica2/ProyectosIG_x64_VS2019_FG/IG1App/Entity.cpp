@@ -732,9 +732,10 @@ GridCube::GridCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx){
 	addEntity(face);
 }
 
-SirenCube::SirenCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx) {
+SirenCube::SirenCube(GLdouble _side, GLuint _chunks, GLdouble _rd, Texture* vTx, Texture* hTx) {
 	side = _side;
 	chunks = _chunks;
+	rotationRadius = _rd;
 	radius = side / 4;
 
 	GridCube *cube = new GridCube(_side, _chunks, vTx, hTx);
@@ -744,4 +745,16 @@ SirenCube::SirenCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx)
 	sphere->setMColor(dvec4(1.0, 0, 0, 1.0));
 	sphere->setModelMat(glm::translate(sphere->modelMat(), dvec3(0, side/2, 0)));
 	addEntity(sphere);
+}
+
+void SirenCube::update() {
+	angleX += 3.0;
+	traslationAngle += 3.0;
+
+	GLdouble z = (30 + rotationRadius) * cos(radians(traslationAngle));
+	GLdouble y = (30 + rotationRadius) * sin(radians(traslationAngle));
+
+	mModelMat = translate(dmat4(1), dvec3(0, y, -z));
+	mModelMat = scale(mModelMat, dvec3(0.2, 0.2, 0.2));
+	mModelMat = glm::rotate(mModelMat, radians(angleX), dvec3(1, 0, 0));
 }

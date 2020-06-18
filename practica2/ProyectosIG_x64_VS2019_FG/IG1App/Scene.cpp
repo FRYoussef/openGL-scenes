@@ -204,7 +204,7 @@ void Scene::setScene5() {
 	path = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "stones.bmp";
 	tx2->load(path);
 
-	SirenCube *sirenCube = new SirenCube(200.0, 10, tx1, tx2);
+	sirenCube = new SirenCube(200.0, 10, planetR, tx1, tx2);
 
 	glm::dmat4 mCube = sirenCube->modelMat();
 	mCube = translate(mCube, dvec3(0, planetR+30, 0));
@@ -227,6 +227,7 @@ void Scene::free()
 	}
 	gObjects.resize(0);
 	airplane = nullptr;
+	sirenCube = nullptr;
 
 	for (Texture* tx : gTextures) {
 		delete tx; tx = nullptr;
@@ -505,7 +506,17 @@ void Scene::setLights() {
 }
 
 void Scene::move() {
-	if(mId == SCENE_3)
+	sirenMove();
+	airplaneMove();
+}
+
+void Scene::airplaneMove(){
+	if(airplane != nullptr)
 		airplane->update();
+}
+
+void Scene::sirenMove(){
+	if(sirenCube != nullptr)
+		sirenCube->update();
 }
 //-------------------------------------------------------------------------
