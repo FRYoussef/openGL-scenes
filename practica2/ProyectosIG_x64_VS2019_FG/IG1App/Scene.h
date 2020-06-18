@@ -59,7 +59,7 @@ protected:
 	bool light1 = false;
 	bool light2 = false;
 	bool light3 = false;
-	int mId = 0;
+	int mId = SCENE_1;
 	DirLight* directionalLight = nullptr;
 	PosLight* positionalLight = nullptr;
 	SpotLight* spotSceneLight = nullptr;

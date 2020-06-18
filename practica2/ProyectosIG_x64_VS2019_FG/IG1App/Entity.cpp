@@ -659,8 +659,11 @@ void Grid::render(dmat4 const& modelViewMat) const {
 		dmat4 aMat = modelViewMat * mModelMat;
 		upload(aMat);
 
-		if (mTexture != nullptr)
+		glEnable(GL_COLOR_MATERIAL);
+		if (mTexture != nullptr){
 			mTexture->bind(GL_REPLACE);
+			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		}
 		else{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			glLineWidth(2.0);
@@ -669,12 +672,60 @@ void Grid::render(dmat4 const& modelViewMat) const {
 
 		mMesh->render();
 
-		if (mTexture != nullptr)
+		if (mTexture != nullptr){
 			mTexture->unbind();
+			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+		}
 		else{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glLineWidth(1.0);
 			glColor3f(1.0, 1.0, 1.0);
 		}
+		glDisable(GL_COLOR_MATERIAL);
 	}
+}
+
+GridCube::GridCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx){
+	side = _side;
+	chunks = _chunks;
+
+	// up face
+	Grid *face = new Grid(side, chunks);
+	face->setTexture(vTx);
+	face->setModelMat(glm::translate(face->modelMat(), dvec3(-side/2, side/2, side/2)));
+	face->setModelMat(glm::rotate(face->modelMat(), radians(-90.0), dvec3(1, 0, 0)));
+	addEntity(face);
+
+	// down face
+	face = new Grid(side, chunks);
+	face->setTexture(vTx);
+	face->setModelMat(glm::translate(face->modelMat(), dvec3(-side/2, -side/2, side/2)));
+	face->setModelMat(glm::rotate(face->modelMat(), radians(-90.0), dvec3(1, 0, 0)));
+	addEntity(face);
+
+	// left face
+	face = new Grid(side, chunks);
+	face->setTexture(hTx);
+	face->setModelMat(glm::translate(face->modelMat(), dvec3(side/2, -side/2, side/2)));
+	face->setModelMat(glm::rotate(face->modelMat(), radians(90.0), dvec3(0, 1, 0)));
+	addEntity(face);
+
+	// right face
+	face = new Grid(side, chunks);
+	face->setTexture(hTx);
+	face->setModelMat(glm::translate(face->modelMat(), dvec3(-side/2, -side/2, side/2)));
+	face->setModelMat(glm::rotate(face->modelMat(), radians(90.0), dvec3(0, 1, 0)));
+	addEntity(face);
+
+	// front face
+	face = new Grid(side, chunks);
+	face->setTexture(hTx);
+	face->setModelMat(glm::translate(face->modelMat(), dvec3(-side/2, -side/2, side/2)));
+	addEntity(face);
+
+	// back face
+	face = new Grid(side, chunks);
+	face->setTexture(hTx);
+	face->setModelMat(glm::translate(face->modelMat(), dvec3(-side/2, -side/2, -side/2)));
+	addEntity(face);
 }

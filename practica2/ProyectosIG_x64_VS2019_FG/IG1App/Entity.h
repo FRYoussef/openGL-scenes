@@ -324,4 +324,13 @@ protected:
 	GLuint chunks;
 };
 
+class GridCube: public CompoundEntity {
+public:
+	GridCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx);
+	~GridCube() {};
+protected:
+	GLdouble side;
+	GLuint chunks;
+};
+
 #endif //_H_Entities_H_

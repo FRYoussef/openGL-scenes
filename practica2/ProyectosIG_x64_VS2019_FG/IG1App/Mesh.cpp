@@ -647,7 +647,7 @@ IndexMesh* IndexMesh::generateGrid(GLdouble side, GLuint chunks) {
     mesh->vIndexes = new GLuint[mesh->nNumIndices];
 
     // vertex
-    GLdouble chkSize = side / (chunks + 1);
+    GLdouble chkSize = side / chunks;
     GLdouble incX = 0.0, incY = 0.0;
 
     for(int i = 0; i < chunks + 1; i++){
@@ -665,18 +665,17 @@ IndexMesh* IndexMesh::generateGrid(GLdouble side, GLuint chunks) {
         for(int j = 0; j < chunks; j++){
             // first triangle
             mesh->vIndexes[index++] = j + i * (chunks + 1);
-            mesh->vIndexes[index++] = (j + 1) + i * (chunks + 1);
+            mesh->vIndexes[index++] = j + (i + 1) * (chunks + 1);
             mesh->vIndexes[index++] = (j + 1) + (i + 1)  * (chunks + 1);
 
             // second triangle
-            mesh->vIndexes[index++] = j + i * (chunks + 1);
-            mesh->vIndexes[index++] = j + (i + 1) * (chunks + 1);
             mesh->vIndexes[index++] = (j + 1) + (i + 1) * (chunks + 1);
+            mesh->vIndexes[index++] = (j + 1) + i * (chunks + 1);
+            mesh->vIndexes[index++] = j + i * (chunks + 1);
         }
     }
 
     mesh->buildNormalVectors();
-
     return mesh;
 }
 
