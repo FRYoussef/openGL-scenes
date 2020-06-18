@@ -213,10 +213,10 @@ void IG1App::key(unsigned char key, int x, int y)
 		mScene->light2_switch(false);
 		break;
 	case 't':
-		mScene->light_airplane_switch(true);
+		mScene->entity_light_switch(true);
 		break;
 	case 'g':
-		mScene->light_airplane_switch(false);
+		mScene->entity_light_switch(false);
 		break;
 	case 'e':
 		mScene->turn_off_lights();

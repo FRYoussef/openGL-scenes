@@ -27,7 +27,7 @@ public:
 	void light1_switch(bool b);
 	void light2_switch(bool b);
 	void light3_switch(bool b);
-	void light_airplane_switch(bool b);
+	void entity_light_switch(bool b);
     void render(Camera const& cam) const;
 	void sceneDirLight(Camera const& cam) const;
 	void scenePosLight(Camera const& cam) const;

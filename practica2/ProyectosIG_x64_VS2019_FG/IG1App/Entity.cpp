@@ -745,11 +745,19 @@ SirenCube::SirenCube(GLdouble _side, GLuint _chunks, GLdouble _rd, Texture* vTx,
 	sphere->setMColor(dvec4(1.0, 0, 0, 1.0));
 	sphere->setModelMat(glm::translate(sphere->modelMat(), dvec3(0, side/2, 0)));
 	addEntity(sphere);
+
+	light->setPosDir(glm::fvec3(0, -side/2, 0));
+	light->setSpot(glm::fvec3(0, -1, 1), 45, 0);
 }
 
 void SirenCube::update() {
 	angleX += 3.0;
 	traslationAngle += 3.0;
+	lightAng += 10.0;
+
+	GLdouble xLight = sin(radians(lightAng));
+	GLdouble zLight = cos(radians(lightAng));
+	light->setSpot(glm::fvec3(xLight, -1, zLight), 45, 0);
 
 	GLdouble z = (30 + rotationRadius) * cos(radians(traslationAngle));
 	GLdouble y = (30 + rotationRadius) * sin(radians(traslationAngle));

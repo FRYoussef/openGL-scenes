@@ -436,9 +436,11 @@ void Scene::light3_switch(bool b) {
 	}
 }
 
-void Scene::light_airplane_switch(bool b) {
+void Scene::entity_light_switch(bool b) {
 	if(airplane != nullptr)
 		airplane->switch_light(b);
+	if(sirenCube != nullptr)
+		sirenCube->switch_light(b);
 }
 
 void Scene::turn_off_lights() {
@@ -448,7 +450,7 @@ void Scene::turn_off_lights() {
 	light1_switch(false);
 	light2_switch(false);
 	light3_switch(false);
-	light_airplane_switch(false);
+	entity_light_switch(false);
 }
 
 void Scene::setLights() {

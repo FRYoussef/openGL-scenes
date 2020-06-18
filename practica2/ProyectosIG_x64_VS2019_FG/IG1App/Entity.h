@@ -333,7 +333,7 @@ protected:
 	GLuint chunks;
 };
 
-class SirenCube: public CompoundEntity {
+class SirenCube: public EntityWithLight {
 public:
 	SirenCube(GLdouble _side, GLuint _chunks, GLdouble _rd, Texture* vTx, Texture* hTx);
 	~SirenCube() {};
@@ -345,6 +345,7 @@ protected:
 	GLdouble rotationRadius;
 	GLdouble angleX = 0.0;
 	GLdouble traslationAngle = 90.0;
+	GLdouble lightAng = 0.0;
 };
 
 #endif //_H_Entities_H_
