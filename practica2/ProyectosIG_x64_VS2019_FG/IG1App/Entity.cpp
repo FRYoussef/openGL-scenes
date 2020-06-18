@@ -659,10 +659,11 @@ void Grid::render(dmat4 const& modelViewMat) const {
 		dmat4 aMat = modelViewMat * mModelMat;
 		upload(aMat);
 
-		glEnable(GL_COLOR_MATERIAL);
 		if (mTexture != nullptr){
-			mTexture->bind(GL_REPLACE);
-			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			glEnable(GL_COLOR_MATERIAL);
+			mTexture->bind(GL_MODULATE);
+			//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			glColor4dv(value_ptr(dvec4(1.0, 1.0, 1.0, 1.0)));
 		}
 		else{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -673,15 +674,15 @@ void Grid::render(dmat4 const& modelViewMat) const {
 		mMesh->render();
 
 		if (mTexture != nullptr){
+			glDisable(GL_COLOR_MATERIAL);
 			mTexture->unbind();
-			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+			//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		}
 		else{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glLineWidth(1.0);
 			glColor3f(1.0, 1.0, 1.0);
 		}
-		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
@@ -689,7 +690,7 @@ GridCube::GridCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx){
 	side = _side;
 	chunks = _chunks;
 
-	// up face
+	//up face
 	Grid *face = new Grid(side, chunks);
 	face->setTexture(vTx);
 	face->setModelMat(glm::translate(face->modelMat(), dvec3(-side/2, side/2, side/2)));
@@ -726,6 +727,7 @@ GridCube::GridCube(GLdouble _side, GLuint _chunks, Texture* vTx, Texture* hTx){
 	// back face
 	face = new Grid(side, chunks);
 	face->setTexture(hTx);
-	face->setModelMat(glm::translate(face->modelMat(), dvec3(-side/2, -side/2, -side/2)));
+	face->setModelMat(glm::translate(face->modelMat(), dvec3(-side/2, side/2, -side/2)));
+	face->setModelMat(glm::rotate(face->modelMat(), radians(180.0), dvec3(1, 0, 0)));
 	addEntity(face);
 }

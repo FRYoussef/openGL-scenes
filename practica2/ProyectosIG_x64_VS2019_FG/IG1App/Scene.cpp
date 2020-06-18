@@ -256,9 +256,8 @@ void Scene::render(Camera const& cam) const {
 		mineLight->upload(dmat4(1.0));
 		break;
 	case SCENE_4:
-		//directionalLight->upload(cam.viewMat());
 		spotSceneLight->upload(cam.viewMat());
-		//sceneDirLight(cam);
+		sceneDirLight(cam);
 		break;
 	default:
 		sceneDirLight(cam);
@@ -456,12 +455,13 @@ void Scene::setLights() {
 		directionalLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
 		directionalLight->disable();
 
-		spotSceneLight = new SpotLight(glm::fvec3(0, 0, 400.0));
+		spotSceneLight = new SpotLight(glm::fvec3(0, 0, 300.0));
 		spotSceneLight->setDiffuse(glm::fvec4(1, 1, 1, 1));
 		spotSceneLight->setAmbient(glm::fvec4(0, 0, 0, 1));
 		spotSceneLight->setSpecular(glm::fvec4(0.5, 0.5, 0.5, 1));
-		spotSceneLight->setSpot(glm::fvec3(0, 0, -1.0), 45.0, 0);
+		spotSceneLight->setSpot(glm::fvec3(0, 0, -1.0), 45.0, 20);
 		spotSceneLight->disable();
+		
 	 	break;
 	default:
 		break;
