@@ -61,8 +61,10 @@ void IG1App::init()
 	const std::string tx = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "noche.bmp"; // EXTRA 1
 	mBackground->setTexture(tx); // EXTRA 1
 	const std::string tx2= ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "zelda.bmp"; // EXTRA 2
+	mBackground->setTwoUnits(); //EXTRA 2
 	mBackground->settTexture(tx2); // EXTRA 2
 	mBackground->setSizeVP(mWinW, mWinH); // EXTRA 2
+	
 }
 //-------------------------------------------------------------------------
 

@@ -259,7 +259,7 @@ Mesh* Mesh::generateStarTexCoord(GLdouble re, GLuint np, GLdouble h) {
 
 Mesh* Mesh::generateRectangleTexCoord(GLdouble w, GLdouble h, GLuint rw, GLuint rh) {
     Mesh* mesh = generateRectangle(w, h);
-
+    
     mesh->vTexCoords.reserve(mesh->mNumVertices);
 
     mesh->vTexCoords.emplace_back(0.0, rh);

@@ -48,7 +48,7 @@ protected:
 	std::vector<glm::dvec2> vTexCoords;    // texture array
 	virtual void draw() const;
 
-	boolean twoUnits = 0; //EXTRA 2
+	boolean twoUnits = false; //EXTRA 2
 
 };
 //-------------------------------------------------------------------------

@@ -177,6 +177,7 @@ public:
 	void setSizeVP(int xw, int yh);
 	void setTexture(const std::string &tx);
 	void settTexture(const std::string& tx); //EXTRA 2
+	void setTwoUnits() { mMesh->setTwoUnits(); }; //EXTRRA 2
 protected:
 	Mesh* mMesh = nullptr;   // the mesh
 	Texture* mTexture = nullptr;
