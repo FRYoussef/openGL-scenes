@@ -332,54 +332,70 @@ void Glass::render(dmat4 const& modelViewMat) const
 	}
 }
 
-// EXTRA 1
-Background::Background () {
+
+Background::Background () { // EXTRA 1
 	mMesh = Mesh::generateRectangleTexCoord(2, 2, 1, 1);
 	mTexture = new Texture();
+	tTexture = new Texture();
 	mViewPort = new Viewport(800, 600);
 	mCamera = new Camera(mViewPort);
 	mCamera->set2D();
 	mCamera->setSize(2.0, 2.0);
 }
 
-Background::~Background() {
+Background::~Background() { // EXTRA 1
 	delete mMesh;  mMesh = nullptr; 
 	delete mTexture; mTexture = nullptr;
+	delete tTexture; tTexture = nullptr;
 	delete mViewPort; mViewPort = nullptr; 
 	delete mCamera; mCamera = nullptr;
 }
 
-void Background::render() const {
-	mCamera->upload();
-	if (mMesh != nullptr) {
+void Background::render() const { // EXTRA 1
+	mCamera->upload(); // EXTRA 1
+	if (mMesh != nullptr) { // EXTRA 1
 
-		dmat4 aMat = mCamera->viewMat();
-		aMat = translate(aMat, dvec3(0, 0, -200));
-		aMat = rotate(aMat, radians(270.0), dvec3(0, 0, 1));
-		aMat = rotate(aMat, radians(90.0), dvec3(1, 0, 0));
-
-
-		glPolygonMode(GL_FRONT, GL_FILL);
+		dmat4 aMat = mCamera->viewMat(); // EXTRA 1
+		aMat = translate(aMat, dvec3(0, 0, -200)); // EXTRA 1
+		aMat = rotate(aMat, radians(270.0), dvec3(0, 0, 1)); // EXTRA 1
+		aMat = rotate(aMat, radians(90.0), dvec3(1, 0, 0)); // EXTRA 1
 
 
-
-		mTexture->bind(GL_REPLACE);
-
-		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixd(value_ptr(aMat));
-
-		mMesh->render();
+		glPolygonMode(GL_FRONT, GL_FILL); // EXTRA 1
 
 
-		mTexture->unbind();
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		
+		mTexture->bind(GL_TEXTURE0, GL_DECAL);  //EXTRA 2
+
+		//mTexture->bind(GL_REPLACE); // EXTRA 1
+		
+		
+
+		tTexture->bind(GL_TEXTURE1, GL_DECAL); //EXTRA 2
+
+
+
+		glMatrixMode(GL_MODELVIEW); // EXTRA 1
+		glLoadMatrixd(value_ptr(aMat)); // EXTRA 1
+
+		mMesh->render(); // EXTRA 1
+
+
+		//mTexture->unbind(); // EXTRA 1
+		mTexture->unbind(GL_TEXTURE0); // EXTRA 2
+		tTexture->unbind(GL_TEXTURE1); // EXTRA 2
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // EXTRA 1
 	}
 }
 
-void Background::setSizeVP(int xw, int yh) {
+void Background::setSizeVP(int xw, int yh) { // EXTRA 1
 	mViewPort->setSize(xw, yh);
 }
 
-void Background::setTexture(const std::string &tx) {
+void Background::setTexture(const std::string &tx) { // EXTRA 1
 	mTexture->load(tx);
+}
+
+void Background::settTexture(const std::string& tx) { // EXTRA 2
+	tTexture->load(tx, 50);
 }

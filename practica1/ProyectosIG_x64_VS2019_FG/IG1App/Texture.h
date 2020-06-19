@@ -2,8 +2,7 @@
 #ifndef _H_Texture_H_
 #define _H_Texture_H_
 
-#include <GL/freeglut.h>
-#include <glm.hpp>
+#include "GLinclude.h"
 #include "Pixmap32RGBA.h"
 #include <string>
 
@@ -25,6 +24,10 @@ public:
   void unbind() const { glBindTexture(GL_TEXTURE_2D, 0); };
   void save(const  std::string& BMP_Name);
 
+  void bind(GLenum textureUnit, GLuint mixMode); // EXTRA 2
+  void unbind(GLenum textureUnit) const; // EXTRA 2
+
+
   GLuint width() const { return mWidth; };
   GLuint height() const { return mHeight; };
   
@@ -33,7 +36,6 @@ public:
 protected:
 
   void init();
-  
   GLuint mWidth = 0;
   GLuint mHeight = 0;
   GLuint mId = 0;

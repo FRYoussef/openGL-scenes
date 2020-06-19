@@ -41,8 +41,11 @@ void IG1App::run()   // enters the main event processing loop
 
 void IG1App::init()
 {
+	
 	// create an OpenGL Context
+	
 	iniWinOpenGL();
+	
 
 	// create the scene after creating the context 
 	// allocate memory and resources
@@ -53,11 +56,13 @@ void IG1App::init()
 	mCamera->set2D();
 	mScene->init();
 
-	// EXTRA 1
+	
 	mBackground = new Background();
-	const std::string tx = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "noche.bmp";
-	mBackground->setTexture(tx);
-	mBackground->setSizeVP(mWinW, mWinH);
+	const std::string tx = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "noche.bmp"; // EXTRA 1
+	mBackground->setTexture(tx); // EXTRA 1
+	const std::string tx2= ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "zelda.bmp"; // EXTRA 2
+	mBackground->settTexture(tx2); // EXTRA 2
+	mBackground->setSizeVP(mWinW, mWinH); // EXTRA 2
 }
 //-------------------------------------------------------------------------
 
@@ -89,7 +94,9 @@ void IG1App::iniWinOpenGL()
 	glutMouseFunc(s_mouse);
 	glutMotionFunc(s_motion);
 	glutMouseWheelFunc(s_mouseWheel);
-	
+
+	if (!gladLoadGL()) { printf("GLAD: Something went wrong!\n"); } // EXTRA 2
+
 	cout << glGetString(GL_VERSION) << '\n';
 	cout << glGetString(GL_VENDOR) << '\n';
 }

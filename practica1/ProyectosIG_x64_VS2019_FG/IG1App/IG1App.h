@@ -7,9 +7,7 @@
 //#include <gl/GLU.h>   // OpenGL Utility Library
 //#include <GL/glut.h>  // OpenGL Utility Toolkit
 
-#include <GL/freeglut.h>  // OpenGL Utility Toolkit
-#include <glm.hpp>        // OpenGL Mathematics
-
+#include "GLinclude.h"
 #include "Viewport.h"
 #include "Camera.h"
 #include "Scene.h"

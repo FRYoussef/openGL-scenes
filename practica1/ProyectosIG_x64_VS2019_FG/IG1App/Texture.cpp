@@ -117,3 +117,14 @@ void Texture::save(const std::string& BMP_Name) {
 
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+
+void Texture::bind(GLenum textureUnit, GLuint mixMode) { //EXTRA 2
+    glClientActiveTexture(textureUnit);  //EXTRA 2
+    glEnable(GL_TEXTURE_2D); //EXTRA 2
+    glBindTexture(GL_TEXTURE_2D, mId); //EXTRA 2
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mixMode); //EXTRA 2
+}
+void Texture::unbind(GLenum textureUnit) const { //EXTRA 2
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
