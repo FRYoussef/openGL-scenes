@@ -356,7 +356,7 @@ void Background::render() const { // EXTRA 1
 	if (mMesh != nullptr) { // EXTRA 1
 
 		dmat4 aMat = mCamera->viewMat(); // EXTRA 1
-		aMat = translate(aMat, dvec3(0, 0, -200)); // EXTRA 1
+		aMat = translate(aMat, dvec3(0, 0, -8000)); // EXTRA 1
 		aMat = rotate(aMat, radians(270.0), dvec3(0, 0, 1)); // EXTRA 1
 		aMat = rotate(aMat, radians(90.0), dvec3(1, 0, 0)); // EXTRA 1
 
