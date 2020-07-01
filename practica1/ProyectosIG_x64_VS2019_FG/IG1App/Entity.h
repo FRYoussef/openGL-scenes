@@ -2,10 +2,12 @@
 #ifndef _H_Entities_H_
 #define _H_Entities_H_
 
-#include <GL/freeglut.h>
-#include <glm.hpp>
+#include "GLinclude.h"
 #include "Texture.h"
 #include "Mesh.h"
+#include "Viewport.h"
+#include "Camera.h"
+
 
 //-------------------------------------------------------------------------
 
@@ -166,5 +168,22 @@ protected:
 	GLdouble ld;
 };
 //-------------------------------------------------------------------------
+
+class Background { // EXTRA 1
+public:
+	explicit Background();
+	~Background();
+	void render() const;
+	void setSizeVP(int xw, int yh);
+	void setTexture(const std::string &tx);
+	void settTexture(const std::string& tx); //EXTRA 2
+	void setTwoUnits() { mMesh->setTwoUnits(); }; //EXTRRA 2
+protected:
+	Mesh* mMesh = nullptr;   // the mesh
+	Texture* mTexture = nullptr;
+	Texture* tTexture = nullptr; //EXTRA 2
+	Viewport* mViewPort = nullptr; // Viewport position and size
+	Camera* mCamera = nullptr; 	// Camera position, view volume and projection
+};
 
 #endif //_H_Entities_H_

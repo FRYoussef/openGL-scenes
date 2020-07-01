@@ -2,6 +2,13 @@
 #include "CheckML.h"
 #include <iostream>
 
+
+#if defined(WIN32) || defined(_WIN32)
+const std::string PATH_SEPARATOR = "\\";
+#else
+const std::string PATH_SEPARATOR = "/";
+
+#endif
 using namespace std;
 
 //-------------------------------------------------------------------------
@@ -34,17 +41,30 @@ void IG1App::run()   // enters the main event processing loop
 
 void IG1App::init()
 {
+	
 	// create an OpenGL Context
-	iniWinOpenGL();   
+	
+	iniWinOpenGL();
+	
 
 	// create the scene after creating the context 
 	// allocate memory and resources
-	mViewPort = new Viewport(mWinW, mWinH); //glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)
+	mViewPort = new Viewport(mWinW, mWinH);
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
 	
 	mCamera->set2D();
 	mScene->init();
+
+	
+	mBackground = new Background();
+	const std::string tx = ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "noche.bmp"; // EXTRA 1
+	mBackground->setTexture(tx); // EXTRA 1
+	const std::string tx2= ".." + PATH_SEPARATOR + "Bmps" + PATH_SEPARATOR + "zelda.bmp"; // EXTRA 2
+	mBackground->setTwoUnits(); //EXTRA 2
+	mBackground->settTexture(tx2); // EXTRA 2
+	mBackground->setSizeVP(mWinW, mWinH); // EXTRA 2
+	
 }
 //-------------------------------------------------------------------------
 
@@ -76,7 +96,9 @@ void IG1App::iniWinOpenGL()
 	glutMouseFunc(s_mouse);
 	glutMotionFunc(s_motion);
 	glutMouseWheelFunc(s_mouseWheel);
-	
+
+	if (!gladLoadGL()) { printf("GLAD: Something went wrong!\n"); } // EXTRA 2
+
 	cout << glGetString(GL_VERSION) << '\n';
 	cout << glGetString(GL_VENDOR) << '\n';
 }
@@ -87,6 +109,7 @@ void IG1App::free()
 	delete mScene; mScene = nullptr;
 	delete mCamera; mCamera = nullptr;
 	delete mViewPort; mViewPort = nullptr;
+	delete mBackground; mBackground = nullptr;
 }
 //-------------------------------------------------------------------------
 
@@ -96,20 +119,14 @@ void IG1App::display2Vistas() const {
 	mViewPort->setSize(mWinW / 2, mWinH);
 	auxCam.setSize(mViewPort->width(), mViewPort->height());
 
+	// left camera
+	mViewPort->setPos(0, 0);
+	mScene->render(auxCam);
+
 	// right camera
 	mViewPort->setPos(mWinW / 2, 0);
 	auxCam.setCenital();
-	auxCam.setSize(mWinW / 2, mWinH);
 	mScene->render(auxCam);
-
-	
-	// left camera
-	mViewPort->setPos(0, 0);
-	mCamera->setSize(mWinW / 2, mWinH);
-	mScene->render(*mCamera);
-
-	
-
 	*mViewPort = auxVP;
 }
 
@@ -117,13 +134,13 @@ void IG1App::display2Vistas() const {
 void IG1App::display() const {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
+	mBackground->render();
+
 	// double buffering
 	if (m2Vistas)
 		display2Vistas();
-	else {
-		mCamera->setSize(mWinW, mWinH);
+	else
 		mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
-	}
 	
 	glutSwapBuffers();	// swaps the front and back buffer
 }
@@ -131,11 +148,12 @@ void IG1App::display() const {
 
 void IG1App::resize(int newWidth, int newHeight) 
 {
-	mWinW = newWidth; mWinH = newHeight;
+	mWinW = newWidth; 
+	mWinH = newHeight;
 
 	// Resize Viewport to the new window size
-	mViewPort->setSize(newWidth, newHeight);
-
+	mBackground->setSizeVP(mWinW, mWinH);
+	mViewPort->setSize(mWinW, mWinH);
 	// Resize Scene Visible Area such that the scale is not modified
 	mCamera->setSize(mViewPort->width(), mViewPort->height()); 
 }

@@ -24,8 +24,16 @@ void Mesh::render() const
       glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
     }
     if (vTexCoords.size() > 0) { // transfer colors
+        glClientActiveTexture(GL_TEXTURE0);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=4), type of each component, stride, pointer  
+        
+        //EXTRA 2
+        if (twoUnits) {
+            glClientActiveTexture(GL_TEXTURE1);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+        }
     }
 	draw();
 
@@ -251,7 +259,7 @@ Mesh* Mesh::generateStarTexCoord(GLdouble re, GLuint np, GLdouble h) {
 
 Mesh* Mesh::generateRectangleTexCoord(GLdouble w, GLdouble h, GLuint rw, GLuint rh) {
     Mesh* mesh = generateRectangle(w, h);
-
+    
     mesh->vTexCoords.reserve(mesh->mNumVertices);
 
     mesh->vTexCoords.emplace_back(0.0, rh);
