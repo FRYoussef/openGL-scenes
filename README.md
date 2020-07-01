@@ -1,2 +1,2 @@
-# practicas-GC
-Prácticas de la asignatura de Graficos por Computador del MII de la UCM
+# OpenGL exercises
+Project of Graficos por Computador(GC) of computer science master UCM.
